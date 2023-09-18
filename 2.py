@@ -2,9 +2,9 @@ import json
 import re
 
 # Load the old and new packs
-with open('old.json', 'r') as f:
+with open('old.json', 'r', encoding="utf-8") as f:
     old_pack = json.load(f)
-with open('new.json', 'r') as f:
+with open('new.json', 'r', encoding="utf-8") as f:
     new_pack = json.load(f)
 
 # Get the Minecraft version from both packs
@@ -52,23 +52,23 @@ for new_mod in new_pack_mods:
 removed_mods = old_pack_mods
 
 # Write the changelog
-with open('Changelog.md', 'w') as f:
+with open('Changelog.md', 'w', encoding="utf-8") as f:
     f.write('')
 
 if len(added_mods) > 0:
-    with open('Changelog.md', 'a') as f:
+    with open('Changelog.md', 'a', encoding="utf-8") as f:
         f.write('### Added:\n')
         for mod in added_mods:
             f.write(f'- {mod}\n')
 
 if len(updated_mods) > 0:
-    with open('Changelog.md', 'a') as f:
+    with open('Changelog.md', 'a', encoding="utf-8") as f:
         f.write('### Updated:\n')
         for mod in updated_mods:
             f.write(f'- {mod}\n')
 
 if len(removed_mods) > 0:
-    with open('Changelog.md', 'a') as f:
+    with open('Changelog.md', 'a', encoding="utf-8") as f:
         f.write('### Removed:\n')
         for mod in removed_mods:
             f.write(f'- {mod}\n')
