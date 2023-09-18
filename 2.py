@@ -34,15 +34,14 @@ updated_mods = []
 removed_mods = []
 
 # Detect updated, added and removed mods
-for new_mod in new_pack_mods:
+for new_mod in new_pack_mods.copy():
     found = False
-    for old_mod in old_pack_mods:
+    for old_mod in old_pack_mods.copy():
         if new_mod == old_mod:
             found = True
             old_pack_mods.remove(old_mod)
             break
-        elif (re.sub('[\d\.]+|\+.*|jar|-alpha|-beta', '', new_mod) ==
-              re.sub('[\d\.]+|\+.*|jar|-alpha|-beta', '', old_mod)):
+        if (re.sub('[\\d\\.]+|\\+.*|jar|-alpha|-beta', '', new_mod) == re.sub('[\\d\\.]+|\\+.*|jar|-alpha|-beta', '', old_mod)):
             found = True
             updated_mods.append(new_mod)
             old_pack_mods.remove(old_mod)
