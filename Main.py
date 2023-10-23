@@ -29,26 +29,26 @@ new_loader = list(new_json['dependencies'].keys())[0]
 new_loader_version = new_json['dependencies'][new_loader]
 
 # Load the list of mods from both packs
-old_urls = [file['downloads'] for file in old_json['files']]
+removed_urls = [file['downloads'] for file in old_json['files']]
 added_urls = [file['downloads'] for file in new_json['files']]
 
 # Remove any URLs that are in both packs
 for added_url in added_urls.copy():
-    for old_url in old_urls.copy():
-        if added_url == old_url:
-            old_urls.remove(old_url)
+    for removed_url in removed_urls.copy():
+        if added_url == removed_url:
+            removed_urls.remove(removed_url)
             added_urls.remove(added_url)
 
 # Extract the mod IDs from the URLs
 added_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in added_urls]
-old_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in old_urls]
+removed_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in removed_urls]
 
 # Find the IDs of any updated mods
 updated_ids = []
 for added_id in added_ids.copy():
-    for old_id in old_ids.copy():
-        if added_id == old_id:
-            old_ids.remove(old_id)
+    for removed_id in removed_ids.copy():
+        if added_id == removed_id:
+            removed_ids.remove(removed_id)
             added_ids.remove(added_id)
             updated_ids.append(added_id)
 
@@ -58,13 +58,13 @@ added_mods, updated_mods, removed_mods = [], [], []
 # Get the mods names from the Modrinth API via get_mod_name function
 async def main():
     if updated_ids:
-        updated_mods.append([name for name in await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])])
+        updated_mods.append(list(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])))
 
     if added_ids:
-        added_mods.append([name for name in await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])])
+        added_mods.append(list(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])))
 
-    if old_ids:
-        removed_mods.append([name for name in await asyncio.gather(*[get_mod_name(mod_id) for mod_id in old_ids])])
+    if removed_ids:
+        removed_mods.append(list(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids])))
 
 asyncio.run(main())
 
