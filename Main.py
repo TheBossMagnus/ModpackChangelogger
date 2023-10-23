@@ -2,87 +2,73 @@ import json
 import re
 import sys
 import asyncio
-from Getmodname import GetModName
+from get_mod_name import get_mod_name
 
 # Get the paths to old.json and new.json from command line arguments
 if len(sys.argv) < 3:
-    print("Usage: python Main.py <path_to_old_json> <path_to_new_json>")
+    print("Usage: python main.py <path_to_old_json> <path_to_new_json>")
     sys.exit(1)
 
-oldJsonPath = sys.argv[1]
-newJsonPath = sys.argv[2]
+old_json_path = sys.argv[1]
+new_json_path = sys.argv[2]
 
 # Load the old and new packs
-with open(oldJsonPath, 'r', encoding="utf-8") as f:
-    oldPack = json.load(f)
-with open(newJsonPath, 'r', encoding="utf-8") as f:
-    newPack = json.load(f)
+with open(old_json_path, 'r', encoding="utf-8") as f:
+    old_json = json.load(f)
+with open(new_json_path, 'r', encoding="utf-8") as f:
+    new_json = json.load(f)
 
 # Get the Minecraft version from both packs
-oldPackMcVersion = oldPack['dependencies']['minecraft']
-newPackMcVersion = newPack['dependencies']['minecraft']
+old_mc_version = old_json['dependencies']['minecraft']
+new_mc_version = new_json['dependencies']['minecraft']
 
-# Get the loader and his version from the index.json
-oldPackLoader = list(oldPack['dependencies'].keys())[0]
-oldPackLoaderVersion = oldPack['dependencies'][oldPackLoader]
-newPackLoader = list(newPack['dependencies'].keys())[0]
-newPackLoaderVersion = newPack['dependencies'][newPackLoader]
-
+# Get the loader and its version from the index.json
+old_loader = list(old_json['dependencies'].keys())[0]
+old_loader_version = old_json['dependencies'][old_loader]
+new_loader = list(new_json['dependencies'].keys())[0]
+new_loader_version = new_json['dependencies'][new_loader]
 
 # Load the list of mods from both packs
-# Foreach Files entry in the json get the path key value
-oldPackUrls = []
-for file in oldPack['files']:
-    oldPackUrls.append(file['downloads'])
+old_urls = [file['downloads'] for file in old_json['files']]
+added_urls = [file['downloads'] for file in new_json['files']]
 
-newPackUrls = []
-for file in newPack['files']:
-    newPackUrls.append(file['downloads'])
+# Remove any URLs that are in both packs
+for added_url in added_urls.copy():
+    for old_url in old_urls.copy():
+        if added_url == old_url:
+            old_urls.remove(old_url)
+            added_urls.remove(added_url)
 
+# Extract the mod IDs from the URLs
+added_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in added_urls]
+old_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in old_urls]
 
-# If an url is in both packs its untached, so ignore it
-for newMod in newPackUrls.copy():
-    for oldMod in oldPackUrls.copy():
-        if newMod == oldMod:
-            oldPackUrls.remove(oldMod)
-            newPackUrls.remove(newMod)
+# Find the IDs of any updated mods
+updated_ids = []
+for added_id in added_ids.copy():
+    for old_id in old_ids.copy():
+        if added_id == old_id:
+            old_ids.remove(old_id)
+            added_ids.remove(added_id)
+            updated_ids.append(added_id)
 
+# Get the names of the added, updated, and removed mods
+added_mods, updated_mods, removed_mods = [], [], []
 
-
-newPackIds = []
-for url in newPackUrls:
-    newPackIds.append(re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0))
-
-oldPackIds = []
-for url in oldPackUrls:
-    oldPackIds.append(re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0))
-
-updatedIds = []
-newIds = []
-removedIds = []
-
-# If an id is in both packs its updated, add it to the updated list
-for newId in newPackIds.copy():
-    for oldId in oldPackIds.copy():
-        if newId == oldId:
-            oldPackIds.remove(oldId)
-            newPackIds.remove(newId)
-            updatedIds.append(newId)
-
-newIds = newPackIds
-removedIds = oldPackIds
-
+# Get the mods names from the Modrinth API via get_mod_name function
 async def main():
-    if updatedIds:
-        print("Updated mod:")
-        print("\n".join(["- " + name for name in await asyncio.gather(*[GetModName(ModId) for ModId in updatedIds])]))
+    if updated_ids:
+        updated_mods.append([name for name in await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])])
 
-    if newIds:
-        print("New mod:")
-        print("\n".join(["- " + name for name in await asyncio.gather(*[GetModName(ModId) for ModId in newIds])]))
+    if added_ids:
+        added_mods.append([name for name in await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])])
 
-    if removedIds:
-        print("Removed mod:")
-        print("\n".join(["- " + name for name in await asyncio.gather(*[GetModName(ModId) for ModId in removedIds])]))
+    if old_ids:
+        removed_mods.append([name for name in await asyncio.gather(*[get_mod_name(mod_id) for mod_id in old_ids])])
 
 asyncio.run(main())
+
+# Print the names of the added, updated, and removed mods
+print("Added mods:", added_mods)
+print("Updated mods:", updated_mods)
+print("Removed mods:", removed_mods)
