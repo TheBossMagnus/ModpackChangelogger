@@ -1,4 +1,4 @@
-def print_mods_to_markdown(added_mods, updated_mods, removed_mods):
+def markdown_out(added_mods, updated_mods, removed_mods):
     # Create the Markdown text
     markdown_text = ""
 
