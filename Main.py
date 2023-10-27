@@ -3,6 +3,7 @@ import re
 import sys
 import asyncio
 from get_mod_name import get_mod_name
+from out import print_mods_to_markdown
 
 # Get the paths to old.json and new.json from command line arguments
 if len(sys.argv) < 3:
@@ -53,22 +54,25 @@ for added_id in added_ids.copy():
             updated_ids.append(added_id)
 
 # Get the names of the added, updated, and removed mods
+# Get the names of the added, updated, and removed mods
 added_mods, updated_mods, removed_mods = [], [], []
 
 # Get the mods names from the Modrinth API via get_mod_name function
 async def main():
-    if updated_ids:
-        updated_mods.append(list(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])))
+    updated_mods.extend(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids]))
 
-    if added_ids:
-        added_mods.append(list(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])))
+    added_mods.extend(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids]))
 
-    if removed_ids:
-        removed_mods.append(list(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids])))
+    removed_mods.extend(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids]))
 
 asyncio.run(main())
 
-# Print the names of the added, updated, and removed mods
-print("Added mods:", added_mods)
-print("Updated mods:", updated_mods)
-print("Removed mods:", removed_mods)
+if old_loader_version != new_loader_version:
+    updated_mods.append(f"{new_loader} (mod loader)")
+
+if old_mc_version != new_mc_version:
+    updated_mods.append(f"Minecraft version {new_mc_version}")
+
+if old_loader != new_loader:
+    added_mods.append(f"{new_loader} (mod loader)")
+    removed_mods.append(f"{old_loader} (mod loader)")
