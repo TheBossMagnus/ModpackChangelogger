@@ -78,4 +78,4 @@ if old_loader != new_loader:
     added_mods.append(f"{new_loader} (mod loader)")
     removed_mods.append(f"{old_loader} (mod loader)")
 
-markdown_out(added_mods,removed_mods, updated_mods)
+markdown_out(added_mods, removed_mods, updated_mods)
