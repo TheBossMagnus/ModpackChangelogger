@@ -9,11 +9,10 @@ from get_json import get_json
 if len(sys.argv) < 3:
     print("Usage: python main.py <path_to_old_json> <path_to_new_json>")
     sys.exit(1)
-old_json_path = sys.argv[1]
-new_json_path = sys.argv[2]
 
-old_json = get_json(old_json_path)
-new_json = get_json(new_json_path)
+# Parse the json files
+old_json = get_json(sys.argv[1])
+new_json = get_json(sys.argv[2])
 
 # Get the Minecraft version from both packs
 old_mc_version = old_json['dependencies']['minecraft']
@@ -26,8 +25,8 @@ new_loader = list(new_json['dependencies'].keys())[0]
 new_loader_version = new_json['dependencies'][new_loader]
 
 # Load the list of mods from both packs
-added_urls = [file['downloads'] for file in new_json['files']]
-removed_urls = [file['downloads'] for file in old_json['files']]
+added_urls = [url['downloads'] for url in new_json['files']]
+removed_urls = [url['downloads'] for url in old_json['files']]
 
 # Remove any URLs that are in both packs
 for added_url in added_urls.copy():
