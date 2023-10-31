@@ -5,11 +5,10 @@ import asyncio
 from get_mod_name import get_mod_name
 from out import markdown_out
 
-# Get the paths to old.json and new.json from command line arguments
+# Get the paths to old.json and new.json from command line arguments and validate it
 if len(sys.argv) < 3:
     print("Usage: python main.py <path_to_old_json> <path_to_new_json>")
     sys.exit(1)
-
 old_json_path = sys.argv[1]
 new_json_path = sys.argv[2]
 
@@ -53,20 +52,22 @@ for added_id in added_ids.copy():
             removed_ids.remove(removed_id)
             updated_ids.append(added_id)
 
-# Get the names of the added, updated, and removed mods
-# Get the names of the added, updated, and removed mods
+# Get the mods names from the Modrinth API via get_mod_name function, ignore None responses
 added_mods, removed_mods, updated_mods = [], [], []
-
-# Get the mods names from the Modrinth API via get_mod_name function
 async def main():
 
-    added_mods.extend(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids]))
+    added_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])))
 
-    removed_mods.extend(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids]))
+    removed_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids])))
 
-    updated_mods.extend(await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids]))
+    updated_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])))
 
 asyncio.run(main())
+
+# Add loader and mc version changes
+if old_loader != new_loader:
+    added_mods.append(f"{new_loader} (mod loader)")
+    removed_mods.append(f"{old_loader} (mod loader)")
 
 if old_loader_version != new_loader_version:
     updated_mods.append(f"{new_loader} (mod loader)")
@@ -74,8 +75,5 @@ if old_loader_version != new_loader_version:
 if old_mc_version != new_mc_version:
     updated_mods.append(f"Minecraft version {new_mc_version}")
 
-if old_loader != new_loader:
-    added_mods.append(f"{new_loader} (mod loader)")
-    removed_mods.append(f"{old_loader} (mod loader)")
-
+#Print in a md doc
 markdown_out(added_mods, removed_mods, updated_mods)
