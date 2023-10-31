@@ -4,6 +4,7 @@ import sys
 import asyncio
 from get_mod_name import get_mod_name
 from out import markdown_out
+from get_json import get_json
 
 # Get the paths to old.json and new.json from command line arguments and validate it
 if len(sys.argv) < 3:
@@ -12,11 +13,8 @@ if len(sys.argv) < 3:
 old_json_path = sys.argv[1]
 new_json_path = sys.argv[2]
 
-# Load the old and new packs
-with open(old_json_path, 'r', encoding="utf-8") as f:
-    old_json = json.load(f)
-with open(new_json_path, 'r', encoding="utf-8") as f:
-    new_json = json.load(f)
+old_json = get_json(old_json_path)
+new_json = get_json(new_json_path)
 
 # Get the Minecraft version from both packs
 old_mc_version = old_json['dependencies']['minecraft']
