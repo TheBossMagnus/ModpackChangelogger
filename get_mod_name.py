@@ -2,12 +2,13 @@ import aiohttp
 
 async def get_mod_name(mod_id):
     base_url = "https://api.modrinth.com/v2/project"
+    user_agent = "TheBossMagnus/Mrpack_changelogger (thebossmagnus@proton.me)"
     url = base_url + "/" + mod_id
 
     try:
         #Get mod name
         async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
+            async with session.get(url, headers=user_agent) as response:
                 response.raise_for_status()
                 response_json = await response.json()
                 return response_json["title"]
