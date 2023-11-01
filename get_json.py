@@ -18,5 +18,5 @@ def get_json(path):
     try:
         with open(os.path.join(temp_dir, 'modrinth.index.json'), 'r', encoding="utf-8") as f:
             return json.load(f)
-    except ValueError:
-        raise ValueError('Error: modrinth.index.json is not formatted correctly')
+    except ValueError as err:
+        raise ValueError('Error: modrinth.index.json is not formatted correctly') from err
