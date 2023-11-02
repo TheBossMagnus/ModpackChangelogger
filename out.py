@@ -1,16 +1,53 @@
-def markdown_out(added_mods, removed_mods, updated_mods,):
-    # Create the Markdown text
-    markdown_text = ""
+def markdown_out(added_mods, removed_mods, updated_mods, config):
 
-    if added_mods:
-        markdown_text += f"\n# Added Mods\n\n{', '.join(added_mods)}\n"
-
-    if removed_mods:
-        markdown_text += f"# Removed Mods\n\n{', '.join(removed_mods)}\n"
-
-    if updated_mods:
-        markdown_text += f"\n# Updated Mods\n\n{', '.join(updated_mods)}\n"
+    if config['format'] == "comma":
+        markdown_text = comma_list(added_mods, removed_mods, updated_mods)
+    elif config['format'] == "bullet":
+        markdown_text = bullet_list(added_mods, removed_mods, updated_mods)
+    else:
+        print("Invalid format specified in the config, using default bullet list.")
+        markdown_text = bullet_list(added_mods, removed_mods, updated_mods)
 
     # Write the Markdown text to the output file
     with open("Changelog.md", "w", encoding="utf-8") as f:
         f.write(markdown_text)
+
+def bullet_list(added_mods, removed_mods, updated_mods,):
+    markdown_text = ""
+
+    if added_mods:
+        markdown_text += f"## Added Mods\n"
+        for mod in added_mods:
+            markdown_text += f"- {mod}\n"
+
+    if removed_mods:
+        markdown_text += f"## Removed Mods\n"
+        for mod in removed_mods:
+            markdown_text += f"- {mod}\n"
+
+    if updated_mods:
+        markdown_text += f"## Updated Mods\n"
+        for mod in updated_mods:
+            markdown_text += f"- {mod}\n"
+
+    return markdown_text
+
+def comma_list(added_mods, removed_mods, updated_mods,):
+    markdown_text = ""
+
+    if added_mods:
+        markdown_text += f"* Added: "
+        for mod in added_mods:
+            markdown_text += f"{mod}, "
+
+    if removed_mods:
+        markdown_text += f"\n* Removed: "
+        for mod in removed_mods:
+            markdown_text += f"{mod}, "
+
+    if updated_mods:
+        markdown_text += f"\n* Updated: "
+        for mod in updated_mods:
+            markdown_text += f"{mod}, "
+
+    return markdown_text

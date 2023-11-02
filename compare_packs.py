@@ -2,7 +2,7 @@ import re
 import asyncio
 from get_mod_name import get_mod_name
 
-def compare_packs(old_json, new_json): 
+def compare_packs(old_json, new_json, config): 
     # Get the Minecraft version from both packs
     old_mc_version = old_json['dependencies']['minecraft']
     new_mc_version = new_json['dependencies']['minecraft']
@@ -41,23 +41,26 @@ def compare_packs(old_json, new_json):
     added_mods, removed_mods, updated_mods = [], [], []
     async def main():
 
-        added_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])))
+        if config['check']['added_mods']:
+            added_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in added_ids])))
 
-        removed_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids])))
+        if config['check']['removed_mods']:
+            removed_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in removed_ids])))
 
-        updated_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])))
+        if config['check']['updated_mods']:
+            updated_mods.extend(filter(None, await asyncio.gather(*[get_mod_name(mod_id) for mod_id in updated_ids])))
 
     asyncio.run(main())
 
     # Add loader and mc version changes
-    if old_loader != new_loader:
+    if old_loader != new_loader and config['check']['loader']:
         added_mods.append(f"{new_loader} (mod loader)")
         removed_mods.append(f"{old_loader} (mod loader)")
 
-    if old_loader_version != new_loader_version:
+    if old_loader_version != new_loader_version and config['check']['loader']:
         updated_mods.append(f"{new_loader} (mod loader)")
 
-    if old_mc_version != new_mc_version:
+    if old_mc_version != new_mc_version and config['check']['mc_version']:
         updated_mods.append(f"Minecraft version {new_mc_version}")
     
     return added_mods, removed_mods, updated_mods
