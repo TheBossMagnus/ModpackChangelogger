@@ -20,7 +20,7 @@ old_json = get_json(sys.argv[1])
 new_json = get_json(sys.argv[2])
 
 # Compare the packs
-added_mods, removed_mods, updated_mods = compare_packs(old_json, new_json, config)
+added, removed, updated = compare_packs(old_json, new_json, config)
 
 #Print in a md doc
-markdown_out(added_mods, removed_mods, updated_mods, config)
+markdown_out(added, removed, updated, config)
