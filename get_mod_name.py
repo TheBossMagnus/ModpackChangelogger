@@ -14,11 +14,11 @@ async def get_mod_name(mod_id):
                 return response_json["title"]
     #ID not existing or similar
     except aiohttp.ClientResponseError as err:
-        print(f"Could not get project info for id {mod_id} from Modrinth API. Response code: {err.status}")
+        print(f"WARNING: Could not get project info for id {mod_id} from Modrinth API. Response code: {err.status}")
         print("Retry later, if the error persists open an issue on the GitHub repo.")
     #Connection error
     except aiohttp.ClientConnectionError as err:
-        print(f"Unable to connect to modrinth api, ({err}). Check your internet connection and if Modrinth is online.")
+        print(f"WARNING: Unable to connect to modrinth api, ({err}). Check your internet connection and if Modrinth is online.")
     #Generic error
     except aiohttp.ClientError as err:
-        print(f"Error: {err}")
+        print(f"ERROR: {err}")

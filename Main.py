@@ -10,7 +10,7 @@ if sys.argv[1] == "config":
         create_config()
         sys.exit(0)
 elif len(sys.argv) != 3:
-    print("Usage: python main.py <path_to_old_json> <path_to_new_json>")
+    print("ERROR: arguments must be \"python main.py <path_to_old_json> <path_to_new_json>\"")
     sys.exit(1)
 
 config=load_config()
