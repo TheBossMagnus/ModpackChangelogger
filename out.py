@@ -1,11 +1,10 @@
 def markdown_out(added_mods, removed_mods, updated_mods, config):
 
-    if config['format'] == "comma":
+    if config['format']['style'] == "comma":
         markdown_text = comma_list(added_mods, removed_mods, updated_mods)
-    elif config['format'] == "bullet":
+    elif config['format']['style']  == "bullet":
         markdown_text = bullet_list(added_mods, removed_mods, updated_mods)
     else:
-        print("Invalid format specified in the config, using default bullet list.")
         markdown_text = bullet_list(added_mods, removed_mods, updated_mods)
 
     # Write the Markdown text to the output file

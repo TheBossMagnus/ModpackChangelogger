@@ -2,22 +2,18 @@ import sys
 from compare_packs import compare_packs
 from out import markdown_out
 from get_json import get_json
+from config_handler import load_config, create_config
 
-config = {}  # TBD: add a config file, using hardcoded values for now
-config['format'] = "bullet"  # comma or bullet
-config['check'] = {}
-config['check']['added_mods'] = True
-config['check']['removed_mods'] = True
-config['check']['updated_mods'] = True
-config['check']['loader'] = True
-config['check']['mc_version'] = True
-config['check']['config'] = True
 
-# Get the paths to old.json and new.json from command line arguments and validate it
-if len(sys.argv) < 3:
+if sys.argv[1] == "config":
+    if sys.argv[2] == "reset":
+        create_config()
+        sys.exit(0)
+elif len(sys.argv) != 3:
     print("Usage: python main.py <path_to_old_json> <path_to_new_json>")
     sys.exit(1)
 
+config=load_config()
 
 # Parse the json files
 old_json = get_json(sys.argv[1])
