@@ -12,7 +12,11 @@ DEFAULT_CONFIG = {
     },
     'format': {
         'style': 'bullet'
-    } 
+    },
+    'output': {
+        'file_name': 'changelog.md',
+        'file_path': '',
+    },
 }
 
 def create_config():

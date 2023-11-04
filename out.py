@@ -1,3 +1,4 @@
+import sys
 def markdown_out(added, removed, updated, config):
 
     if config['format']['style'] == "comma":
@@ -8,8 +9,17 @@ def markdown_out(added, removed, updated, config):
         markdown_text = bullet_list(added, removed, updated)
 
     # Write the Markdown text to the output file
-    with open("Changelog.md", "w", encoding="utf-8") as f:
-        f.write(markdown_text)
+    try:
+        with open(config['output']['file_path'] + config['output']['file_name'], "w", encoding="utf-8") as f:
+                    f.write(markdown_text)
+                    f.close()
+    except FileNotFoundError:
+        print("Error: The folder specified in config.json doesn't exist.")
+        sys.exit(1)
+    except PermissionError:
+        print("Error: You don't have acces to the dolder specified in config.json. Try running as administrator")
+        sys.exit(1)
+
 
 def bullet_list(added, removed, updated):
     markdown_text = ""
