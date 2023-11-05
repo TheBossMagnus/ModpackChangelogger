@@ -1,41 +1,31 @@
 import sys
-import argparse
 from compare_packs import compare_packs
 from out import markdown_out
 from get_json import get_json
 from config_handler import load_config, create_config
-   
-# create the top-level parser
-parser = argparse.ArgumentParser(description="Get the changelog between two .mrpack minecraft's modpacks")
 
-# add arguments for old_path and new_path
-parser.add_argument("-o", "--old", help="Old file")
-parser.add_argument("-n", "--new", help="New file")
-
-# create the subparsers for commands
-subparsers = parser.add_subparsers(dest='command')
-
-# create the parser for the "config" command
-config_parser = subparsers.add_parser('config', help='Manage the config.json')
-config_parser.add_argument('action', choices=['init'], help='Create a config.json file with default values')
-
-# parse the arguments
-args = parser.parse_args()
-
-if args.command == 'config':
+if sys.argv[1] == "-cc" or sys.argv[1] == "--create-config":
     create_config()
+    exit()
+elif (sys.argv[1] == "-o" or sys.argv[1] == "--old") and (sys.argv[3] == "-n" or sys.argv[3] == "--new"):
+    old_path = sys.argv[2]
+    new_path = sys.argv[4]
+elif sys.argv[1] == "-h" or sys.argv[1] == "--help" or sys.argv[1] == "-?":
+    print("Usage:")
+    print("  -o, --old                   The pack to compare to")
+    print("  -n, --new                   The pack to compare")
+    print("  -cc, --create-config        Create a config file")
+    print("  -h, --help                  show this help message and exit")
     sys.exit(0)
-elif args.old and args.new:
-    pass
 else:
-    parser.print_help()
+    print("Invalid arguments, use -h for help")
     sys.exit(1)
 
 config = load_config()
 
 # Parse the json files
-old_json = get_json(args.old)
-new_json = get_json(args.new)
+old_json = get_json(old_path)
+new_json = get_json(new_path)
 
 # Compare the packs
 added, removed, updated = compare_packs(old_json, new_json, config)
