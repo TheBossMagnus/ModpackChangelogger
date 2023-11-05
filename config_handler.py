@@ -20,16 +20,15 @@ DEFAULT_CONFIG = {
 }
 
 def create_config():
-    with open('config.json', 'w') as f:
+    with open('config.json', 'w', encoding="utf-8") as f:
         json.dump(DEFAULT_CONFIG, f, indent=4)
 
 def load_config():
     if not os.path.exists('config.json'):
         return DEFAULT_CONFIG
-    else:
-        try:
-            with open('config.json', 'r') as f:
-                return json.load(f)
-        except ValueError:
-            print('Warning: config.json is not formatted correctly, using defaults value as a fallback')
-            return DEFAULT_CONFIG
+    try:
+        with open('config.json', 'r', encoding="utf-8") as f:
+            return json.load(f)
+    except ValueError:
+        print('Warning: config.json is not formatted correctly, using defaults value as a fallback')
+        return DEFAULT_CONFIG

@@ -6,7 +6,7 @@ from config_handler import load_config, create_config
 
 if sys.argv[1] == "-cc" or sys.argv[1] == "--create-config":
     create_config()
-    exit()
+    sys.exit(0)
 elif (sys.argv[1] == "-o" or sys.argv[1] == "--old") and (sys.argv[3] == "-n" or sys.argv[3] == "--new"):
     old_path = sys.argv[2]
     new_path = sys.argv[4]

@@ -25,17 +25,17 @@ def bullet_list(added, removed, updated):
     markdown_text = ""
 
     if added:
-        markdown_text += f"## Added\n"
+        markdown_text += "## Added\n"
         for mod in added:
             markdown_text += f"- {mod}\n"
 
     if removed:
-        markdown_text += f"## Removed\n"
+        markdown_text += "## Removed\n"
         for mod in removed:
             markdown_text += f"- {mod}\n"
 
     if updated:
-        markdown_text += f"## Updated\n"
+        markdown_text += "## Updated\n"
         for mod in updated:
             markdown_text += f"- {mod}\n"
 
@@ -45,17 +45,17 @@ def comma_list(added, removed, updated):
     markdown_text = ""
 
     if added:
-        markdown_text += f"* Added: "
+        markdown_text += "* Added: "
         for mod in added:
             markdown_text += f"{mod}, "
 
     if removed:
-        markdown_text += f"\n* Removed: "
+        markdown_text += "\n* Removed: "
         for mod in removed:
             markdown_text += f"{mod}, "
 
     if updated:
-        markdown_text += f"\n* Updated: "
+        markdown_text += "\n* Updated: "
         for mod in updated:
             markdown_text += f"{mod}, "
 
