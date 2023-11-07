@@ -1,4 +1,5 @@
 import sys
+import asyncio
 from compare_packs import compare_packs
 from out import markdown_out
 from get_json import get_json
@@ -28,7 +29,7 @@ old_json = get_json(old_path)
 new_json = get_json(new_path)
 
 # Compare the packs
-added, removed, updated = compare_packs(old_json, new_json, config)
+added, removed, updated = asyncio.run(compare_packs(old_json, new_json, config))
 
 # Print in a md doc
 markdown_out(added, removed, updated, config)
