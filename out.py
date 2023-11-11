@@ -21,7 +21,7 @@ def markdown_out(added, removed, updated, config):
         print("Error: The folder specified in config.json doesn't exist.")
         sys.exit(1)
     except PermissionError:
-        print("Error: You don't have acces to the dolder specified in config.json. Try running as administrator")
+        print("Error: You don't have acces to the folder specified in config.json. Try running as administrator")
         sys.exit(1)
 
 

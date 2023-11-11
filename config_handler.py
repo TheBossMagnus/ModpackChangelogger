@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 # Do not edit this, use config.json
 DEFAULT_CONFIG = {
@@ -20,8 +21,12 @@ DEFAULT_CONFIG = {
 }
 
 def create_config():
-    with open('config.json', 'w', encoding="utf-8") as f:
-        json.dump(DEFAULT_CONFIG, f, indent=4)
+    try:
+        with open('config.json', 'w', encoding="utf-8") as f:
+            json.dump(DEFAULT_CONFIG, f, indent=4)
+    except PermissionError:
+        print("Error: Unable to create the config.json in the current path. Try running as administrator")
+        sys.exit(1)
 
 def load_config():
     if not os.path.exists('config.json'):
