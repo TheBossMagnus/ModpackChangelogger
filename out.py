@@ -5,6 +5,10 @@ def markdown_out(added, removed, updated, config):
         markdown_text = comma_list(added, removed, updated)
     elif config['format']['style']  == "bullet":
         markdown_text = bullet_list(added, removed, updated)
+    elif config['format']['style'] == "ind_bullet":
+        markdown_text = ind_bullet_list(added, removed, updated)
+    elif config['format']['style'] == "ind_comma":
+        markdown_text = comma_list(added, removed, updated)
     else:
         markdown_text = bullet_list(added, removed, updated)
 
@@ -58,5 +62,39 @@ def comma_list(added, removed, updated):
         markdown_text += "\n* Updated: "
         for mod in updated:
             markdown_text += f"{mod}, "
+
+    return markdown_text
+
+def ind_bullet_list(added, removed, updated):
+    markdown_text = ""
+    markdown_text += "Changes: "
+    if added:
+        for mod in added:
+            markdown_text += f"\n* added {mod}"
+
+    if removed:
+        for mod in removed:
+            markdown_text += f"\n* removed {mod}"
+
+    if updated:
+        for mod in updated:
+            markdown_text += f"\n* updated {mod}"
+
+    return markdown_text
+
+def ind_comma_list(added, removed, updated):
+    markdown_text = ""
+    markdown_text += "Changes: "
+    if added:
+        for mod in added:
+            markdown_text += f"added {mod}, "
+
+    if removed:
+        for mod in removed:
+            markdown_text += f"removed {mod}, "
+
+    if updated:
+        for mod in updated:
+            markdown_text += f"updated {mod}, "
 
     return markdown_text
