@@ -5,31 +5,35 @@ from out import markdown_out
 from get_json import get_json
 from config_handler import load_config, create_config
 
-if sys.argv[1] == "-cc" or sys.argv[1] == "--create-config":
-    create_config()
-    sys.exit(0)
-elif (sys.argv[1] == "-o" or sys.argv[1] == "--old") and (sys.argv[3] == "-n" or sys.argv[3] == "--new"):
-    old_path = sys.argv[2]
-    new_path = sys.argv[4]
-elif sys.argv[1] == "-h" or sys.argv[1] == "--help" or sys.argv[1] == "-?":
-    print("Usage:")
-    print("  -o, --old                   The pack to compare to")
-    print("  -n, --new                   The pack to compare")
-    print("  -cc, --create-config        Create a config file")
-    print("  -h, --help                  show this help message and exit")
-    sys.exit(0)
-else:
-    print("Invalid arguments, use -h for help")
-    sys.exit(1)
+def main():
+    if sys.argv[1] == "-cc" or sys.argv[1] == "--create-config":
+        create_config()
+        sys.exit(0)
+    elif (sys.argv[1] == "-o" or sys.argv[1] == "--old") and (sys.argv[3] == "-n" or sys.argv[3] == "--new"):
+        old_path = sys.argv[2]
+        new_path = sys.argv[4]
+    elif sys.argv[1] == "-h" or sys.argv[1] == "--help" or sys.argv[1] == "-?":
+        print("Usage:")
+        print("  -o, --old                   The pack to compare to")
+        print("  -n, --new                   The pack to compare")
+        print("  -cc, --create-config        Create a config file")
+        print("  -h, --help                  show this help message and exit")
+        sys.exit(0)
+    else:
+        print("Invalid arguments, use -h for help")
+        sys.exit(1)
 
-config = load_config()
+    config = load_config()
 
-# Parse the json files
-old_json = get_json(old_path)
-new_json = get_json(new_path)
+    # Parse the json files
+    old_json = get_json(old_path)
+    new_json = get_json(new_path)
 
-# Compare the packs
-added, removed, updated = asyncio.run(compare_packs(old_json, new_json, config))
+    # Compare the packs
+    added, removed, updated = asyncio.run(compare_packs(old_json, new_json, config))
 
-# Print in a md doc
-markdown_out(added, removed, updated, config)
+    # Print in a md doc
+    markdown_out(added, removed, updated, config)
+
+if __name__ == "__main__":
+    main()
