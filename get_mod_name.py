@@ -1,5 +1,5 @@
+from aiohttp import ClientSession, ClientResponseError, ClientConnectionError, ClientError
 async def get_mod_name(mod_id):
-    from aiohttp import ClientSession, ClientResponseError, ClientConnectionError, ClientError
     base_url = "https://api.modrinth.com/v2/project"
     headers = {'User-Agent':"TheBossMagnus/Mrpack_changelogger (thebossmagnus@proton.me)"}
     url = base_url + "/" + mod_id
