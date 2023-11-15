@@ -2,18 +2,15 @@ import sys
 
 def markdown_out(added, removed, updated, config):
     style = config['format']['style']
+    available_styles = {
+        "bullet_list": bullet_list,
+        "comma_list": comma_list,
+        "ind_bullet_list": ind_bullet_list,
+        "ind_comma_list": ind_comma_list
+    }
 
-    if style == "bullet_list":
-        markdown_text = bullet_list(added, removed, updated)
-    elif style == "comma_list":
-        markdown_text = comma_list(added, removed, updated)
-    elif style == "ind_bullet_list":
-        markdown_text = ind_bullet_list(added, removed, updated)
-    elif style == "ind_comma_list":
-        markdown_text = ind_comma_list(added, removed, updated)
-    else:
-        print("Warning: Invalid style specified in config.json, using bullet_list as a fallback.")
-        markdown_text = bullet_list(added, removed, updated)
+    # Get the funct based on the style in the config, use bullet_list as a fallback
+    markdown_text = available_styles.get(style, bullet_list)(added, removed, updated)
 
     try:
         with open(config['output']['file_path'] + config['output']['file_name'], "w", encoding="utf-8") as f:
@@ -29,17 +26,17 @@ def bullet_list(added, removed, updated):
     markdown_text = ""
 
     if added:
-        markdown_text += "## Added\n"
+        markdown_text += "# Added\n"
         for mod in added:
             markdown_text += f"- {mod}\n"
 
     if removed:
-        markdown_text += "## Removed\n"
+        markdown_text += "# Removed\n"
         for mod in removed:
             markdown_text += f"- {mod}\n"
 
     if updated:
-        markdown_text += "## Updated\n"
+        markdown_text += "# Updated\n"
         for mod in updated:
             markdown_text += f"- {mod}\n"
 
@@ -49,17 +46,17 @@ def comma_list(added, removed, updated):
     markdown_text = ""
 
     if added:
-        markdown_text += "* Added: "
+        markdown_text += "* **Added:** "
         for mod in added:
             markdown_text += f"{mod}, "
 
     if removed:
-        markdown_text += "\n* Removed: "
+        markdown_text += "\n* **Removed:** "
         for mod in removed:
             markdown_text += f"{mod}, "
 
     if updated:
-        markdown_text += "\n* Updated: "
+        markdown_text += "\n* **Updated:** "
         for mod in updated:
             markdown_text += f"{mod}, "
 
@@ -67,34 +64,34 @@ def comma_list(added, removed, updated):
 
 def ind_bullet_list(added, removed, updated):
     markdown_text = ""
-    markdown_text += "Changes: "
+    markdown_text += "# Changes: "
     if added:
         for mod in added:
-            markdown_text += f"\n* added {mod}"
+            markdown_text += f"\n* Added {mod}"
 
     if removed:
         for mod in removed:
-            markdown_text += f"\n* removed {mod}"
+            markdown_text += f"\n* Removed {mod}"
 
     if updated:
         for mod in updated:
-            markdown_text += f"\n* updated {mod}"
+            markdown_text += f"\n* Updated {mod}"
 
     return markdown_text
 
 def ind_comma_list(added, removed, updated):
     markdown_text = ""
-    markdown_text += "Changes: "
+    markdown_text += "**Changes:** "
     if added:
         for mod in added:
-            markdown_text += f"added {mod}, "
+            markdown_text += f"Added {mod}, "
 
     if removed:
         for mod in removed:
-            markdown_text += f"removed {mod}, "
+            markdown_text += f"Removed {mod}, "
 
     if updated:
         for mod in updated:
-            markdown_text += f"updated {mod}, "
+            markdown_text += f"Updated {mod}, "
 
     return markdown_text
