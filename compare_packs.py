@@ -2,66 +2,62 @@ import re
 import asyncio
 from get_mod_name import get_mod_name
 
+def get_mc_version(json):    # Get the minecraft version from the json
+    return json['dependencies']['minecraft']
+
+def get_loader(json):    # Get the loader name from the json
+    return list(json['dependencies'].keys())[0]
+
+def get_loader_version(json):    # Get the mod loader version from the json
+    return json['dependencies'][get_loader(json)]
+
+def get_mod_urls(json):    # Get the mod URLs from the json
+    return [download for url in json['files'] for download in url['downloads']]
+
+def extract_mod_ids(url_list):    # Extract the mod IDs from the URLs
+    return [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in url_list]
+
 async def compare_packs(old_json, new_json, config): 
-    # Get the Minecraft version from both packs
-    old_mc_version = old_json['dependencies']['minecraft']
-    new_mc_version = new_json['dependencies']['minecraft']
 
-    # Get the loader and its version from the index.json
-    old_loader = list(old_json['dependencies'].keys())[0]
-    old_loader_version = old_json['dependencies'][old_loader]
-    new_loader = list(new_json['dependencies'].keys())[0]
-    new_loader_version = new_json['dependencies'][new_loader]
+    # Get the some data from both packs
+    old_loader = get_loader(old_json)
+    new_loader = get_loader(new_json)
+    old_loader_version = get_loader_version(old_json)
+    new_loader_version = get_loader_version(new_json)
+    old_mc_version = get_mc_version(old_json)
+    new_mc_version = get_mc_version(new_json)
+    new_urls= set(get_mod_urls(new_json))
+    old_urls = set(get_mod_urls(old_json))
 
-    # Load the list of mods from both packs
-    added_urls = [url['downloads'] for url in new_json['files']]
-    removed_urls = [url['downloads'] for url in old_json['files']]
 
-    # Remove any URLs that are in both packs
-    for added_url in added_urls.copy():
-        for removed_url in removed_urls.copy():
-            if added_url == removed_url:
-                added_urls.remove(added_url)
-                removed_urls.remove(removed_url)
+    # Remove any URLs that are in both packs (untouched mods)
+    new_urls, old_urls = set(new_urls) - set(old_urls), set(old_urls) - set(new_urls.copy())
 
-    # Extract the mod IDs from the URLs
-    added_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in added_urls]
-    removed_ids = [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in removed_urls]
+    # Extract the mod IDs from the remaining URLs and convert to sets
+    added_ids = set(extract_mod_ids(list(new_urls)))
+    removed_ids = set(extract_mod_ids(list(old_urls)))
 
-    # Find the IDs of any updated mods
-    updated_ids = []
-    for added_id in added_ids.copy():
-        for removed_id in removed_ids.copy():
-            if added_id == removed_id:
-                added_ids.remove(added_id)
-                removed_ids.remove(removed_id)
-                updated_ids.append(added_id)
-
-    # Get the mods names from the Modrinth API via get_mod_name function, ignore None responses
-    tasks = []
+    updated_ids = added_ids & removed_ids #If they're in both pack, it got updated
+    added_ids -= updated_ids # Remove the updated, so only added remain
+    removed_ids -= updated_ids # Remove the updated, so only removed remain
+    
+    # Get the mods names from the Modrinth API via get_mod_name function, ignozre None responses
     if config['check']['added_mods']:
-        tasks.extend([get_mod_name(mod_id) for mod_id in added_ids])
+        added_mods = await asyncio.gather(*(get_mod_name(mod_id) for mod_id in added_ids))
 
     if config['check']['removed_mods']:
-        tasks.extend([get_mod_name(mod_id) for mod_id in removed_ids])
+        removed_mods = await asyncio.gather(*(get_mod_name(mod_id) for mod_id in removed_ids))
 
     if config['check']['updated_mods']:
-        tasks.extend([get_mod_name(mod_id) for mod_id in updated_ids])
+        updated_mods = await asyncio.gather(*(get_mod_name(mod_id) for mod_id in updated_ids))
 
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-
-    added_mods = list(filter(None, results[:len(added_ids)]))
-    removed_mods = list(filter(None, results[len(added_ids):len(added_ids)+len(removed_ids)]))
-    updated_mods = list(filter(None, results[len(added_ids)+len(removed_ids):]))
-
-    # Add loader and mc version changes
-    if old_loader != new_loader and config['check']['loader']:
-        added_mods.append(f"{new_loader} (mod loader)")
-        removed_mods.append(f"{old_loader} (mod loader)")
-
-    if old_loader_version != new_loader_version and config['check']['loader']:
-        updated_mods.append(f"{new_loader} (mod loader)")
-
+    # Add loader and mc version changes if enabled in config
+    if config['check']['loader']:
+        if old_loader != new_loader:    # Loader change
+            added_mods.append(f"{new_loader} (mod loader)")
+            removed_mods.append(f"{old_loader} (mod loader)")
+        if old_loader_version != new_loader_version:    # Loader update
+            updated_mods.append(f"{new_loader} (mod loader)")
     if old_mc_version != new_mc_version and config['check']['mc_version']:
         updated_mods.append(f"Minecraft version {new_mc_version}")
     
