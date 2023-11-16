@@ -19,20 +19,21 @@ DEFAULT_CONFIG = {
         'file_path': '',
     },
 }
+CONFIG_FILE = 'config.json'
 
 def create_config():
     try:
-        with open('config.json', 'w', encoding="utf-8") as f:
+        with open(CONFIG_FILE, 'w', encoding="utf-8") as f:
             json.dump(DEFAULT_CONFIG, f, indent=4)
     except PermissionError:
         print("ERROR: Unable to create the config.json in the current path. Try running as administrator")
         sys.exit(1)
 
 def load_config():
-    if not os.path.exists('config.json'):
+    if not os.path.exists(CONFIG_FILE):
         return DEFAULT_CONFIG
     try:
-        with open('config.json', 'r', encoding="utf-8") as f:
+        with open(CONFIG_FILE, 'r', encoding="utf-8") as f:
             return json.load(f)
     except ValueError:
         print('WARNING: config.json is not formatted correctly, using defaults value as a fallback')
