@@ -16,10 +16,10 @@ def markdown_out(added, removed, updated, config):
         with open(config['output']['file_path'] + config['output']['file_name'], "w", encoding="utf-8") as f:
             f.write(markdown_text)
     except FileNotFoundError:
-        print("Error: The folder specified in config.json doesn't exist.")
+        print("ERROR: The folder specified in config.json doesn't exist.")
         sys.exit(1)
     except PermissionError:
-        print("Error: You don't have access to the folder specified in config.json. Try running as administrator")
+        print("ERROR: You don't have access to the folder specified in config.json. Try running as administrator")
         sys.exit(1)
 
 def bullet_list(added, removed, updated):

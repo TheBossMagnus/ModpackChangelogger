@@ -25,7 +25,7 @@ def create_config():
         with open('config.json', 'w', encoding="utf-8") as f:
             json.dump(DEFAULT_CONFIG, f, indent=4)
     except PermissionError:
-        print("Error: Unable to create the config.json in the current path. Try running as administrator")
+        print("ERROR: Unable to create the config.json in the current path. Try running as administrator")
         sys.exit(1)
 
 def load_config():
@@ -35,5 +35,5 @@ def load_config():
         with open('config.json', 'r', encoding="utf-8") as f:
             return json.load(f)
     except ValueError:
-        print('Warning: config.json is not formatted correctly, using defaults value as a fallback')
+        print('WARNING: config.json is not formatted correctly, using defaults value as a fallback')
         return DEFAULT_CONFIG

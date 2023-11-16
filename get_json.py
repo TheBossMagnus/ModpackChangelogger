@@ -1,5 +1,6 @@
 import os
 import json
+import sys
 from zipfile import ZipFile
 
 def get_json(path):
@@ -8,15 +9,16 @@ def get_json(path):
     os.makedirs(temp_dir, exist_ok=True)
 
     # unpack the .mrpack file into the temp directory
-    if path.endswith('.mrpack'):
-        with ZipFile(path, 'r') as zObject:
-            zObject.extractall(path=temp_dir)
-    else:
-        raise ValueError('ERROR: Input file is not a .mrpack')
+    if not path.endswith('.mrpack'):
+        print('ERROR: Input file is not a .mrpack')
+        sys.exit(1)
+    with ZipFile(path, 'r') as zObject:
+        zObject.extractall(path=temp_dir)
 
     # parse the json file
     try:
         with open(os.path.join(temp_dir, 'modrinth.index.json'), 'r', encoding="utf-8") as f:
             return json.load(f)
-    except ValueError as err:
-        raise ValueError('ERROR: one modrinth.index.json is not formatted correctly') from err
+    except ValueError:
+        print('ERROR: one modrinth.index.json is not formatted correctly')
+        sys.exit(1)

@@ -35,7 +35,7 @@ def handle_arguments():
         print_help()
         sys.exit(0)
     else:
-        print("Error: Invalid arguments, use -h for help")
+        print("ERROR: Invalid arguments, use -h for help")
         sys.exit(1)
 
 if __name__ == "__main__":
