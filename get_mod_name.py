@@ -15,6 +15,6 @@ async def get_mod_name(mod_id):
         print(f"WARNING: Unable to retrieve project information for ID {mod_id} from Modrinth API. Received response code: {err.status}")
         print("If the issue persists, consider reporting it on GitHub repository.")
     except ClientConnectionError:
-        print(f"WARNING: Connection to the Modrinth API failed. Please ensure your internet connection is stable and that Modrinth is currently accessible.")
+        print("WARNING: Connection to the Modrinth API failed. Please ensure your internet connection is stable and that Modrinth is currently accessible.")
     except ClientError as err:
         print(f"Warning: Unable to connect to the Modrinth API. The following error occurred: {err}")

@@ -26,12 +26,12 @@ def print_help():
     print("  -h, --help                  show this help message and exit")
 
 def handle_arguments():
-    if sys.argv[1] in ("-cc", "--create-config"):
+    if sys.argv[1] in {"-cc", "--create-config"}:
         create_config()
         sys.exit(0)
-    elif sys.argv[1] in ("-o", "--old") and sys.argv[3] in ("-n", "--new"):
+    elif sys.argv[1] in {"-o", "--old"} and sys.argv[3] in {"-n", "--new"}:
         main(sys.argv[2], sys.argv[4])
-    elif sys.argv[1] in ("-h", "--help", "-?"):
+    elif sys.argv[1] in {"-h", "--help", "-?"}:
         print_help()
         sys.exit(0)
     else:
