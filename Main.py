@@ -18,16 +18,22 @@ def main(old_path, new_path):
     # Print in a md doc
     markdown_out(added, removed, updated, config)
 
+def print_help():
+    print("Usage:")
+    print("  -o, --old                   The pack to compare to")
+    print("  -n, --new                   The pack to compare")
+    print("  -cc, --create-config        Create a config file")
+    print("  -h, --help                  show this help message and exit")
+
 if __name__ == "__main__":
     if sys.argv[1] == "-cc" or sys.argv[1] == "--create-config":
         create_config()
+        sys.exit(0)
     elif (sys.argv[1] == "-o" or sys.argv[1] == "--old") and (sys.argv[3] == "-n" or sys.argv[3] == "--new"):
         main(sys.argv[2], sys.argv[4])
     elif sys.argv[1] == "-h" or sys.argv[1] == "--help" or sys.argv[1] == "-?":
-        print("Usage:")
-        print("  -o, --old                   The pack to compare to")
-        print("  -n, --new                   The pack to compare")
-        print("  -cc, --create-config        Create a config file")
-        print("  -h, --help                  show this help message and exit")
+        print_help()
+        sys.exit(0)
     else:
         print("Error: Invalid arguments, use -h for help")
+        sys.exit(1)
