@@ -25,15 +25,18 @@ def print_help():
     print("  -cc, --create-config        Create a config file")
     print("  -h, --help                  show this help message and exit")
 
-if __name__ == "__main__":
-    if sys.argv[1] == "-cc" or sys.argv[1] == "--create-config":
+def handle_arguments():
+    if sys.argv[1] in ("-cc", "--create-config"):
         create_config()
         sys.exit(0)
-    elif (sys.argv[1] == "-o" or sys.argv[1] == "--old") and (sys.argv[3] == "-n" or sys.argv[3] == "--new"):
+    elif sys.argv[1] in ("-o", "--old") and sys.argv[3] in ("-n", "--new"):
         main(sys.argv[2], sys.argv[4])
-    elif sys.argv[1] == "-h" or sys.argv[1] == "--help" or sys.argv[1] == "-?":
+    elif sys.argv[1] in ("-h", "--help", "-?"):
         print_help()
         sys.exit(0)
     else:
         print("Error: Invalid arguments, use -h for help")
         sys.exit(1)
+
+if __name__ == "__main__":
+    handle_arguments()
