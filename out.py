@@ -1,4 +1,5 @@
 import sys
+import logging
 
 def markdown_out(added, removed, updated, config):
     style = config['format']['style']
@@ -15,11 +16,12 @@ def markdown_out(added, removed, updated, config):
     try:
         with open(config['output']['file_path'] + config['output']['file_name'], "w", encoding="utf-8") as f:
             f.write(markdown_text)
+            logging.debug(f"Created {config['output']['file_path'] + config['output']['file_name']}")
     except FileNotFoundError:
-        print("ERROR: The folder specified in config.json doesn't exist.")
+        logging.error("ERROR: The folder specified in config.json doesn't exist.")
         sys.exit(1)
     except PermissionError:
-        print("ERROR: You don't have access to the folder specified in config.json. Try running as administrator")
+        logging.error("ERROR: You don't have access to the folder specified in config.json. Try running as administrator")
         sys.exit(1)
 
 def bullet_list(added, removed, updated):

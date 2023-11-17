@@ -1,7 +1,8 @@
 import json
 import os
 import sys
-
+import logging
+logger = logging.getLogger
 # Do not edit this, use config.json
 DEFAULT_CONFIG = {
     'check': {
@@ -25,16 +26,19 @@ def create_config():
     try:
         with open(CONFIG_FILE, 'w', encoding="utf-8") as f:
             json.dump(DEFAULT_CONFIG, f, indent=4)
+            logging.debug('Created config.json')
     except PermissionError:
-        print("ERROR: Unable to create the config.json in the current path. Try running as administrator")
+        logging.error("ERROR: Unable to create the config.json in the current path. Try running as administrator")
         sys.exit(1)
 
 def load_config():
     if not os.path.exists(CONFIG_FILE):
+        logging.debug('no config.json present, using default values')
         return DEFAULT_CONFIG
     try:
         with open(CONFIG_FILE, 'r', encoding="utf-8") as f:
+            logging.debug('Loaded config.json')
             return json.load(f)
     except ValueError:
-        print('WARNING: config.json is not formatted correctly, using defaults value as a fallback')
+        logging.warning('WARNING: config.json is not formatted correctly, using defaults value as a fallback')
         return DEFAULT_CONFIG
