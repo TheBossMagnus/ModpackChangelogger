@@ -14,6 +14,9 @@ def setup_logging(debug):
 
     # Debug logging to txt file
     if debug:
+        # Clear the log file
+        open('log.txt', 'w').close()
+        
         file_handler = logging.FileHandler('log.txt')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))

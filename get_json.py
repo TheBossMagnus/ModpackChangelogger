@@ -13,7 +13,7 @@ def get_json(path):
         sys.exit(1)
 
     # Create a temporary directory
-    temp_dir = os.path.join(os.environ.get('TEMP'), 'mrpack_Changelogging')
+    temp_dir = os.path.join(os.environ.get('TEMP'), 'mrpack_Changelogger')
     os.makedirs(temp_dir, exist_ok=True)
 
     try:
