@@ -18,7 +18,7 @@ def setup_logging(debug):
         with open('log.txt', 'w', encoding="utf-8") as f:
             f.write('')
         
-        file_handler = logging.FileHandler('log.txt')
+        file_handler = logging.FileHandler('log.txt', encoding='utf-8')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
         logging.basicConfig(level=logging.DEBUG, handlers=[console_handler, file_handler])
