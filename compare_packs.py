@@ -10,6 +10,7 @@ def get_loader(json):    # Get the loader name from the json
     for key in json['dependencies'].keys():
         if key != 'minecraft':
             return key
+    return "Unknown"
 
 def get_loader_version(json, loader):    # Get the mod loader version from the json
     return json['dependencies'][loader]
