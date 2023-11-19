@@ -1,7 +1,7 @@
 import re
 import asyncio
-from get_mod_name import get_mod_name
 import logging
+from get_mod_name import get_mod_name
 
 def get_mc_version(json):    # Get the minecraft version from the json
     return json['dependencies']['minecraft']

@@ -2,7 +2,7 @@ import json
 import os
 import sys
 import logging
-logger = logging.getLogger
+
 # Do not edit this, use config.json
 DEFAULT_CONFIG = {
     'check': {
