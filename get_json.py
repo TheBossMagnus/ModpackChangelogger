@@ -25,7 +25,7 @@ def get_json(path):
         # Parse the json file
         json_path = os.path.join(temp_dir, 'modrinth.index.json')
         with open(json_path, 'r', encoding="utf-8") as json_file:
-            logging.debug('Parsed %s' % json_path)
+            logging.debug('Parsed %s', json_path)
             return json.load(json_file)
     except FileNotFoundError:
         logging.error('ERROR: The file %s does not exist', json_path)
