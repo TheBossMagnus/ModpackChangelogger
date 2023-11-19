@@ -15,7 +15,8 @@ def setup_logging(debug):
     # Debug logging to txt file
     if debug:
         # Clear the log file
-        open('log.txt', 'w').close()
+        with open('log.txt', 'w', encoding="utf-8") as f:
+            f.write('')
         
         file_handler = logging.FileHandler('log.txt')
         file_handler.setLevel(logging.DEBUG)
