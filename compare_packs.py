@@ -7,10 +7,12 @@ def get_mc_version(json):    # Get the minecraft version from the json
     return json['dependencies']['minecraft']
 
 def get_loader(json):    # Get the loader name from the json
-    return list(json['dependencies'].keys())[0]
+    for key in json['dependencies'].keys():
+        if key != 'minecraft':
+            return key
 
-def get_loader_version(json):    # Get the mod loader version from the json
-    return json['dependencies'][get_loader(json)]
+def get_loader_version(json, loader):    # Get the mod loader version from the json
+    return json['dependencies'][loader]
 
 def get_mod_urls(json):    # Get the mod URLs from the json
     return [download for url in json['files'] for download in url['downloads']]
@@ -23,8 +25,8 @@ async def compare_packs(old_json, new_json, config):
     # Get the some data from both packs
     old_loader = get_loader(old_json)
     new_loader = get_loader(new_json)
-    old_loader_version = get_loader_version(old_json)
-    new_loader_version = get_loader_version(new_json)
+    old_loader_version = get_loader_version(old_json, old_loader)
+    new_loader_version = get_loader_version(new_json, new_loader)
     old_mc_version = get_mc_version(old_json)
     new_mc_version = get_mc_version(new_json)
     new_urls= set(get_mod_urls(new_json))
