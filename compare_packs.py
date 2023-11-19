@@ -57,14 +57,14 @@ async def compare_packs(old_json, new_json, config):
         if old_loader != new_loader:    # Loader change
             added_mods.append(f"{new_loader} (mod loader)")
             removed_mods.append(f"{old_loader} (mod loader)")
-            logging.debug(f"Loader change detected: {old_loader}, new loader: {new_loader}")
+            logging.debug("Loader change detected: %s, new loader: %s", old_loader, new_loader)
         if old_loader_version != new_loader_version:    # Loader update
             updated_mods.append(f"{new_loader} (mod loader)")
-            logging.debug(f"Loader update detected: {old_loader}, new version: {new_loader_version}")
+            logging.debug("Loader update detected: %s, new version: %s", old_loader, new_loader_version)
     if old_mc_version != new_mc_version and config['check']['mc_version']:
         updated_mods.append(f"Minecraft version {new_mc_version}")
-        logging.debug(f"Minecraft version change detected: {old_mc_version}, new version: {new_mc_version}")
+        logging.debug("Minecraft version change detected: %s, new version: %s", old_mc_version, new_mc_version)
 
-    logging.debug(f"Added mods: {added_mods}\nRemoved mods: {removed_mods}\nUpdated mods: {updated_mods}")
+    logging.debug("Added mods: %a\nRemoved mods: %a\nUpdated mods: %a", added_mods, removed_mods, updated_mods)
     
     return added_mods, removed_mods, updated_mods

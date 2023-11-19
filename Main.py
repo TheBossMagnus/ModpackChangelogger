@@ -47,6 +47,7 @@ if __name__ == "__main__":
 
     if args.debug:
         logger.info("Debug logging enabled")
+        logging.debug("Arguments: %a", args)
     if args.create_config:
         create_config()
     if args.old and args.new:

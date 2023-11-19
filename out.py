@@ -12,16 +12,17 @@ def markdown_out(added, removed, updated, config):
 
     # Get the funct based on the style in the config, use bullet_list as a fallback
     markdown_text = available_styles.get(style, bullet_list)(added, removed, updated)
+    changelog_file = f"{config['output']['file_path']}{config['output']['file_name']}"
 
     try:
-        with open(config['output']['file_path'] + config['output']['file_name'], "w", encoding="utf-8") as f:
+        with open(changelog_file, "w", encoding="utf-8") as f:
             f.write(markdown_text)
-            logging.debug(f"Created {config['output']['file_path'] + config['output']['file_name']}")
+            logging.debug("Created %s", changelog_file)
     except FileNotFoundError:
-        logging.error("ERROR: The folder specified in config.json doesn't exist.")
+        logging.error("ERROR: The folder specified in config.json (%s) doesn't exist.", config['output']['file_path'])
         sys.exit(1)
     except PermissionError:
-        logging.error("ERROR: You don't have access to the folder specified in config.json. Try running as administrator")
+        logging.error("ERROR: You don't have access to the folder specified in config.json (%s). Try running as administrator", config['output']['file_path'])
         sys.exit(1)
 
 def bullet_list(added, removed, updated):

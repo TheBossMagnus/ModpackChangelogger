@@ -11,12 +11,12 @@ async def get_mod_name(mod_id):
             async with session.get(url, headers=headers) as response:
                 response.raise_for_status()
                 response_json = await response.json()
-                logging.debug(f"Successfully retrieved name {response_json.get('title')} for ID {mod_id}")
+                logging.debug("Successfully retrieved name %s for ID %s", response_json.get('title'), mod_id)
                 return response_json.get('title')
     except ClientResponseError as err:
-        logging.warning(f"WARNING: Unable to retrieve project information for ID {mod_id} from Modrinth API. Received response code: {err.status}")
+        logging.warning("WARNING: Unable to retrieve project information for ID %s from Modrinth API. Received response code: %s", mod_id, err.status)
         logging.info("If the issue persists, consider reporting it on GitHub repository.")
     except ClientConnectionError:
         logging.warning("WARNING: Connection to the Modrinth API failed. Please ensure your internet connection is stable and that Modrinth is currently accessible.")
     except ClientError as err:
-        logging.warning(f"Warning: Unable to connect to the Modrinth API. The following error occurred: {err}")
+        logging.warning("Warning: Unable to connect to the Modrinth API. The following error occurred: %s", err)
