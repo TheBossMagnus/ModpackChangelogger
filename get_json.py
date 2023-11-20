@@ -11,6 +11,9 @@ def get_json(path):
     if not path.endswith('.mrpack'):
         logging.error('ERROR: Input file is not a .mrpack')
         sys.exit(1)
+    if not os.path.exists(path):
+        logging.error('ERROR: The file %s does not exist', path)
+        sys.exit(1)
 
     # Create a temporary directory
     temp_dir = os.path.join(os.environ.get('TEMP'), 'mrpack_Changelogger')

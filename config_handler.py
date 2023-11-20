@@ -32,6 +32,9 @@ def create_config():
 
 def load_config(config_path):
     if config_path:
+        if not os.path.exists(config_path):
+            logging.warning("Warning: The chose config file (%s) does not exist, using default values as a fallback", config_path)
+            return DEFAULT_CONFIG
         CONFIG_FILE = config_path
     else:
         CONFIG_FILE = 'config.json'
@@ -43,5 +46,5 @@ def load_config(config_path):
             logging.debug('Loaded config from %s', CONFIG_FILE)
             return json.load(f)
     except ValueError:
-        logging.warning('WARNING: %s is not formatted correctly, using defaults value as a fallback', CONFIG_FILE)
+        logging.warning('WARNING: %s is not formatted correctly, using defaults values as a fallback', CONFIG_FILE)
         return DEFAULT_CONFIG
