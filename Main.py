@@ -30,12 +30,12 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--old", help="The pack to compare to")
     parser.add_argument("-n", "--new", help="The pack to compare")
-    parser.add_argument("-cc", "--create-config", action="store_true", help="Create a config file")
+    parser.add_argument("-c", "--config", nargs='?', const='new', help="Choose or create a config file")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 
-def main(old_path, new_path):
-    config = load_config()
+def main(old_path, new_path, config_path):
+    config = load_config(config_path)
     # Parse the json files
     old_json = get_json(old_path)
     new_json = get_json(new_path)
@@ -52,7 +52,10 @@ if __name__ == "__main__":
     if args.debug:
         logger.info("Debug logging enabled")
         logging.debug("Arguments: %a", args)
-    if args.create_config:
+    config_path = None
+    if args.config == 'new':
         create_config()
+    elif args.config:
+        config_path = args.config
     if args.old and args.new:
-        main(args.old, args.new)
+        main(args.old, args.new, config_path)
