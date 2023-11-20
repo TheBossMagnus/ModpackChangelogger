@@ -4,10 +4,10 @@ import logging
 def markdown_out(added, removed, updated, config):
     style = config['format']['style']
     available_styles = {
-        "bullet_list": bullet_list,
-        "comma_list": comma_list,
-        "ind_bullet_list": ind_bullet_list,
-        "ind_comma_list": ind_comma_list
+        "bullet": bullet_list,
+        "comma": comma_list,
+        "ind_bullet": ind_bullet_list,
+        "ind_comma": ind_comma_list
     }
 
     # Get the funct based on the style in the config, use bullet_list as a fallback
