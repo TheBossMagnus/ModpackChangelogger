@@ -56,6 +56,6 @@ if __name__ == "__main__":
     if args.config == 'new':
         create_config()
     elif args.config:
-        config_path = args.config
+        chosen_config_path = args.config
     if args.old and args.new:
-        main(args.old, args.new, config_path)
+        main(args.old, args.new, chosen_config_path)
