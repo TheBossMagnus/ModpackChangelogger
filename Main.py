@@ -48,11 +48,11 @@ if __name__ == "__main__":
     args = parse_arguments()
     logger = logging.getLogger(__name__)
     setup_logging(args.debug)
+    config_path = None
 
     if args.debug:
         logger.info("Debug logging enabled")
         logging.debug("Arguments: %a", args)
-    config_path = None
     if args.config == 'new':
         create_config()
     elif args.config:
