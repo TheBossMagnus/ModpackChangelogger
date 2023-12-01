@@ -70,4 +70,4 @@ async def compare_packs(old_json, new_json, config):
 
     logging.debug("Added mods: %a\nRemoved mods: %a\nUpdated mods: %a", added_mods, removed_mods, updated_mods)
     
-    return added_mods, removed_mods, updated_mods
+    return sorted(added_mods), sorted(removed_mods), sorted(updated_mods)
