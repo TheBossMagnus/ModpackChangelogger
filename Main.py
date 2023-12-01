@@ -53,8 +53,7 @@ if __name__ == "__main__":
         logger.info("Debug logging enabled")
         logging.debug("Arguments: %a", args)
     if args.config == 'new':
+        args.config = None
         create_config()
-    elif args.config:
-        config_path = args.config
     if args.old and args.new:
         main(args.old, args.new, args.config)
