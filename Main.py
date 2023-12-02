@@ -34,7 +34,7 @@ def parse_arguments():
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 
-def main(old_path, new_path, config_path):
+def main(old_path, new_path, config_path=None):
     config = load_config(config_path)
     # Parse the json files
     old_json = get_json(old_path)
