@@ -1,7 +1,7 @@
 import sys
 import logging
 
-def markdown_out(added, removed, updated, config):
+def markdown_out(added, removed, updated, config, changelog_file):
     style = config['format']['style']
     available_styles = {
         "bullet": bullet_list,
@@ -12,14 +12,14 @@ def markdown_out(added, removed, updated, config):
 
     # Get the funct based on the style in the config, use bullet_list as a fallback
     markdown_text = available_styles.get(style, bullet_list)(added, removed, updated)
-    changelog_file = f"{config['output']['file_path']}{config['output']['file_name']}"
+    changelog_file = changelog_file or "Changelog.md"
 
     try:
         with open(changelog_file, "w", encoding="utf-8") as f:
             f.write(markdown_text)
             logging.debug("Created %s", changelog_file)
     except FileNotFoundError:
-        logging.error("ERROR: The folder specified in config.json (%s) doesn't exist.", config['output']['file_path'])
+        logging.error("ERROR: The folder selected for the changelog (%s) doesn't exist.", changelog_file)
         sys.exit(1)
     except PermissionError:
         logging.error("ERROR: You don't have access to the folder specified in config.json (%s). Try running as administrator", config['output']['file_path'])

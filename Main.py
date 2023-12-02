@@ -32,9 +32,10 @@ def parse_arguments():
     parser.add_argument("-n", "--new", help="The pack to compare")
     parser.add_argument("-c", "--config", nargs='?', const='new', help="Choose or create a config file")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("-f", "--file", help="Specify the output file")
     return parser.parse_args()
 
-def main(old_path, new_path, config_path=None):
+def main(old_path, new_path, config_path=None, output_file=None):
     config = load_config(config_path)
     # Parse the json files
     old_json = get_json(old_path)
@@ -42,7 +43,7 @@ def main(old_path, new_path, config_path=None):
     # Compare the packs
     added, removed, updated = asyncio.run(compare_packs(old_json, new_json, config))
     # Print in a md doc
-    markdown_out(added, removed, updated, config)
+    markdown_out(added, removed, updated, config, output_file)
 
 if __name__ == "__main__":
     args = parse_arguments()
@@ -56,4 +57,4 @@ if __name__ == "__main__":
         args.config = None
         create_config()
     if args.old and args.new:
-        main(args.old, args.new, args.config)
+        main(args.old, args.new, args.config, args.file)
