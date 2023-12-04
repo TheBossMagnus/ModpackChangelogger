@@ -19,7 +19,8 @@ def get_mod_urls(json):    # Get the mod URLs from the json
     return [download for url in json['files'] for download in url['downloads']]
 
 def extract_mod_ids(url_list):    # Extract the mod IDs from the URLs
-    return [re.search(r"(?<=data\/)[a-zA-Z0-9]{8}", str(url)).group(0) for url in url_list]
+    pattern = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
+    return [pattern.search(str(url)).group(0) for url in url_list]
 
 async def compare_packs(old_json, new_json, config): 
 
@@ -35,7 +36,7 @@ async def compare_packs(old_json, new_json, config):
 
 
     # Remove any URLs that are in both packs (untouched mods)
-    new_urls, old_urls = set(new_urls) - set(old_urls), set(old_urls) - set(new_urls.copy())
+    new_urls, old_urls = new_urls.difference(old_urls), old_urls.difference(new_urls)
 
     # Extract the mod IDs from the remaining URLs and convert to sets
     added_ids = set(extract_mod_ids(list(new_urls)))
