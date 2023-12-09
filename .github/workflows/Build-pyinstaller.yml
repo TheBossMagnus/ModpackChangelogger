@@ -22,10 +22,10 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile main.py
+        pyinstaller --onefile MrpackChangelogger.py
 
     - name: Upload .exe
       uses: actions/upload-artifact@v2
       with:
         name: your_script.exe
-        path: dist/your_script.exe
+        path: dist/MrpackChangelogger.exe
