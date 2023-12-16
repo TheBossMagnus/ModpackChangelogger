@@ -1,0 +1,56 @@
+name: Build Python executable with PyInstaller
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller aiohttp
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --icon=NONE MrpackChangelogger.py
+
+    - name: Upload .exe
+      uses: actions/upload-artifact@v2
+      with:
+        name: MrpackChangelogger.exe (Windows)
+        path: dist/MrpackChangelogger.exe
+
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller aiohttp
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --icon=NONE MrpackChangelogger.py
+
+    - name: Upload Linux executable
+      uses: actions/upload-artifact@v2
+      with:
+        name: MrpackChangelogger (Linux)
+        path: dist/MrpackChangelogger

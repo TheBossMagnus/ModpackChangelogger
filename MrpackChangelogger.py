@@ -31,8 +31,8 @@ def parse_arguments():
     parser.add_argument("-o", "--old", help="The pack to compare to")
     parser.add_argument("-n", "--new", help="The pack to compare")
     parser.add_argument("-c", "--config", nargs='?', const='new', help="Choose or create a config file")
-    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     parser.add_argument("-f", "--file", help="Specify the output file")
+    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 
 def main(old_path, new_path, config_path=None, output_file=None):
@@ -58,3 +58,7 @@ if __name__ == "__main__":
         create_config()
     if args.old and args.new:
         main(args.old, args.new, args.config, args.file)
+    elif args.old:
+        logger.error("No new pack specified")
+    elif args.new:
+        logger.error("No old pack specified")
