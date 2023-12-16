@@ -2,6 +2,7 @@ import re
 import asyncio
 import logging
 from get_mod_name import get_mod_name
+PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
 def get_mc_version(json):
     return json['dependencies']['minecraft']
@@ -16,8 +17,7 @@ def get_mod_urls(json):
     return [download for url in json['files'] for download in url['downloads']]
 
 def extract_mod_ids(url_list):
-    pattern = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
-    return [pattern.search(str(url)).group(0) for url in url_list]
+    return [PATTERN.search(str(url)).group(0) for url in url_list]
 
 async def compare_packs(old_json, new_json, config):
     old_loader, new_loader = get_loader(old_json), get_loader(new_json)
@@ -33,12 +33,7 @@ async def compare_packs(old_json, new_json, config):
     removed_ids -= updated_ids
 
     mod_categories = (('added_mods', added_ids), ('removed_mods', removed_ids), ('updated_mods', updated_ids))
-    tasks = []
-    for category, mod_ids in mod_categories:
-        if config['check'][category]:
-            for mod_id in mod_ids:
-                task = asyncio.create_task(get_mod_name(mod_id))
-                tasks.append((task, category))
+    tasks = [(asyncio.create_task(get_mod_name(mod_id)), category) for category, mod_ids in mod_categories if config['check'][category] for mod_id in mod_ids]
     results = await asyncio.gather(*(task for task, _ in tasks))
 
     added_mods = [result for result, category in zip(results, (category for _, category in tasks)) if category == 'added_mods']

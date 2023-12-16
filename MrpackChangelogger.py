@@ -35,7 +35,7 @@ def parse_arguments():
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 
-def main(old_path, new_path, config_path=None, output_file=None):
+def main(old_path, new_path, config_path=None, changelog_file=None):
     config = load_config(config_path)
     # Parse the json files
     old_json = get_json(old_path)
@@ -43,7 +43,7 @@ def main(old_path, new_path, config_path=None, output_file=None):
     # Compare the packs
     added, removed, updated = asyncio.run(compare_packs(old_json, new_json, config))
     # Print in a md doc
-    markdown_out(added, removed, updated, config, output_file)
+    markdown_out(added, removed, updated, config, changelog_file="changelog.md")
 
 if __name__ == "__main__":
     args = parse_arguments()

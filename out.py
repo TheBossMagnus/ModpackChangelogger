@@ -9,10 +9,7 @@ def markdown_out(added, removed, updated, config, changelog_file):
         "ind_bullet": ind_bullet_list,
         "ind_comma": ind_comma_list
     }
-
-    # Get the funct based on the style in the config, use bullet_list as a fallback
     markdown_text = available_styles.get(style, bullet_list)(added, removed, updated)
-    changelog_file = changelog_file or "Changelog.md"
 
     try:
         with open(changelog_file, "w", encoding="utf-8") as f:
@@ -25,76 +22,54 @@ def markdown_out(added, removed, updated, config, changelog_file):
         logging.error("ERROR: You don't have access to the folder specified in config.json (%s). Try running as administrator", config['output']['file_path'])
         sys.exit(1)
 
+
 def bullet_list(added, removed, updated):
-    markdown_text = ""
+    markdown_text = []
 
     if added:
-        markdown_text += "###  Added:\n"
-        for mod in added:
-            markdown_text += f"- {mod}\n"
-
+        markdown_text.append("###  Added:")
+        markdown_text.extend([f"- {mod}" for mod in added])
     if removed:
-        markdown_text += "###  Removed:\n"
-        for mod in removed:
-            markdown_text += f"- {mod}\n"
-
+        markdown_text.append("###  Removed:")
+        markdown_text.extend([f"- {mod}" for mod in removed])
     if updated:
-        markdown_text += "### Updated:\n"
-        for mod in updated:
-            markdown_text += f"- {mod}\n"
+        markdown_text.append("### Updated:")
+        markdown_text.extend([f"- {mod}" for mod in updated])
 
-    return markdown_text
+    return '\n'.join(markdown_text)
 
 def comma_list(added, removed, updated):
-    markdown_text = ""
+    markdown_text = []
 
     if added:
-        markdown_text += "* **Added:** "
-        for mod in added:
-            markdown_text += f"{mod}, "
-
+        markdown_text.append(f"- **Added:** {', '.join(added)}")
     if removed:
-        markdown_text += "\n* **Removed:** "
-        for mod in removed:
-            markdown_text += f"{mod}, "
-
+        markdown_text.append(f"- **Removed:** {', '.join(removed)}")
     if updated:
-        markdown_text += "\n* **Updated:** "
-        for mod in updated:
-            markdown_text += f"{mod}, "
+        markdown_text.append(f"- **Updated:** {', '.join(updated)}")
 
-    return markdown_text
+    return '\n'.join(markdown_text)
 
 def ind_bullet_list(added, removed, updated):
-    markdown_text = ""
-    markdown_text += "## Changes:"
+    markdown_text = ["## Changes:"]
+
     if added:
-        for mod in added:
-            markdown_text += f"\n* Added {mod}"
-
+        markdown_text.append('\n'.join(f"* Added {mod}" for mod in added))
     if removed:
-        for mod in removed:
-            markdown_text += f"\n* Removed {mod}"
-
+        markdown_text.append('\n'.join(f"* Removed {mod}" for mod in removed))
     if updated:
-        for mod in updated:
-            markdown_text += f"\n* Updated {mod}"
+        markdown_text.append('\n'.join(f"* Updated {mod}" for mod in updated))
 
-    return markdown_text
+    return '\n'.join(markdown_text)
 
 def ind_comma_list(added, removed, updated):
-    markdown_text = ""
-    markdown_text += "**Changes:** "
+    markdown_text = ["**Changes:**"]
+
     if added:
-        for mod in added:
-            markdown_text += f"Added {mod}, "
-
+        markdown_text.append(', '.join(f"Added {mod}" for mod in added))
     if removed:
-        for mod in removed:
-            markdown_text += f"Removed {mod}, "
-
+        markdown_text.append(', '.join(f"Removed {mod}" for mod in removed))
     if updated:
-        for mod in updated:
-            markdown_text += f"Updated {mod}, "
+        markdown_text.append(', '.join(f"Updated {mod}" for mod in updated))
 
-    return markdown_text
+    return ' '.join(markdown_text)
