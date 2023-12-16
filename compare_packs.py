@@ -32,13 +32,13 @@ async def compare_packs(old_json, new_json, config):
     added_ids -= updated_ids
     removed_ids -= updated_ids
 
+    mod_categories = (('added_mods', added_ids), ('removed_mods', removed_ids), ('updated_mods', updated_ids))
     tasks = []
-    for category, mod_ids in [('added_mods', added_ids), ('removed_mods', removed_ids), ('updated_mods', updated_ids)]:
+    for category, mod_ids in mod_categories:
         if config['check'][category]:
             for mod_id in mod_ids:
                 task = asyncio.create_task(get_mod_name(mod_id))
                 tasks.append((task, category))
-
     results = await asyncio.gather(*(task for task, _ in tasks))
 
     added_mods = [result for result, category in zip(results, (category for _, category in tasks)) if category == 'added_mods']
