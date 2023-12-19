@@ -36,5 +36,4 @@ python MrpackChangelogger -o old_pack -n new_pack -c config.json -f output.md
 * As now just the .mrpack format is supported, CourseForge support is coming soon
 * Mod added as .jar file(overrides) aren't checked
 
-## PS
 >This is my first time using python seriosuly, so if you have any suggestion about code quality or performance feel free to pr them! And if something is broken sorry, open an issue and will do my best to fix it.
