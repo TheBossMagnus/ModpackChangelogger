@@ -25,7 +25,7 @@ jobs:
       run: |
         pyinstaller --onefile --icon=NONE MrpackChangelogger.py
 
-    - name: Upload .exe
+    - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}
