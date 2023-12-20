@@ -1,19 +1,20 @@
-name: Build Python executable with PyInstaller
-
 on:
   push:
   workflow_dispatch:
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.x'
+        python-version: 3.x
 
     - name: Install dependencies
       run: |
@@ -27,30 +28,5 @@ jobs:
     - name: Upload .exe
       uses: actions/upload-artifact@v4
       with:
-        name: MrpackChangelogger.exe (Windows)
-        path: dist/MrpackChangelogger.exe
-
-  build-linux:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pyinstaller aiohttp
-
-    - name: Build with PyInstaller
-      run: |
-        pyinstaller --onefile --icon=NONE MrpackChangelogger.py
-
-    - name: Upload Linux executable
-      uses: actions/upload-artifact@v4
-      with:
-        name: MrpackChangelogger (Linux)
-        path: dist/MrpackChangelogger
+        name: ${{ matrix.os }}
+        path: dist/MrpackChangelogger*
