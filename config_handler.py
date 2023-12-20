@@ -30,12 +30,12 @@ def load_config(config_file):
     if not config_file:
         return DEFAULT_CONFIG
     if not os.path.isfile(config_file):
-        logging.ERROR("ERROR: The chose config file (%s) does not exist", config_file)
+        logging.error("ERROR: The chose config file (%s) does not exist", config_file)
         sys.exit(1)
     try:
         with open(config_file, 'r', encoding="utf-8") as f:
             logging.debug('Loaded config from %s', config_file)
             return json.load(f)
     except ValueError:
-        logging.ERROR("ERROR: %s is not formatted correctly", config_file)
+        logging.error("ERROR: %s is not formatted correctly", config_file)
         sys.exit(1)
