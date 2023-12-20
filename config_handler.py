@@ -26,21 +26,16 @@ def create_config():
         logging.error("ERROR: Unable to create the config.json in %s. Try running as administrator", os.getcwd())
         sys.exit(1)
 
-def load_config(config_path):
-    if config_path:
-        if not os.path.exists(config_path):
-            logging.warning("Warning: The chose config file (%s) does not exist, using default values as a fallback", config_path)
-            return DEFAULT_CONFIG
-        CONFIG_FILE = config_path
-    else:
-        CONFIG_FILE = 'config.json'
-    if not os.path.exists(CONFIG_FILE):
-        logging.debug('no config.json present, using default values')
+def load_config(config_file):
+    if not config_file:
         return DEFAULT_CONFIG
+    if not os.path.isfile(config_file):
+        logging.ERROR("ERROR: The chose config file (%s) does not exist", config_file)
+        sys.exit(1)
     try:
-        with open(CONFIG_FILE, 'r', encoding="utf-8") as f:
-            logging.debug('Loaded config from %s', CONFIG_FILE)
+        with open(config_file, 'r', encoding="utf-8") as f:
+            logging.debug('Loaded config from %s', config_file)
             return json.load(f)
     except ValueError:
-        logging.warning('WARNING: %s is not formatted correctly, using defaults values as a fallback', CONFIG_FILE)
-        return DEFAULT_CONFIG
+        logging.ERROR("ERROR: %s is not formatted correctly", config_file)
+        sys.exit(1)
