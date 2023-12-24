@@ -1,5 +1,5 @@
-# MrpackChangelogger
-MrpackChangelogger is a Python tool that compares two Minecraft Modpacks (in .mrpack format) and generates a markdown changelog to show the difference between tham.
+# ModpackChangelogger
+ModpackChangelogger is a Python tool that compares two Minecraft Modpacks (in .mrpack format) and generates a markdown changelog to show the difference between tham.
 
 
 ## Features
@@ -12,12 +12,12 @@ MrpackChangelogger is a Python tool that compares two Minecraft Modpacks (in .mr
 You can find the complied windows(.exe) and linux versions in the latest release.
 Or you can also run it with the python interpreter:
 ```bash
-python MrpackChangelogger.py [args]
+python ModpackChangelogger.py [args]
 ```
 
 ## Basic Usage
 
-You can run MrpackChangelogger from the command line with the following arguments:
+You can run ModpackChangelogger from the command line with the following arguments:
 
 - `-o`, `--old`: Specify the first pack to compare.
 - `-n`, `--new`: Specify the pack to compare  against.
@@ -29,7 +29,7 @@ You can run MrpackChangelogger from the command line with the following argument
 
 E.g:Compare `old_pack` to `new_pack` using the settings in `config.json`, and write the output to `output.md`.
 ```bash
-python MrpackChangelogger -o old_pack -n new_pack -c config.json -f output.md
+python ModpackChangelogger -o old_pack -n new_pack -c config.json -f output.md
 ```
 
 ## Limitations

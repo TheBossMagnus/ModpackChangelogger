@@ -7,20 +7,20 @@ from zipfile import ZipFile
 
 
 def get_json(path):
-    # Ensure the file is a .mrpack file
+    # Ensure the file is a modpack file
     if not path.endswith('.mrpack'):
-        logging.error('ERROR: Input file is not a .mrpack')
+        logging.error('ERROR: Input file is not a modpack')
         sys.exit(1)
     if not os.path.exists(path):
         logging.error('ERROR: The file %s does not exist', path)
         sys.exit(1)
 
     # Create a temporary directory
-    temp_dir = os.path.join(os.environ.get('TEMP'), 'mrpack_Changelogger')
+    temp_dir = os.path.join(os.environ.get('TEMP'), 'ModpackChangelogger')
     os.makedirs(temp_dir, exist_ok=True)
 
     try:
-        # Unpack the .mrpack file into the temp directory
+        # Unpack the modpack file into the temp directory
         with ZipFile(path, 'r') as zip_obj:
             zip_obj.extractall(path=temp_dir)
             logging.debug('Extracted %s to %s', path, temp_dir)

@@ -59,7 +59,7 @@ if __name__ == "__main__":
         args.config = None
         create_config()
     if args.version:
-        print(f"Mrpack Changelogger {VERSION}")
+        print(f"ModpackChangelogger {VERSION}")
     if args.debug:
         logger.info("Debug logging enabled")
     if args.old and args.new:

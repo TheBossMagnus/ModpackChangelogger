@@ -23,10 +23,10 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --icon=NONE MrpackChangelogger.py
+        pyinstaller --onefile --icon=NONE ModpackChangelogger.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.os }}
-        path: dist/MrpackChangelogger*
+        path: dist/ModpackChangelogger*
