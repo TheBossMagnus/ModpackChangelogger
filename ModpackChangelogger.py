@@ -30,12 +30,12 @@ def setup_logging(debug):
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--old", help="The pack to compare to")
-    parser.add_argument("-n", "--new", help="The pack to compare")
-    parser.add_argument("-c", "--config", default=None, nargs='?', const='new', help="Choose or create a config file")
-    parser.add_argument("-f", "--file", default="Changelog.md", help="Specify the output file")
+    parser.add_argument("-o", "--old", help="First pack to compare")
+    parser.add_argument("-n", "--new", help="The pack to compare against")
+    parser.add_argument("-c", "--config", default=None, nargs='?', const='new', help="Use a config file; 'new' creates a new onee")
+    parser.add_argument("-f", "--file", default="Changelog.md", help="Specify the output file for the changelog")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
-    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
+    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging (output to log.txt)")
     return parser.parse_args()
 
 def main(old_path, new_path, config_path, changelog_file):
