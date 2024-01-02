@@ -2,20 +2,8 @@ import json
 import os
 import sys
 import logging
+from constants import DEFAULT_CONFIG
 
-# Do not edit this, use config.json
-DEFAULT_CONFIG = {
-    'check': {
-        'added_mods': True,
-        'removed_mods': True,
-        'updated_mods': True,
-        'loader': True,
-        'mc_version': False,
-    },
-    'format': {
-        'style': 'bullet'
-    },
-}
 
 def create_config():
     try:

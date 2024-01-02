@@ -1,8 +1,6 @@
 import logging
 import aiohttp
-
-BASE_URL = "https://api.modrinth.com/v2/project"
-HEADERS = {'User-Agent':"TheBossMagnus/ModpackChangelogger (thebossmagnus@proton.me)"}
+from constants import BASE_URL, HEADERS
 
 async def get_mod_name(session, mod_id):
     url = f"{BASE_URL}/{mod_id}"

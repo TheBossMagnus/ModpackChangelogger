@@ -5,8 +5,7 @@ from compare_packs import compare_packs
 from out import markdown_out
 from get_json import get_json
 from config_handler import load_config, create_config
-
-VERSION = "0.1.0"
+from constants import VERSION
 
 def setup_logging(debug):
     # High level logging to console
