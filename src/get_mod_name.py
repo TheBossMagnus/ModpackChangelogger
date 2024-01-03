@@ -1,9 +1,9 @@
 import logging
 import aiohttp
-from constants import BASE_URL, HEADERS
+from constants import MODRINTH_API_URL, HEADERS
 
 async def get_mod_name(session, mod_id):
-    url = f"{BASE_URL}/{mod_id}"
+    url = f"{MODRINTH_API_URL}/{mod_id}"
 
     try:
         async with session.get(url, headers=HEADERS, timeout=10) as response:
