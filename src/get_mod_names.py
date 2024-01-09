@@ -26,7 +26,7 @@ async def request_from_api(session, id_):
         logging.warning("Server responded with an error for %s: %s", URL, e)
     except aiohttp.ClientPayloadError as e:
         logging.warning("Failed to read response from %s: %s", URL, e)
-    except Exception as e:
+    except aiohttp.ClientError as e:
         logging.warning("An unexpected error occurred: %s", e)
     else:
         return data.get('title')
