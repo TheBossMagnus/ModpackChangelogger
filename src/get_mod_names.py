@@ -1,6 +1,6 @@
-import aiohttp
 import logging
 import asyncio
+import aiohttp
 from constants import MODRINTH_API_URL, HEADERS
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
