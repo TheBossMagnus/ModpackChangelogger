@@ -21,12 +21,12 @@ async def request_from_api(session, id_):
             response.raise_for_status()
             data = await response.json()
     except aiohttp.ClientConnectionError as e:
-        logging.warning(f"Failed to connect to {URL}: {e}")
+        logging.warning("Failed to connect to %s: %s", URL, e)
     except aiohttp.ClientResponseError as e:
-        logging.warning(f"Server responded with an error for {URL}: {e}")
+        logging.warning("Server responded with an error for %s: %s", URL, e)
     except aiohttp.ClientPayloadError as e:
-        logging.warning(f"Failed to read response from {URL}: {e}")
+        logging.warning("Failed to read response from %s: %s", URL, e)
     except Exception as e:
-        logging.warning(f"An unexpected error occurred: {e}")
+        logging.warning("An unexpected error occurred: %s", e)
     else:
         return data.get('title')
