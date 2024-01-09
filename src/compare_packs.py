@@ -1,8 +1,7 @@
 import re
 import asyncio
 import logging
-import aiohttp
-from get_mod_name import get_mod_name
+from get_mod_names import get_mod_names
 PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
 def get_mc_version(json):
@@ -33,16 +32,8 @@ async def compare_packs(old_json, new_json, config):
     added_ids -= updated_ids
     removed_ids -= updated_ids
 
-    mod_categories = (('added_mods', added_ids), ('removed_mods', removed_ids), ('updated_mods', updated_ids))
+    added_mods, removed_mods, updated_mods = await get_mod_names(added_ids, removed_ids, updated_ids)
 
-    async with aiohttp.ClientSession() as session:
-        tasks = [(asyncio.create_task(get_mod_name(session, mod_id)), category) for category, mod_ids in mod_categories if config['check'][category] for mod_id in mod_ids]
-        results = await asyncio.gather(*(task for task, _ in tasks))
-
-    added_mods = [result for result, category in zip(results, (category for _, category in tasks)) if category == 'added_mods']
-    removed_mods = [result for result, category in zip(results, (category for _, category in tasks)) if category == 'removed_mods']
-    updated_mods = [result for result, category in zip(results, (category for _, category in tasks)) if category == 'updated_mods']
-   
     if config['check']['loader']:
         if old_loader != new_loader:
             added_mods.append(f"{new_loader} (mod loader)")

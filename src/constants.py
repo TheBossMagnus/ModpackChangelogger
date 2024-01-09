@@ -16,4 +16,4 @@ DEFAULT_CONFIG = {
 }
 # Networking
 HEADERS = {'User-Agent':f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
-MODRINTH_API_URL = "https://api.modrinth.com/v2/project"
+MODRINTH_API_URL = "https://api.modrinth.com/v2"
