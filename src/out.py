@@ -1,5 +1,5 @@
-import sys
 import logging
+import sys
 
 def markdown_out(added, removed, updated, config, changelog_file):
     style = config['format']['style']

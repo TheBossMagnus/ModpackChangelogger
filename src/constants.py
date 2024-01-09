@@ -1,5 +1,6 @@
 # This file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
-#Version number
+
+# Version number
 VERSION = "0.1.0"
 # Default config
 DEFAULT_CONFIG = {

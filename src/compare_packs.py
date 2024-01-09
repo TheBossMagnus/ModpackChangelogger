@@ -1,6 +1,6 @@
-import re
 import asyncio
 import logging
+import re
 from get_mod_names import get_mod_names
 PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
@@ -19,7 +19,7 @@ def get_mod_urls(json):
 def extract_mod_ids(url_list):
     return [PATTERN.search(str(url)).group(0) for url in url_list]
 
-async def compare_packs(old_json, new_json, config):
+def compare_packs(old_json, new_json, config):
     old_loader, new_loader = get_loader(old_json), get_loader(new_json)
     old_loader_version, new_loader_version = get_loader_version(old_json, old_loader), get_loader_version(new_json, new_loader)
     old_mc_version, new_mc_version = get_mc_version(old_json), get_mc_version(new_json)
@@ -32,7 +32,7 @@ async def compare_packs(old_json, new_json, config):
     added_ids -= updated_ids
     removed_ids -= updated_ids
 
-    added_mods, removed_mods, updated_mods = await get_mod_names(added_ids, removed_ids, updated_ids)
+    added_mods, removed_mods, updated_mods = asyncio.run( get_mod_names(added_ids, removed_ids, updated_ids))
 
     if config['check']['loader']:
         if old_loader != new_loader:

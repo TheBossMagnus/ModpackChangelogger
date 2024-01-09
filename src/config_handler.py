@@ -1,7 +1,7 @@
 import json
+import logging
 import os
 import sys
-import logging
 from constants import DEFAULT_CONFIG
 
 

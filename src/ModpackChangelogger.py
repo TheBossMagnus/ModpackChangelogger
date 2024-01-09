@@ -1,11 +1,10 @@
-import asyncio
-import logging
 import argparse
+import logging
 from compare_packs import compare_packs
-from out import markdown_out
-from get_json import get_json
 from config_handler import load_config, create_config
 from constants import VERSION
+from get_json import get_json
+from out import markdown_out
 
 def setup_logging(debug):
     # High level logging to console
@@ -45,7 +44,7 @@ def main(old_path, new_path, config_path, changelog_file):
     old_json = get_json(old_path)
     new_json = get_json(new_path)
     # Compare the packs
-    added, removed, updated = asyncio.run(compare_packs(old_json, new_json, config))
+    added, removed, updated = compare_packs(old_json, new_json, config)
     # Print in a md doc
     markdown_out(added, removed, updated, config, changelog_file)
 
