@@ -13,6 +13,9 @@ def markdown_out(added, removed, updated, config, changelog_file):
 
     if changelog_file == None:
         changelog_file = "Changelog.md"
+    if changelog_file.lower()  == "console":
+        print(markdown_text)
+        return
 
     try:
         with open(changelog_file, "w", encoding="utf-8") as f:
