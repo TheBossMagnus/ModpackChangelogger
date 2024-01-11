@@ -17,10 +17,10 @@ def setup_logging(debug):
         # Clear the log file
         with open('log.txt', 'w', encoding="utf-8") as f:
             f.write('')
-        
+
         file_handler = logging.FileHandler('log.txt', encoding='utf-8')
         file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
         logging.basicConfig(level=logging.DEBUG, handlers=[console_handler, file_handler])
     else:
         logging.basicConfig(level=logging.INFO, handlers=[console_handler])
@@ -30,10 +30,10 @@ def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--old", help="First pack to compare")
     parser.add_argument("-n", "--new", help="The pack to compare against")
-    parser.add_argument("-c", "--config", default=None, nargs='?', const='new', help="Use a config file; 'new' creates a new onee")
+    parser.add_argument("-c", "--config", default=None, nargs='?', const='new', help="Use a config file; 'new' creates a new one")
     parser.add_argument("-f", "--file", default="Changelog.md", help="Specify the output file for the changelog")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
-    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging (output to log.txt)")
+    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 
 def main(old_path, new_path, config_path, changelog_file):
