@@ -30,7 +30,7 @@ def parse_arguments():
     parser.add_argument("-o", "--old", help="First pack to compare")
     parser.add_argument("-n", "--new", help="The pack to compare against")
     parser.add_argument("-c", "--config", default=None, nargs='?', const='new', help="Use a config file; 'new' creates a new one")
-    parser.add_argument("-f", "--file", default="Changelog.md", help="Specify the output file for the changelog")
+    parser.add_argument("-f", "--file", default=None, help="Specify the output file for the changelog")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()

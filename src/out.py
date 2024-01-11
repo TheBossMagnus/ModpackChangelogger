@@ -11,6 +11,9 @@ def markdown_out(added, removed, updated, config, changelog_file):
     }
     markdown_text = available_styles.get(style, bullet_list)(added, removed, updated)
 
+    if changelog_file == None:
+        changelog_file = "Changelog.md"
+
     try:
         with open(changelog_file, "w", encoding="utf-8") as f:
             f.write(markdown_text)
