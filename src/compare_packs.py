@@ -32,6 +32,14 @@ def compare_packs(old_json, new_json, config):
     added_ids -= updated_ids
     removed_ids -= updated_ids
 
+    # Hacky way to remove a category if disabled in config
+    if not config['check']['added_mods']:
+        added_ids = set()
+    if not config['check']['removed_mods']:
+        removed_ids = set()
+    if not config['check']['updated_mods']:
+        updated_ids = set()
+
     added_mods, removed_mods, updated_mods = asyncio.run( get_mod_names(added_ids, removed_ids, updated_ids))
 
     if config['check']['loader']:
