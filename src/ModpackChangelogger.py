@@ -17,7 +17,6 @@ def setup_logging(debug):
         # Clear the log file
         with open('log.txt', 'w', encoding="utf-8") as f:
             f.write('')
-
         file_handler = logging.FileHandler('log.txt', encoding='utf-8')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
@@ -36,13 +35,31 @@ def parse_arguments():
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     return parser.parse_args()
 
-def main(old_path, new_path, config_path, changelog_file):
-    logging.debug("Version: %s\nArgs: %s", VERSION, args)
+def main(old_path, new_path, config_path, changelog_file, debug=False):
+    setup_logging(debug)
+    logger = logging.getLogger(__name__)
+    logging.debug("Version: %s", VERSION)
+
+    if debug:
+        logger.info("Debug logging enabled")
+    if config_path and config_path.lower() == 'new':
+        create_config()
+        config_path = None
+
     config = load_config(config_path)
     logging.debug("Config: %s", config)
+
+    if not old_path or not new_path:
+        if not old_path and new_path:
+            logger.error("ERROR: No old pack specified")
+        if not new_path and old_path:
+            logger.error("ERROR: No new pack specified")
+        return
+
     # Parse the json files
     old_json = get_json(old_path)
     new_json = get_json(new_path)
+
     # Compare the packs
     added, removed, updated = compare_packs(old_json, new_json, config)
     # Print in a md doc
@@ -50,19 +67,6 @@ def main(old_path, new_path, config_path, changelog_file):
 
 if __name__ == "__main__":
     args = parse_arguments()
-    logger = logging.getLogger(__name__)
-    setup_logging(args.debug)
-
-    if args.config and args.config.lower() == 'new':
-        args.config = None
-        create_config()
     if args.version:
         print(f"ModpackChangelogger {VERSION}")
-    if args.debug:
-        logger.info("Debug logging enabled")
-    if args.old and args.new:
-        main(args.old, args.new, args.config, args.file)
-    elif args.old:
-        logger.error("ERROR: No new pack specified")
-    elif args.new:
-        logger.error("ERROR: No old pack specified")
+    main(args.old, args.new, args.config, args.file, args.debug)
