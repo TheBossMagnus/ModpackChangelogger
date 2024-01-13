@@ -1,7 +1,7 @@
 import argparse
 import logging
 from compare_packs import compare_packs
-from config_handler import load_config, create_config
+from config_handler import load_config
 from constants import VERSION
 from get_json import get_json
 from out import markdown_out
