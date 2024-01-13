@@ -16,6 +16,11 @@ def create_config():
 
 def load_config(config_file):
     if not config_file:
+        logging.debug('CONFIG: Default')
+        return DEFAULT_CONFIG
+    if config_file and config_file.lower() == 'new':
+        create_config()
+        logging.debug('CONFIG: Default')
         return DEFAULT_CONFIG
     if not os.path.isfile(config_file):
         logging.error("ERROR: The chose config file (%s) does not exist", config_file)
@@ -23,7 +28,9 @@ def load_config(config_file):
     try:
         with open(config_file, 'r', encoding="utf-8") as f:
             logging.debug('Loaded config from %s', config_file)
-            return json.load(f)
     except ValueError:
         logging.error("ERROR: %s is not formatted correctly", config_file)
         sys.exit(1)
+    else:
+        logging.debug('CONFIG: %s', config_file)
+        return json.load(f)
