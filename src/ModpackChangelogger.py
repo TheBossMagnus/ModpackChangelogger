@@ -1,7 +1,7 @@
 import argparse
 import logging
 from compare_packs import compare_packs
-from config_handler import load_config, create_config
+from config_handler import load_config
 from constants import VERSION
 from get_json import get_json
 from out import markdown_out
@@ -17,12 +17,16 @@ def setup_logging(debug):
         # Clear the log file
         with open('log.txt', 'w', encoding="utf-8") as f:
             f.write('')
+        
         file_handler = logging.FileHandler('log.txt', encoding='utf-8')
         file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+        file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%H:%M'))
         logging.basicConfig(level=logging.DEBUG, handlers=[console_handler, file_handler])
     else:
         logging.basicConfig(level=logging.INFO, handlers=[console_handler])
+
+    logger = logging.getLogger(__name__)
+    logger.debug("Version: %s", VERSION)
 
 
 def parse_arguments():
@@ -38,16 +42,8 @@ def parse_arguments():
 def main(old_path, new_path, config_path, changelog_file, debug=False):
     setup_logging(debug)
     logger = logging.getLogger(__name__)
-    logging.debug("Version: %s", VERSION)
-
-    if debug:
-        logger.info("Debug logging enabled")
-    if config_path and config_path.lower() == 'new':
-        create_config()
-        config_path = None
 
     config = load_config(config_path)
-    logging.debug("Config: %s", config)
 
     if not old_path or not new_path:
         if not old_path and new_path:
