@@ -4,7 +4,7 @@ import aiohttp
 from constants import MODRINTH_API_URL, HEADERS
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=10)) as session:
         # Merge the list of ids and run the web request
         tasks = [(request_from_api(session, id_), i) for i, ids in enumerate((added_ids, removed_ids, updated_ids)) for id_ in ids]
         results = await asyncio.gather(*(task for task, _ in tasks))
@@ -22,6 +22,8 @@ async def request_from_api(session, id_):
             data = await response.json()
     except aiohttp.ClientConnectionError as e:
         logging.warning("Failed to connect to %s: %s", URL, e)
+    except asyncio.TimeoutError:
+        logging.warning("The request %s timed out ", URL)
     except aiohttp.ClientResponseError as e:
         logging.warning("Server responded with an error for %s: %s", URL, e)
     except aiohttp.ClientPayloadError as e:
