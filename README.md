@@ -1,5 +1,5 @@
 # ModpackChangelogger
-ModpackChangelogger is a Python tool that compares two Minecraft Modpacks (in .mrpack format) and generates a markdown changelog to show the difference between tham.
+ModpackChangelogger is a Python tool that compares two Minecraft Modpacks (in .mrpack format) and generates a markdown changelog to show the difference between them.
 
 
 ## Features
