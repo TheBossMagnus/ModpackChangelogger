@@ -6,6 +6,13 @@ from get_mod_names import get_mod_names
 PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
 def get_dependency_info(json):
+    """
+    Extracts dependency information from the provided JSON data.
+    Args:
+        json (dict): The JSON data of the modpack.
+    Returns:
+        dict: A dictionary containing the Minecraft version, loader, and loader version.
+    """
     loader = next((key for key in json['dependencies'].keys() if key != 'minecraft'), "Unknown")
     return {
         'mc_version': json['dependencies']['minecraft'],
@@ -14,12 +21,27 @@ def get_dependency_info(json):
     }
 
 def get_mod_urls(json):
+    """
+    Extracts the download URLs of the mods from the provided JSON data.
+    """
     return [download for url in json['files'] for download in url['downloads']]
 
 def extract_mod_ids(url_list):
+    """
+    Extracts the ids of the mods from the urls.
+    """
     return [PATTERN.search(str(url)).group(0) for url in url_list]
 
 def compare_packs(old_json, new_json, config):
+    """
+    Compares two modpacks and generate the diff.
+    Args:
+        old_json (dict): The JSON data of the old modpack.
+        new_json (dict): The JSON data of the new modpack.
+        config (dict): The settings.
+    Returns:
+        tuple: Three sets containing added, removed, and updated elements respectively.
+    """
     old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
 
     new_urls, old_urls = set(get_mod_urls(new_json)), set(get_mod_urls(old_json))
