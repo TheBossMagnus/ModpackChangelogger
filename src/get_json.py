@@ -7,9 +7,6 @@ from zipfile import ZipFile
 
 
 def get_json(path):
-    """
-    Given a mrpack file it unzip it and extract its json
-    """
     # Ensure the file is a modpack file
     if not path.endswith('.mrpack'):
         logging.error('ERROR: Input file is not a modpack')

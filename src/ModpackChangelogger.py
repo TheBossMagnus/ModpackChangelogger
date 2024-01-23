@@ -7,13 +7,6 @@ from get_json import get_json
 from out import markdown_out
 
 def setup_logging(debug):
-    """
-    Setup loggin
-    Args:
-        debug (bool): If true enables debug logging to file
-    Returns:
-        The configured logger itself
-    """
     # High level logging to console
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
@@ -37,9 +30,6 @@ def setup_logging(debug):
 
 
 def parse_arguments():
-    """
-    Parse the cli args and send them back to main
-    """
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--old", help="First pack to compare")
     parser.add_argument("-n", "--new", help="The pack to compare against")
@@ -50,11 +40,6 @@ def parse_arguments():
     return parser.parse_args()
 
 def main(old_path, new_path, config_path, changelog_file, debug=False):
-    """
-    Handle the whole script run
-    Args: 
-        The cli args parsed
-    """
     setup_logging(debug)
     logger = logging.getLogger(__name__)
 
