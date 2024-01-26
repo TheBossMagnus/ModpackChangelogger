@@ -5,7 +5,6 @@ import shutil
 import sys
 from zipfile import ZipFile
 
-
 def get_json(path):
     # Ensure the file is a modpack file
     if not path.endswith('.mrpack'):

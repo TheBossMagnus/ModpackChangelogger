@@ -27,7 +27,7 @@ async def request_from_api(session, ids):
     except aiohttp.ClientConnectionError as e:
         logging.warning("Failed to connect to %s: %s", URL, e)
     except asyncio.TimeoutError:
-        logging.warning("The request %s timed out ", URL)
+        logging.warning("The request %s timed out", URL)
     except aiohttp.ClientResponseError as e:
         logging.warning("Server responded with an error for %s: %s", URL, e)
     except aiohttp.ClientPayloadError as e:

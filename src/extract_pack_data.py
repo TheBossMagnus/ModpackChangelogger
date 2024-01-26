@@ -1,6 +1,9 @@
 import re
 import sys
 
+# Move the pattern outside of the function
+PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
+
 def mr_get_pack_data(old_json, new_json):
 
     def get_dependency_info(json):
@@ -15,7 +18,6 @@ def mr_get_pack_data(old_json, new_json):
         return [download for url in json['files'] for download in url['downloads']]
 
     def extract_mod_ids(url_list):
-        PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
         return [PATTERN.search(str(url)).group(0) for url in url_list]
 
     old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
@@ -29,4 +31,4 @@ def mr_get_pack_data(old_json, new_json):
 
 def cf_get_pack_data():
     print("Not yet implemented")
-    sys.exit(1)
+    sys.exit(0)

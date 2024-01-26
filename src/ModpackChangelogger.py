@@ -18,7 +18,7 @@ def setup_logging(debug):
         # Clear the log file
         with open('log.txt', 'w', encoding="utf-8") as f:
             f.write('')
-        
+
         file_handler = logging.FileHandler('log.txt', encoding='utf-8')
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%H:%M'))
@@ -60,6 +60,8 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
     # Compare the packs
     old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
+    logger.debug("Added mods: %s\nRemoved mods%s\nUpdated mods\n", added, removed, updated)
+
     # Print in a md doc
     markdown_out(added, removed, updated, config, changelog_file)
 
