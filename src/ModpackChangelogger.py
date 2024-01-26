@@ -3,6 +3,7 @@ import logging
 from compare_packs import compare_packs
 from config_handler import load_config
 from constants import VERSION
+from extract_pack_data import mr_get_pack_data
 from get_json import get_json
 from out import markdown_out
 
@@ -57,7 +58,8 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
     new_json = get_json(new_path)
 
     # Compare the packs
-    added, removed, updated = compare_packs(old_json, new_json, config)
+    old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
+    added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
     # Print in a md doc
     markdown_out(added, removed, updated, config, changelog_file)
 

@@ -1,34 +1,13 @@
 import asyncio
 import logging
-import re
 from get_mod_names import get_mod_names
 
-PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
-def get_dependency_info(json):
-    loader = next((key for key in json['dependencies'].keys() if key != 'minecraft'), "Unknown")
-    return {
-        'mc_version': json['dependencies']['minecraft'],
-        'loader': loader,
-        'loader_version': json['dependencies'][loader]
-    }
+def compare_packs(old_ids, new_ids, old_info, new_info, config):
 
-def get_mod_urls(json):
-    return [download for url in json['files'] for download in url['downloads']]
-
-def extract_mod_ids(url_list):
-    return [PATTERN.search(str(url)).group(0) for url in url_list]
-
-def compare_packs(old_json, new_json, config):
-    old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
-
-    new_urls, old_urls = set(get_mod_urls(new_json)), set(get_mod_urls(old_json))
-    new_urls, old_urls = new_urls.difference(old_urls), old_urls.difference(new_urls)
-
-    added_ids, removed_ids = set(extract_mod_ids(list(new_urls))), set(extract_mod_ids(list(old_urls)))
-    updated_ids = added_ids & removed_ids
-    added_ids -= updated_ids
-    removed_ids -= updated_ids
+    updated_ids = old_ids & new_ids
+    added_ids = new_ids - old_ids
+    removed_ids = old_ids - new_ids
 
     # Remove a category if disabled in config
     if not config['check']['added_mods']:
