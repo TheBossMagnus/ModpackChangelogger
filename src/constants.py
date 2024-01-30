@@ -1,5 +1,7 @@
 # This file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
+# Mod ecosistem used (modrinth or curseforge)
+Modpacks_Format = None
 # Version number
 VERSION = "0.2.0-beta2"
 # Default config
