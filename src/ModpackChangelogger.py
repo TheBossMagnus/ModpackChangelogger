@@ -1,9 +1,9 @@
 import argparse
 import logging
+import constants
 from compare_packs import compare_packs
 from config_handler import load_config
-from constants import VERSION
-from extract_pack_data import mr_get_pack_data
+from extract_pack_data import mr_get_pack_data, cf_get_pack_data
 from get_json import get_json
 from out import markdown_out
 
@@ -27,7 +27,7 @@ def setup_logging(debug):
         logging.basicConfig(level=logging.INFO, handlers=[console_handler])
 
     logger = logging.getLogger(__name__)
-    logger.debug("Version: %s", VERSION)
+    logger.debug("Version: %s", constants.VERSION)
 
 
 def parse_arguments():
@@ -57,8 +57,12 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
     old_json = get_json(old_path)
     new_json = get_json(new_path)
 
+    if constants.Modpacks_Format == 'modrinth':
+        old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
+    else:
+        old_ids, new_ids, old_info, new_info = cf_get_pack_data(old_json, new_json)
+
     # Compare the packs
-    old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
     logger.debug("Added mods: %s\nRemoved mods%s\nUpdated mods\n", added, removed, updated)
 
@@ -68,5 +72,5 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
 if __name__ == "__main__":
     args = parse_arguments()
     if args.version:
-        print(f"ModpackChangelogger {VERSION}")
+        print(f"ModpackChangelogger {constants.VERSION}")
     main(args.old, args.new, args.config, args.file, args.debug)

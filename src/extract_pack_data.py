@@ -1,10 +1,9 @@
 import re
 import sys
 
-# Move the pattern outside of the function
-PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
 def mr_get_pack_data(old_json, new_json):
+    PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
     def get_dependency_info(json):
         loader = next((key for key in json['dependencies'].keys() if key != 'minecraft'), "Unknown")
