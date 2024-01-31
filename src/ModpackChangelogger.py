@@ -64,7 +64,7 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
 
     # Compare the packs
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
-    logger.debug("Added mods: %s\nRemoved mods%s\nUpdated mods\n", added, removed, updated)
+    logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s\n", added, removed, updated)
 
     # Print in a md doc
     markdown_out(added, removed, updated, config, changelog_file)
