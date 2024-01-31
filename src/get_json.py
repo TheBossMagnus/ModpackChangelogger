@@ -38,7 +38,7 @@ def get_json(path):
             logging.debug('Extracted %s to %s', path, temp_dir)
 
         # Parse the json file
-        json_path = os.path.join(temp_dir, 'modrinth.index.json')
+        json_path = os.path.join(temp_dir, 'modrinth.index.json' if constants.Modpacks_Format == 'modrinth' else 'manifest.json')
         with open(json_path, 'r', encoding="utf-8") as json_file:
             logging.debug('Parsed %s', json_path)
             return json.load(json_file)
