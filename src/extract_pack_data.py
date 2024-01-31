@@ -28,6 +28,7 @@ def mr_get_pack_data(old_json, new_json):
     old_ids, new_ids = set(extract_mod_ids(new_urls)), set(extract_mod_ids(old_urls))
     return old_ids, new_ids, old_info, new_info
 
-def cf_get_pack_data():
+def cf_get_pack_data(old_json, new_json):
     print("Not yet implemented")
     sys.exit(0)
+    return None, None, None, None
