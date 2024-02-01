@@ -3,7 +3,7 @@
 # Mod ecosistem used (modrinth or curseforge)
 Modpacks_Format = None
 # Version number
-VERSION = "0.2.0-beta2"
+VERSION = "0.2.0"
 # Default config
 DEFAULT_CONFIG = {
     'check': {
