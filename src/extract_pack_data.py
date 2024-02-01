@@ -42,7 +42,7 @@ def cf_get_pack_data(old_json, new_json):
     old_file_ids = get_mod_ids(old_json)
     new_file_ids = get_mod_ids(new_json)
 
-    # To reference a file cf has a mod id (the project) and a file id (the version)
+    # To reference a file cf has a project id (the mod) and a file id (the version)
     # with this code we can get mod that have been changed between the two packs, so with unquie file ids
     old_ids = {old_file_ids[file_id] for file_id in old_file_ids if file_id not in new_file_ids}
     new_ids = {new_file_ids[file_id] for file_id in new_file_ids if file_id not in old_file_ids}
