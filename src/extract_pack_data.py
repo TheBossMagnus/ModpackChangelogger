@@ -1,6 +1,4 @@
 import re
-import sys
-
 
 def mr_get_pack_data(old_json, new_json):
     PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
