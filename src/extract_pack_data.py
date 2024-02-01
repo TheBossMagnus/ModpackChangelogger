@@ -29,8 +29,6 @@ def mr_get_pack_data(old_json, new_json):
     return old_ids, new_ids, old_info, new_info
 
 def cf_get_pack_data(old_json, new_json):
-    print("Curseforge support Not yet fully implemented")
-
     def get_dependency_info(json):
         loader_string = json['minecraft']['modLoaders'][0]['id']
         return {
@@ -38,28 +36,18 @@ def cf_get_pack_data(old_json, new_json):
             'loader': loader_string.split('-')[0],
             'loader_version': loader_string.split('-')[1]
         }
-    
 
-    def analyze_json_files(old_json, new_json):
+    def get_mod_ids(json):
+        # Extracts the file and project IDs from the JSON
+        return {item['fileID']: item['projectID'] for item in json['files']}
 
-        old_file_ids = {item['fileID']: item['projectID'] for item in old_json['files']}
-        new_file_ids = {item['fileID']: item['projectID'] for item in new_json['files']}
+    old_file_ids = get_mod_ids(old_json)
+    new_file_ids = get_mod_ids(new_json)
 
-        unique_old_project_ids = set()
-        unique_new_project_ids = set()
+    # To reference a file cf has a mod id (the project) and a file id (the version)
+    # with this code we can get mod that have been changed between the two packs, so with unquie file ids
+    old_ids = {old_file_ids[file_id] for file_id in old_file_ids if file_id not in new_file_ids}
+    new_ids = {new_file_ids[file_id] for file_id in new_file_ids if file_id not in old_file_ids}
 
-        for file_id, project_id in old_file_ids.items():
-            if file_id not in new_file_ids:
-                unique_old_project_ids.add(project_id)
-
-        for file_id, project_id in new_file_ids.items():
-            if file_id not in old_file_ids:
-                unique_new_project_ids.add(project_id)
-
-        return unique_old_project_ids, unique_new_project_ids
-    
     old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
-    old_ids, new_ids = analyze_json_files(old_json, new_json)
-    print(old_ids, new_ids)
-    sys.exit(0)
     return old_ids, new_ids, old_info, new_info
