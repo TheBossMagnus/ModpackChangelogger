@@ -44,10 +44,10 @@ async def request_from_api(session, ids):
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-        data = {'modIds': ids_list}
+        data = {'modIds': [348521, 238222]}
 
         try:
-            async with session.post(URL, headers=headers, json=data) as response:
+            async with session.post(URL, headers=headers, json=data, ssl=False) as response:
                 response.raise_for_status()
                 data = await response.json()
                 names = [project.get('name') for project in data]
