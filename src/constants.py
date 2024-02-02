@@ -18,5 +18,13 @@ DEFAULT_CONFIG = {
     },
 }
 # Networking
-HEADERS = {'User-Agent':f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
-MODRINTH_API_URL = "https://api.modrinth.com/v2"
+MR_HEADERS = {'User-Agent':f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
+MR_API_URL = "https://api.modrinth.com/v2"
+
+# DO NOT USE THIS KEY FOR YOUR OWN PROJECT/FORKS
+# You can get your own key at https://docs.curseforge.com
+CF_KEY = '$2a$10$GiT8VjJE8VJpcK68Wlz6aeJ5CPAZcRuTBcGuys8XtX5hGC87sIgku'
+CF_HEADERS = {'User-Agent': f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)",
+              'x-api-key': f"{CF_KEY}"}
+CF_API_URL = "https://api.curseforge.com"
+
