@@ -22,9 +22,10 @@ def mr_get_pack_data(old_json, new_json):
     old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
     new_urls, old_urls = set(get_mod_urls(new_json)), set(get_mod_urls(old_json))
     # remove urls that are in both packs (not added nor removed nor updated)
-    new_urls -= old_urls
-    old_urls -= new_urls
-
+    common_urls = new_urls & old_urls
+    new_urls -= common_urls
+    old_urls -= common_urls
+    
     old_ids, new_ids = set(extract_mod_ids(new_urls)), set(extract_mod_ids(old_urls))
     return old_ids, new_ids, old_info, new_info
 
