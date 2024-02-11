@@ -39,18 +39,11 @@ async def request_from_api(session, ids):
         
     elif constants.Modpacks_Format == "curseforge":
         URL = f"{CF_API_URL}/v1/mods"
-        headers = {
-            'x-api-key': '$2a$10$GiT8VjJE8VJpcK68Wlz6aeJ5CPAZcRuTBcGuys8XtX5hGC87sIgku',
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
-        data = {'modIds': [348521, 238222]}
 
         try:
-            async with session.post(URL, headers=headers, json=data, ssl=False) as response:
-                response.raise_for_status()
-                data = await response.json()
-                names = [project.get('name') for project in data]
+                async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}, ssl=False) as response:
+                    response = await response.json()
+                    names = [project['name'] for project in response['data']]
         except aiohttp.ClientConnectionError as e:
             logging.warning("Failed to connect to %s: %s", URL, e)
         except asyncio.TimeoutError:
