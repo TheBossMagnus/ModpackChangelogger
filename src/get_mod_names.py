@@ -35,8 +35,6 @@ async def request_from_mr_api(session, ids):
         logging.warning("The request %s timed out", URL)
     except aiohttp.ClientResponseError as e:
         logging.warning("Server responded with an error for %s: %s", URL, e)
-    except aiohttp.ClientPayloadError as e:
-        logging.warning("Failed to read response from %s: %s", URL, e)
     except aiohttp.ClientError as e:
         logging.warning("An unexpected error occurred: %s", e)
 
@@ -47,17 +45,15 @@ async def request_from_cf_api(session, ids):
     URL = f"{CF_API_URL}/v1/mods"
 
     try:
-            async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}, ssl=False) as response:
-                response = await response.json()
-                names = [project['name'] for project in response['data']]
+        async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}, ssl=False) as response:
+            response = await response.json()
+            names = [project['name'] for project in response['data']]
     except aiohttp.ClientConnectionError as e:
         logging.warning("Failed to connect to %s: %s", URL, e)
     except asyncio.TimeoutError:
         logging.warning("The request %s timed out", URL)
     except aiohttp.ClientResponseError as e:
         logging.warning("Server responded with an error for %s: %s", URL, e)
-    except aiohttp.ClientPayloadError as e:
-        logging.warning("Failed to read response from %s: %s", URL, e)
     except aiohttp.ClientError as e:
         logging.warning("An unexpected error occurred: %s", e)
 
