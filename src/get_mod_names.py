@@ -22,7 +22,7 @@ async def request_from_api(session, ids):
         URL = f"{MR_API_URL}/projects?ids={ids_list}"
 
         try:
-            async with session.get(URL, headers=CF_HEADERS) as response:
+            async with session.get(URL, headers=MR_HEADERS) as response:
                 response.raise_for_status()
                 data = await response.json()
                 names = [project.get('title') for project in data]
