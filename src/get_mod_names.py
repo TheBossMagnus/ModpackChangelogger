@@ -36,7 +36,7 @@ async def request_from_mr_api(session, ids):
     except aiohttp.ClientResponseError as e:
         logging.warning("Server responded with an error for %s: %s", URL, e)
     except aiohttp.ClientError as e:
-        logging.warning("An unexpected error occurred: %s", e)
+        logging.warning("An unexpected error occurred connecting to Modrinth: %s", e)
 
     return names
 
@@ -55,6 +55,6 @@ async def request_from_cf_api(session, ids):
     except aiohttp.ClientResponseError as e:
         logging.warning("Server responded with an error for %s: %s", URL, e)
     except aiohttp.ClientError as e:
-        logging.warning("An unexpected error occurred: %s", e)
+        logging.warning("An unexpected error occurred connecting to CurseForge: %s", e)
 
     return names
