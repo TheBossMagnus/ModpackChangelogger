@@ -7,17 +7,15 @@ import constants
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
-        if constants.Modpacks_Format == "modrinth":
-            added_names, removed_names, updated_names = await asyncio.gather(
-                    request_from_mr_api(session, added_ids),
-                    request_from_mr_api(session, removed_ids),
-                    request_from_mr_api(session, updated_ids)
-            )
-        else:
-            added_names, removed_names, updated_names = await asyncio.gather(
-                request_from_cf_api(session, added_ids),
-                request_from_cf_api(session, removed_ids),
-                request_from_cf_api(session, updated_ids)
+        api_function = {
+            "modrinth": request_from_mr_api,
+            "curseforge": request_from_cf_api
+        }.get(constants.Modpacks_Format, request_from_cf_api)
+
+        added_names, removed_names, updated_names = await asyncio.gather(
+            api_function(session, added_ids),
+            api_function(session, removed_ids),
+            api_function(session, updated_ids)
         )
 
         return added_names, removed_names, updated_names
