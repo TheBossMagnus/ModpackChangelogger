@@ -1,51 +1,25 @@
 import asyncio
 import logging
-import re
 from get_mod_names import get_mod_names
 
-PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
-
-def get_dependency_info(json):
-    loader = next((key for key in json['dependencies'].keys() if key != 'minecraft'), "Unknown")
-    return {
-        'mc_version': json['dependencies']['minecraft'],
-        'loader': loader,
-        'loader_version': json['dependencies'][loader]
-    }
-
-def get_mod_urls(json):
-    return [download for url in json['files'] for download in url['downloads']]
-
-def extract_mod_ids(url_list):
-    return [PATTERN.search(str(url)).group(0) for url in url_list]
-
-def compare_packs(old_json, new_json, config):
-    old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
-
-    new_urls, old_urls = set(get_mod_urls(new_json)), set(get_mod_urls(old_json))
-    new_urls, old_urls = new_urls.difference(old_urls), old_urls.difference(new_urls)
-
-    added_ids, removed_ids = set(extract_mod_ids(list(new_urls))), set(extract_mod_ids(list(old_urls)))
-    updated_ids = added_ids & removed_ids
-    added_ids -= updated_ids
-    removed_ids -= updated_ids
+def compare_packs(old_ids, new_ids, old_info, new_info, config):
+    updated_ids = old_ids & new_ids
+    added_ids = new_ids - old_ids
+    removed_ids = old_ids - new_ids
 
     # Remove a category if disabled in config
-    if not config['check']['added_mods']:
-        added_ids = set()
-    if not config['check']['removed_mods']:
-        removed_ids = set()
-    if not config['check']['updated_mods']:
-        updated_ids = set()
+    added_ids = added_ids if config['check']['added_mods'] else set()
+    removed_ids = removed_ids if config['check']['removed_mods'] else set()
+    updated_ids = updated_ids if config['check']['updated_mods'] else set()
 
     added_mods, removed_mods, updated_mods = asyncio.run(get_mod_names(added_ids, removed_ids, updated_ids))
 
-    added_mods = sorted(mod for mod in added_mods if mod is not None)
-    removed_mods = sorted(mod for mod in removed_mods if mod is not None)
-    updated_mods = sorted(mod for mod in updated_mods if mod is not None)
+    added_mods = sorted(mod for mod in added_mods if mod)
+    removed_mods = sorted(mod for mod in removed_mods if mod)
+    updated_mods = sorted(mod for mod in updated_mods if mod)
 
     if config['check']['loader']:
-        if  old_info['loader'] != new_info['loader']:
+        if old_info['loader'] != new_info['loader']:
             added_mods.append(f"{new_info['loader']} (mod loader)")
             removed_mods.append(f"{old_info['loader']} (mod loader)")
             logging.debug("Loader change detected: %s, new loader: %s", old_info['loader'], new_info['loader'])
@@ -56,7 +30,5 @@ def compare_packs(old_json, new_json, config):
     if config['check']['mc_version'] and old_info['mc_version'] != new_info['mc_version']:
         updated_mods.append(f"Minecraft version {new_info['mc_version']}")
         logging.debug("Minecraft version change detected: %s, new version: %s", old_info['mc_version'], new_info['mc_version'])
-
-    logging.debug("Added mods: %a\nRemoved mods: %a\nUpdated mods: %a", added_mods, removed_mods, updated_mods)
 
     return added_mods, removed_mods, updated_mods

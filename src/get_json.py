@@ -4,15 +4,27 @@ import os
 import shutil
 import sys
 from zipfile import ZipFile
-
+import constants
 
 def get_json(path):
-    # Ensure the file is a modpack file
-    if not path.endswith('.mrpack'):
-        logging.error('ERROR: Input file is not a modpack')
-        sys.exit(1)
     if not os.path.exists(path):
         logging.error('ERROR: The file %s does not exist', path)
+        sys.exit(1)
+
+    if path.endswith('.mrpack'):
+        if constants.Modpacks_Format == 'curseforge':
+            logging.error('ERROR: Using Modrinth and a Curseforge modpack together is not supported')
+            sys.exit(1)
+        constants.Modpacks_Format = 'modrinth'
+        logging.debug('Using Modrinth format modpack')
+    elif path.endswith('.zip'):
+        if constants.Modpacks_Format == 'modrinth':
+            logging.error('ERROR: Using Modrinth and a Curseforge modpack together is not supported')
+            sys.exit(1)
+        logging.debug('Using CurseForge format modpack')
+        constants.Modpacks_Format = 'curseforge'
+    else:
+        logging.error('ERROR: Input modpack is not in a supported format')
         sys.exit(1)
 
     # Create a temporary directory
@@ -26,7 +38,7 @@ def get_json(path):
             logging.debug('Extracted %s to %s', path, temp_dir)
 
         # Parse the json file
-        json_path = os.path.join(temp_dir, 'modrinth.index.json')
+        json_path = os.path.join(temp_dir, 'modrinth.index.json' if constants.Modpacks_Format == 'modrinth' else 'manifest.json')
         with open(json_path, 'r', encoding="utf-8") as json_file:
             logging.debug('Parsed %s', json_path)
             return json.load(json_file)

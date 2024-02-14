@@ -2,37 +2,57 @@ import asyncio
 import json
 import logging
 import aiohttp
-from constants import MODRINTH_API_URL, HEADERS
+from constants import MR_API_URL, MR_HEADERS, CF_HEADERS, CF_API_URL
+import constants
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=0.1)) as session:
+        api_function = {
+            "modrinth": request_from_mr_api,
+            "curseforge": request_from_cf_api
+        }.get(constants.Modpacks_Format, request_from_cf_api)
+
         added_names, removed_names, updated_names = await asyncio.gather(
-            request_from_api(session, added_ids),
-            request_from_api(session, removed_ids),
-            request_from_api(session, updated_ids)
+            api_function(session, added_ids),
+            api_function(session, removed_ids),
+            api_function(session, updated_ids)
         )
+
         return added_names, removed_names, updated_names
 
-async def request_from_api(session, ids):
-    # Convert the set of ids to a json array
-    ids_list = json.dumps(list(ids))
-    URL = f"{MODRINTH_API_URL}/projects?ids={ids_list}"
+async def request_from_mr_api(session, ids):
     names = []
+    URL = f"{MR_API_URL}{json.dumps(list(ids))}"
 
     try:
-        async with session.get(URL, headers=HEADERS) as response:
+        async with session.get(URL, headers=MR_HEADERS) as response:
             response.raise_for_status()
             data = await response.json()
             names = [project.get('title') for project in data]
-    except aiohttp.ClientConnectionError as e:
-        logging.warning("Failed to connect to %s: %s", URL, e)
-    except asyncio.TimeoutError:
-        logging.warning("The request %s timed out ", URL)
-    except aiohttp.ClientResponseError as e:
-        logging.warning("Server responded with an error for %s: %s", URL, e)
-    except aiohttp.ClientPayloadError as e:
-        logging.warning("Failed to read response from %s: %s", URL, e)
-    except aiohttp.ClientError as e:
-        logging.warning("An unexpected error occurred: %s", e)
+    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+        handle_request_errors(e, URL)
 
     return names
+
+async def request_from_cf_api(session, ids):
+    names = []
+    URL = f"{CF_API_URL}"
+
+    try:
+        async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}, ssl=False) as response:
+            response = await response.json()
+            names = [project['name'] for project in response['data']]
+    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+        handle_request_errors(e, URL)
+
+    return names
+
+def handle_request_errors(e, URL):
+    if isinstance(e, aiohttp.ClientConnectionError):
+        logging.warning("Failed to connect to %s: %s", URL, e)
+    elif isinstance(e, asyncio.TimeoutError):
+        logging.warning("The request %s timed out", URL)
+    elif isinstance(e, aiohttp.ClientResponseError):
+        logging.warning("Server responded with an error for %s: %s", URL, e)
+    else:
+        logging.warning("An unexpected error occurred: %s", e)
