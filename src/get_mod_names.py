@@ -22,7 +22,7 @@ async def get_mod_names(added_ids, removed_ids, updated_ids):
 
 async def request_from_mr_api(session, ids):
     names = []
-    URL = f"{MR_API_URL}/projects?ids={json.dumps(list(ids))}"
+    URL = f"{MR_API_URL}{json.dumps(list(ids))}"
 
     try:
         async with session.get(URL, headers=MR_HEADERS) as response:
@@ -36,7 +36,7 @@ async def request_from_mr_api(session, ids):
 
 async def request_from_cf_api(session, ids):
     names = []
-    URL = f"{CF_API_URL}/v1/mods"
+    URL = f"{CF_API_URL}"
 
     try:
         async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}, ssl=False) as response:

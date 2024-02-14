@@ -19,7 +19,7 @@ DEFAULT_CONFIG = {
 }
 # Networking
 MR_HEADERS = {'User-Agent':f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
-MR_API_URL = "https://api.modrinth.com/v2"
+MR_API_URL = "https://api.modrinth.com/v2/projects?ids="
 
 # DO NOT USE THIS KEY FOR YOUR OWN PROJECT/FORKS
 CF_KEY = '$2a$10$GiT8VjJE8VJpcK68Wlz6aeJ5CPAZcRuTBcGuys8XtX5hGC87sIgku'
@@ -30,4 +30,4 @@ CF_HEADERS = {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
         }
-CF_API_URL = "https://api.curseforge.com"
+CF_API_URL = "https://api.curseforge.com/v1/mods"
