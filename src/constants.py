@@ -1,7 +1,7 @@
 # This file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
 # Version number
-VERSION = "0.2.0"
+VERSION = "0.3.0-beta1"
 # Default config
 DEFAULT_CONFIG = {
     'check': {
