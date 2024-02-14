@@ -9,11 +9,11 @@ ModpackChangelogger is a Python tool that compares two Minecraft Modpacks (in .m
 - **Multi-Platform**: Run it on Windows or Linux, no Python installation required.
 
 ## Installation
-You can find the complied windows(.exe) version in the latest release.
-Or you can also run it with the python interpreter:
+Download the source code from the latest release and run it with the python interpreter:
 ```bash
 python ModpackChangelogger.py [args]
 ```
+Or use the compiled windows `.exe`.
 More information [on the wiki](https://github.com/TheBossMagnus/ModpackChangelogger/wiki/Install-and-run).
 ## Basic Usage
 - `-o`, `--old`: Specify the first pack to compare.
