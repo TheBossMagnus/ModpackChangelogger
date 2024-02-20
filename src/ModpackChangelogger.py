@@ -67,7 +67,7 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
     logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s\n", added, removed, updated)
 
     # Print in a md doc
-    markdown_out(added, removed, updated, config, changelog_file)
+    markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)
 
 if __name__ == "__main__":
     args = parse_arguments()

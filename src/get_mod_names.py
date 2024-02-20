@@ -6,7 +6,7 @@ from constants import MR_API_URL, MR_HEADERS, CF_HEADERS, CF_API_URL
 import constants
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
-    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=0.1)) as session:
+    async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
         api_function = {
             "modrinth": request_from_mr_api,
             "curseforge": request_from_cf_api
