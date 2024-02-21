@@ -1,7 +1,7 @@
 import logging
 import sys
 
-def markdown_out(added, removed, updated, old_info, new_info, config, changelog_file):
+def markdown_out(added, removed, updated, old_info, new_info, config, changelog_file="Changelog.md"):
     style = config['format']['style']
     available_styles = {
         "bullet": bullet_list,
@@ -13,16 +13,12 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
     markdown_text.append(generate_header(old_info, new_info, config))
     markdown_text = available_styles.get(style, bullet_list)(added, removed, updated, markdown_text)
 
-    if changelog_file is None:
-        changelog_file = "Changelog.md"
     if changelog_file.lower()  == "console":
         print(markdown_text)
-        return
+        sys.exit(0)
 
     try:
-        with open(changelog_file, "w", encoding="utf-8") as f:
-            f.write(markdown_text)
-            logging.debug("Created %s", changelog_file)
+        write_to_file(changelog_file, markdown_text)
     except FileNotFoundError:
         logging.error("ERROR: The folder selected for the changelog (%s) doesn't exist.", changelog_file)
         sys.exit(1)
@@ -30,21 +26,24 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
         logging.error("ERROR: You don't have access to the folder specified in config.json (%s). Try running as administrator", config['output']['file_path'])
         sys.exit(1)
 
-def generate_header(old_info, new_info, config):
-    header = ""
-    if not config['format']['header']['header']:
-        return header
+def write_to_file(filename, text):
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(text)
+        logging.debug("Created %s", filename)
 
-    name = config['format']['header'].get('Name')
+def generate_header(old_info, new_info, config):
+    header_format = config['format']['header']
+    if not header_format['header']:
+        return ""
+
+    name = header_format.get('Name')
     if name == 'Auto':
         name = new_info['modpack_name']
 
-    header += f"{'#' * config['format']['header']['size']} {name}" if name else ""
-    if config['format']['header'].get('ShowOld version'):
-        header += f" {old_info['modpack_version']} =>"
-    if config['format']['header'].get('ShowNew version'):
-        header += f" {new_info['modpack_version']}"
-    return header + "\n"
+    old_version = f" {old_info['modpack_version']} =>" if header_format.get('Show Old version') else ""
+    new_version = f" {new_info['modpack_version']}" if header_format.get('Show New version') else ""
+
+    return f"{'#' * header_format['size']} {name}{old_version}{new_version}\n"
 
 def bullet_list(added, removed, updated, markdown_text):
 
