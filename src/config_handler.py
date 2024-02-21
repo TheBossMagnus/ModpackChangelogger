@@ -13,8 +13,9 @@ def create_config():
         logging.error("ERROR: Unable to create the config.json in %s. Try running as administrator", os.getcwd())
         sys.exit(1)
 
-def validate_config(config, default_config=DEFAULT_CONFIG):
+def validate_config(config, default_config):
     """Check if all the fields are present and are of the correct type"""
+
     if not isinstance(config, dict):
         raise ValueError("Config must be a dictionary")
     for key, default_value in default_config.items():
