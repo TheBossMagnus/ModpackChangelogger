@@ -1,7 +1,7 @@
 # This file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
 # Mod ecosistem used (modrinth or curseforge)
-# Auto detect if not set
+# It gets auto detected
 Modpacks_Format = None
 # Version number
 VERSION = "0.3.0-beta1"
@@ -20,8 +20,8 @@ DEFAULT_CONFIG = {
             'header': True,
             'size': 2,
             'Name': 'Auto',
-            'ShowOld version': False,
-            'ShowNew version': True
+            'Show Old version': False,
+            'Show New version': True
         }
     },
 }

@@ -21,10 +21,10 @@ def get_json(path):
         if constants.Modpacks_Format == 'modrinth':
             logging.error('ERROR: Using Modrinth and a Curseforge modpack together is not supported')
             sys.exit(1)
-        logging.debug('Using CurseForge format modpack')
         constants.Modpacks_Format = 'curseforge'
+        logging.debug('Using CurseForge format modpack')
     else:
-        logging.error('ERROR: Input modpack is not in a supported format')
+        logging.error('ERROR: Given modpack is not in a supported format')
         sys.exit(1)
 
     # Create a temporary directory
