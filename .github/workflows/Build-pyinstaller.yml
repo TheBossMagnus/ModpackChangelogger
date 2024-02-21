@@ -23,7 +23,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --icon=NONE src/ModpackChangelogger.py
+        pyinstaller --onefile --icon=NONE --name ModpackChangelogger-${{ github.sha }}-${{ runner.os }} src/ModpackChangelogger.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
