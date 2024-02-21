@@ -12,7 +12,7 @@ DEFAULT_CONFIG = {
         'removed_mods': True,
         'updated_mods': True,
         'loader': True,
-        'mc_version': False,
+        'mc_version': False
     },
     'format': {
         'style': 'bullet',
@@ -23,7 +23,7 @@ DEFAULT_CONFIG = {
             'Show Old version': False,
             'Show New version': True
         }
-    },
+    }
 }
 # Networking
 MR_HEADERS = {'User-Agent':f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
