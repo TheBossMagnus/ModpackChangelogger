@@ -15,21 +15,22 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
 
     if changelog_file.lower()  == "console":
         print(markdown_text)
-        sys.exit(0)
-
-    try:
+    else:
         write_to_file(changelog_file, markdown_text)
-    except FileNotFoundError:
-        logging.error("ERROR: The folder selected for the changelog (%s) doesn't exist.", changelog_file)
-        sys.exit(1)
-    except PermissionError:
-        logging.error("ERROR: You don't have access to the folder specified in config.json (%s). Try running as administrator", config['output']['file_path'])
-        sys.exit(1)
+
 
 def write_to_file(filename, text):
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(text)
-        logging.debug("Created %s", filename)
+    try:
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(text)
+            logging.debug("Created %s", filename)
+    except FileNotFoundError:
+        logging.error("ERROR: The folder selected for the changelog (%s) doesn't exist.", filename)
+        sys.exit(1)
+    except PermissionError:
+        logging.error("ERROR: You don't have access to the file selected for the changelog (%s). Try running as administrator", filename)
+        sys.exit(1)
+
 
 def generate_header(old_info, new_info, config):
     header_format = config['format']['header']
