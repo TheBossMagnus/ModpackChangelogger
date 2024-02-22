@@ -42,7 +42,7 @@ async def request_from_cf_api(session, ids):
         async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}, ssl=False) as response:
             response = await response.json()
             names = [project['name'] for project in response['data']]
-    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+    except (Exception) as e:
         handle_request_errors(e, URL)
 
     return names
