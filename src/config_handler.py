@@ -42,6 +42,7 @@ def load_config(config_file):
         sys.exit(1)
 
     try:
+        logging.debug('CONFIG PATH: %s', config_file)
         with open(config_file, 'r', encoding="utf-8") as f:
             config = json.load(f)
             config = validate_config(config, DEFAULT_CONFIG)

@@ -43,6 +43,8 @@ def parse_arguments():
 def main(old_path, new_path, config_path, changelog_file, debug=False):
     setup_logging(debug)
     logger = logging.getLogger(__name__)
+    if debug:
+        logger.warning("Debug logging enabled")
 
     config = load_config(config_path)
 
@@ -64,7 +66,7 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
 
     # Compare the packs
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
-    logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s\n", added, removed, updated)
+    logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 
     # Print in a md doc
     markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)

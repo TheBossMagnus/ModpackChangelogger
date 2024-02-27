@@ -15,15 +15,16 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
 
     if changelog_file.lower()  == "console":
         print(markdown_text)
+        logging.debug("Printed to console")
     else:
         write_to_file(changelog_file, markdown_text)
+        logging.debug("Changelog wrote to: %s", changelog_file)
 
 
 def write_to_file(filename, text):
     try:
         with open(filename, "w", encoding="utf-8") as f:
             f.write(text)
-            logging.debug("Created %s", filename)
     except FileNotFoundError:
         logging.error("ERROR: The folder selected for the changelog (%s) doesn't exist.", filename)
         sys.exit(1)

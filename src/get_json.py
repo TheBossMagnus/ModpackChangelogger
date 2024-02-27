@@ -16,13 +16,13 @@ def get_json(path):
             logging.error('ERROR: Using Modrinth and a Curseforge modpack together is not supported')
             sys.exit(1)
         constants.Modpacks_Format = 'modrinth'
-        logging.debug('Using Modrinth format modpack')
+        logging.debug('Detected Modrinth modpack')
     elif path.endswith('.zip'):
         if constants.Modpacks_Format == 'modrinth':
             logging.error('ERROR: Using Modrinth and a Curseforge modpack together is not supported')
             sys.exit(1)
         constants.Modpacks_Format = 'curseforge'
-        logging.debug('Using CurseForge format modpack')
+        logging.debug('Detected CurseForge modpack')
     else:
         logging.error('ERROR: Given modpack is not in a supported format')
         sys.exit(1)
