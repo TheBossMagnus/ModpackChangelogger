@@ -5,14 +5,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-1
 ### Added
-* Added support for Curseforge modpacks format and API.
-     * Now, you can use two packs in the Curseforge format and expect changelogs just like with Modrinth packs.)
+* Added support for Curseforge modpacks format and API
+     * Now, you can use two packs in the Curseforge format and expect changelogs just like with Modrinth packs)
 * Added a header to the generated changelogs
-       * can be easily customized via the config file.
+     * can be easily customized via the config file
 ### Changed
-* Improved the handling of incomplete or malformatted config with proper error messages.
-* Made some improvements to the resulting changelog.
-* Made some improvements to error message and logging.
+* Improved the handling of incomplete or malformatted config with proper error messages
+* Made some improvements to the resulting changelog
+* Made some improvements to the error messages and logging
 * The compiled Linux executable is now deprecated
 
 ## [0.2.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.2.0) - 2024-01-30
