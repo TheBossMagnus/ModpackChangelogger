@@ -5,7 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.1) - 2024-03-1
 ### Fixed
-* Fix Removed and added mod being inverted on modrinth packs
+* Fix Removed and added mod being inverted on Modrinth packs
 
 ## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-1
 ### Added
