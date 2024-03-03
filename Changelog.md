@@ -3,10 +3,14 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.1) - 2024-03-1
+### Fixed
+* Fix Removed and added mod being inverted on modrinth packs
+
 ## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-1
 ### Added
 * Added support for Curseforge modpacks format and API
-     * Now, you can use two packs in the Curseforge format and expect changelogs just like with Modrinth packs)
+     * Now, you can use two packs in the Curseforge format and expect changelogs just like with Modrinth packs
 * Added a header to the generated changelogs
      * can be easily customized via the config file
 ### Changed
