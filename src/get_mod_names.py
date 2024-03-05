@@ -10,7 +10,7 @@ async def get_mod_names(added_ids, removed_ids, updated_ids):
         api_function = {
             "modrinth": request_from_mr_api,
             "curseforge": request_from_cf_api
-        }.get(constants.Modpacks_Format, request_from_cf_api)
+        }.get(constants.Modpacks_Format)
 
         added_names, removed_names, updated_names = await asyncio.gather(
             api_function(session, added_ids),
@@ -21,6 +21,9 @@ async def get_mod_names(added_ids, removed_ids, updated_ids):
         return added_names, removed_names, updated_names
 
 async def request_from_mr_api(session, ids):
+    if not ids:
+        return []
+ 
     names = []
     URL = f"{MR_API_URL}{json.dumps(list(ids))}"
 
@@ -35,6 +38,9 @@ async def request_from_mr_api(session, ids):
     return names
 
 async def request_from_cf_api(session, ids):
+    if not ids:
+        return [] 
+
     names = []
     URL = f"{CF_API_URL}"
 
