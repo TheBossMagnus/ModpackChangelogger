@@ -1,8 +1,9 @@
 import argparse
 import logging
+import sys
 import constants
 from compare_packs import compare_packs
-from config_handler import load_config
+from config_handler import load_config, create_config
 from extract_pack_data import mr_get_pack_data, cf_get_pack_data
 from get_json import get_json
 from out import markdown_out
@@ -41,24 +42,39 @@ def parse_arguments():
     return parser.parse_args()
 
 def main(old_path, new_path, config_path, changelog_file, debug=False):
+    # Setup logging
     setup_logging(debug)
     logger = logging.getLogger(__name__)
+
     if debug:
         logger.warning("Debug logging enabled")
 
-    config = load_config(config_path)
+    # Handle config creation
+    if config_path is not None and config_path.lower() == 'new':
+        create_config()
+        config_path = None
+        if not old_path and not new_path:  # If the user only wants to create a new config file
+            return
 
-    if not old_path or not new_path:
-        if not old_path and new_path:
-            logger.error("ERROR: No old pack specified")
-        if not new_path and old_path:
-            logger.error("ERROR: No new pack specified")
-        return
+    # Check for required arguments
+    if not old_path and not new_path:
+        logger.error("ERROR: No packs specified")
+        sys.exit(1)
+    elif not old_path:
+        logger.error("ERROR: No old pack specified")
+        sys.exit(1)
+    elif not new_path:
+        logger.error("ERROR: No new pack specified")
+        sys.exit(1)
+
+    # Load config
+    config = load_config(config_path)
 
     # Parse the json files
     old_json = get_json(old_path)
     new_json = get_json(new_path)
 
+    # Get pack data based on the modpack format
     if constants.Modpacks_Format == 'modrinth':
         old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
     else:
@@ -68,7 +84,7 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
     logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 
-    # Print in a md doc
+    # Output the changelog
     markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)
 
 if __name__ == "__main__":
