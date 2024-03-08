@@ -13,12 +13,13 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
     markdown_text.append(generate_header(old_info, new_info, config))
     markdown_text = available_styles.get(style, bullet_list)(added, removed, updated, markdown_text)
 
-    if changelog_file.lower()  == "console":
-        print(markdown_text)
-        logging.debug("Printed to console")
-    else:
-        write_to_file(changelog_file, markdown_text)
-        logging.debug("Changelog wrote to: %s", changelog_file)
+    if changelog_file:
+        if  changelog_file.lower()  == "console":
+            print(markdown_text)
+            logging.debug("Printed to console")
+        else:
+            write_to_file(changelog_file, markdown_text)
+            logging.debug("Changelog wrote to: %s", changelog_file)
 
 
 def write_to_file(filename, text):
