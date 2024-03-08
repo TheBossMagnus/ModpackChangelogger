@@ -26,7 +26,7 @@ def mr_get_pack_data(old_json, new_json):
     new_urls -= common_urls
     old_urls -= common_urls
     
-    old_ids, new_ids = set(extract_mod_ids(new_urls)), set(extract_mod_ids(old_urls))
+    old_ids, new_ids = set(extract_mod_ids(old_urls)), set(extract_mod_ids(new_urls))
     return old_ids, new_ids, old_info, new_info
 
 def cf_get_pack_data(old_json, new_json):
