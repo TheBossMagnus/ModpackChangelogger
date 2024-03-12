@@ -2,7 +2,7 @@ import filecmp
 # import subprocess
 import unittest
 import sys
-sys.path.append('D:\ModpackChangelogger\src')
+sys.path.append('.\src')
 from ModpackChangelogger import main
 
 class TestModpackChangelogger(unittest.TestCase):
@@ -10,8 +10,8 @@ class TestModpackChangelogger(unittest.TestCase):
             old_pack = r"test\packs\old1.mrpack"
             new_pack = r"test\packs\new1.mrpack"
             expected_output= r"test\expected\t1.md"
-            
-            main(old_pack, new_pack, None, None)
+
+            main(old_pack, new_pack, None, None, False)
             self.assertTrue(filecmp.cmp('Changelog.md', expected_output, shallow=False))
 
     def test_cf_packs(self):
@@ -19,7 +19,7 @@ class TestModpackChangelogger(unittest.TestCase):
             new_pack = r"test\packs\new1.zip"
             expected_output= r"test\expected\t2.md"
 
-            main(old_pack, new_pack, None, None)
+            main(old_pack, new_pack, None, None, False)
             self.assertTrue(filecmp.cmp('Changelog.md', expected_output, shallow=False))
 
 ''' WIP
