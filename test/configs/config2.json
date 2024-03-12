@@ -1,0 +1,13 @@
+{
+    "check": {
+        "updated_mods": false
+    },
+    "format": {
+        "style": "ind_bullet",
+        "header": {
+            "size": 6,
+            "Name": "Name",
+            "Show Old version": true
+        }
+    }
+}

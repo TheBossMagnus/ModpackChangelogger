@@ -22,16 +22,33 @@ class TestModpackChangelogger(unittest.TestCase):
             main(old_pack, new_pack, None, None, False)
             self.assertTrue(filecmp.cmp('Changelog.md', expected_output, shallow=False))
 
-''' WIP
     def test_config_parameters(self):
         # Test different combinations of config parameters
-        old_pack = 'tests/old.mrpack'
-        new_pack = 'tests/new.mrpack'
-        config_path = 'tests/config1.json'
-        expected_output = '...'  # Replace with the expected output
-        output = main(old_pack, new_pack, config_path, None)
-        self.assertEqual(output, expected_output)
+        old_pack = r'test/packs/old1.mrpack'
+        new_pack = r'test/packs/new1.mrpack'
+        config_path = r'test/configs/config1.json'
+        expected_output = r"test\expected\t3.md"
+        main(old_pack, new_pack, config_path, None)
+        self.assertTrue(filecmp.cmp('Changelog.md', expected_output, shallow=False))
 
+    def test_config_parameters_2(self):
+        # Test different combinations of config parameters
+        old_pack = r'test/packs/old1.mrpack'
+        new_pack = r'test/packs/new1.mrpack'
+        config_path = r'test/configs/config2.json'
+        expected_output = r"test\expected\t4.md"
+        main(old_pack, new_pack, config_path, None)
+        self.assertTrue(filecmp.cmp('Changelog.md', expected_output, shallow=False))
+
+    def test_config_parameters_3(self):
+        # Test different combinations of config parameters
+        old_pack = r'test/packs/old1.mrpack'
+        new_pack = r'test/packs/new1.mrpack'
+        config_path = r'test/configs/config3.json'
+        with self.assertRaises(SystemExit):
+            main(old_pack, new_pack, config_path, None, False)
+
+''' WIP
     def test_run_as_script(self):
         # Test running the script as a .py with parameters
         script_path = 'ModpackChangelogger.py'
