@@ -42,6 +42,9 @@ def parse_arguments():
     return parser.parse_args()
 
 def main(old_path, new_path, config_path, changelog_file, debug=False):
+    # Reset the modpack format
+    # This is done so that the program can be called multiple times as an import in the same script
+    constants.Modpacks_Format = None
     # Setup logging
     setup_logging(debug)
     logger = logging.getLogger(__name__)
