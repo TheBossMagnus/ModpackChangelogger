@@ -1,8 +1,9 @@
 import filecmp
-# import subprocess
+import subprocess
 import unittest
 import sys
-sys.path.append('.\src')
+import os
+sys.path.append(r'.\src')
 from ModpackChangelogger import main
 
 class TestModpackChangelogger(unittest.TestCase):
@@ -47,26 +48,28 @@ class TestModpackChangelogger(unittest.TestCase):
         config_path = r'test/configs/config3.json'
         with self.assertRaises(SystemExit):
             main(old_pack, new_pack, config_path, None, False)
+            self.close()
 
-''' WIP
+
     def test_run_as_script(self):
         # Test running the script as a .py with parameters
-        script_path = 'ModpackChangelogger.py'
-        old_pack = 'tests/old.mrpack'
-        new_pack = 'tests/new.mrpack'
-        config_path = 'tests/config.json'
-        expected_output = '...'  # Replace with the expected output
+        script_path = r'src/ModpackChangelogger.py'
+        old_pack = r'test/packs/old1.mrpack'
+        new_pack = r'test/packs/new1.mrpack'
+        expected_output = r"test\expected\t5.md"
 
         # Run the script with subprocess.run()
         result = subprocess.run(
-            ['python', script_path, old_pack, new_pack, config_path],
-            text=True,
-            capture_output=True,
+            ['python', script_path, '-o', old_pack, '-n', new_pack, '-f','name.md', '-d'],
         )
 
-        # Check the script's output
-        self.assertEqual(result.stdout, expected_output)
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(filecmp.cmp("name.md", expected_output, shallow=False))
+        self.assertTrue(os.path.exists('config.json'))
+        self.assertTrue(os.path.exists('log.txt'))
 
-'''
+        #clenup
+        os.remove('name.md')
+
 if __name__ == '__main__':
     unittest.main()
