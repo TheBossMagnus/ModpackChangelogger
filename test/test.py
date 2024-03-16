@@ -48,7 +48,6 @@ class TestModpackChangelogger(unittest.TestCase):
         config_path = r'test/configs/config3.json'
         with self.assertRaises(SystemExit):
             main(old_pack, new_pack, config_path, None, False)
-            self.close()
 
 
     def test_run_as_script(self):
