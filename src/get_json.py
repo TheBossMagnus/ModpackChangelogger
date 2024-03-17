@@ -28,7 +28,7 @@ def get_json(path):
         sys.exit(1)
 
     # Create a temporary directory
-    temp_dir = os.path.join(os.environ.get('TEMP'), 'ModpackChangelogger')
+    temp_dir = os.path.join(os.environ.get('TEMP') or os.environ.get('TMPDIR') or '/tmp', 'ModpackChangelogger')
     os.makedirs(temp_dir, exist_ok=True)
 
     try:
