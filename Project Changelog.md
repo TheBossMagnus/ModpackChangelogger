@@ -6,8 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-1
 ### Fixed
 * Fix -f being mandatory
-* Fix script not working on some linux envirorments
-* Fix warnings being printed if there waren't added, updated or removed mods
+* Fix script not working on some Linux envirornments
+* Fix warnings being printed if there weren't added, updated or removed mods
 
 ## [0.3.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.1) - 2024-03-1
 ### Fixed
