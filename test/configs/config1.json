@@ -11,7 +11,7 @@
         "header": {
             "show_header": false,
             "size": 2,
-            "title": "Auto",
+            "title": "auto",
             "show_old_version_number": false,
             "show_new_version_number": true
         }
