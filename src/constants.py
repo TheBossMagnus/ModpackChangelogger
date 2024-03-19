@@ -17,11 +17,11 @@ DEFAULT_CONFIG = {
     'format': {
         'style': 'bullet',
         'header':{
-            'header': True,
+            'show_header': True,
             'size': 2,
-            'Name': 'Auto',
-            'Show Old version': False,
-            'Show New version': True
+            'title': 'auto',
+            'show_old_version_number': False,
+            'show_new_version_number': True
         }
     }
 }

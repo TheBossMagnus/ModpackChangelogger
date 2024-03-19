@@ -41,7 +41,7 @@ def generate_header(old_info, new_info, config):
         return ""
 
     name = header_format.get('Name')
-    if name == 'Auto':
+    if name == 'auto':
         name = new_info['modpack_name']
 
     old_version = f" {old_info['modpack_version']} =>" if header_format.get('Show Old version') else ""

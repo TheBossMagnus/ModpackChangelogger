@@ -11,9 +11,9 @@
         "header": {
             "header": false,
             "size": 2,
-            "Name": "Auto",
-            "Show Old version": false,
-            "Show New version": true
+            "title": "Auto",
+            "show_old_version_number": false,
+            "show_new_version_number": true
         }
     }
 }
