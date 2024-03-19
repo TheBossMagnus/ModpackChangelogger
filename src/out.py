@@ -37,15 +37,15 @@ def write_to_file(filename, text):
 
 def generate_header(old_info, new_info, config):
     header_format = config['format']['header']
-    if not header_format['header']:
+    if not header_format['show_header']:
         return ""
 
-    name = header_format.get('Name')
+    name = header_format.get('title')
     if name == 'auto':
         name = new_info['modpack_name']
 
-    old_version = f" {old_info['modpack_version']} =>" if header_format.get('Show Old version') else ""
-    new_version = f" {new_info['modpack_version']}" if header_format.get('Show New version') else ""
+    old_version = f" {old_info['modpack_version']} =>" if header_format.get('show_old_version_number') else ""
+    new_version = f" {new_info['modpack_version']}" if header_format.get('show_new_version_number') else ""
 
     return f"{'#' * header_format['size']} {name}{old_version}{new_version}\n"
 
