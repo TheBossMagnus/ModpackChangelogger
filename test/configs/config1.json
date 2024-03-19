@@ -9,7 +9,7 @@
     "format": {
         "style": "comma",
         "header": {
-            "header": false,
+            "show_header": false,
             "size": 2,
             "title": "Auto",
             "show_old_version_number": false,
