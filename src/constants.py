@@ -12,7 +12,9 @@ DEFAULT_CONFIG = {
         'removed_mods': True,
         'updated_mods': True,
         'loader': True,
-        'mc_version': False
+        'mc_version': False,
+        'config_changes': False,
+        'EXPERIMENTAL_overrides_folder': False
     },
     'format': {
         'style': 'bullet',
