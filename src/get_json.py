@@ -1,3 +1,4 @@
+import hashlib
 import json
 import logging
 import os
@@ -37,11 +38,14 @@ def get_json(path):
             zip_obj.extractall(path=temp_dir)
             logging.debug('Extracted %s to %s', path, temp_dir)
 
+        # Get config folder hash
+        config_hash = hash_directory(os.path.join(temp_dir, 'overrides','config'))
+
         # Parse the json file
         json_path = os.path.join(temp_dir, 'modrinth.index.json' if constants.Modpacks_Format == 'modrinth' else 'manifest.json')
         with open(json_path, 'r', encoding="utf-8") as json_file:
             logging.debug('Parsed %s', json_path)
-            return json.load(json_file)
+            return json.load(json_file), config_hash
     except FileNotFoundError:
         logging.error('ERROR: The file %s does not exist', json_path)
         sys.exit(1)
@@ -52,3 +56,13 @@ def get_json(path):
         # Delete the extracted files
         shutil.rmtree(temp_dir)
         logging.debug('Deleted the temp files in %s', temp_dir)
+
+def hash_directory(directory):
+    if not os.path.exists(directory):
+        return None
+    hash_md5 = hashlib.md5()
+    for dirpath, _, filenames in os.walk(directory):
+        for filename in sorted(filenames):
+            with open(os.path.join(dirpath, filename), 'rb') as f:
+                hash_md5.update(f.read())
+    return hash_md5.hexdigest()

@@ -74,8 +74,8 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
     config = load_config(config_path)
 
     # Parse the json files
-    old_json = get_json(old_path)
-    new_json = get_json(new_path)
+    old_json, old_config_hash = get_json(old_path)
+    new_json, new_config_hash = get_json(new_path)
 
     # Get pack data based on the modpack format
     if constants.Modpacks_Format == 'modrinth':
@@ -84,7 +84,7 @@ def main(old_path, new_path, config_path, changelog_file, debug=False):
         old_ids, new_ids, old_info, new_info = cf_get_pack_data(old_json, new_json)
 
     # Compare the packs
-    added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, config)
+    added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config)
     logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 
     # Output the changelog

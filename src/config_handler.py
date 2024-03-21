@@ -27,7 +27,6 @@ def validate_config(config, default_config):
             raise ValueError(f"Config field \"{key}\" must be of type {type(default_value).__name__}")
     return config
 
-
 def load_config(config_file):
     if not config_file:
         logging.debug('CONFIG: Default')
