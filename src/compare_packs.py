@@ -2,7 +2,7 @@ import asyncio
 import logging
 from get_mod_names import get_mod_names
 
-def compare_packs(old_ids, new_ids, old_info, new_info, config):
+def compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config):
     updated_ids = old_ids & new_ids
     added_ids = new_ids - old_ids
     removed_ids = old_ids - new_ids
@@ -30,5 +30,9 @@ def compare_packs(old_ids, new_ids, old_info, new_info, config):
     if config['check']['mc_version'] and old_info['mc_version'] != new_info['mc_version']:
         updated_mods.append(f"Minecraft version {new_info['mc_version']}")
         logging.debug("Minecraft version change detected: %s, new version: %s", old_info['mc_version'], new_info['mc_version'])
+
+    if config['check']['config'] and old_config_hash != new_config_hash:
+        updated_mods.append("Mods config")
+        logging.debug("Config changes detected")
 
     return added_mods, removed_mods, updated_mods

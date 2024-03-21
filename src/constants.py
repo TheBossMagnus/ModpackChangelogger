@@ -13,7 +13,7 @@ DEFAULT_CONFIG = {
         'updated_mods': True,
         'loader': True,
         'mc_version': False,
-        'config_changes': False,
+        'config': False,
         'EXPERIMENTAL_overrides_folder': False
     },
     'format': {
