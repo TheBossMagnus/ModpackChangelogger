@@ -14,9 +14,6 @@ def compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_con
 
     added_mods, removed_mods, updated_mods = asyncio.run(get_mod_names(added_ids, removed_ids, updated_ids))
 
-    added_mods = sorted(mod for mod in added_mods if mod)
-    removed_mods = sorted(mod for mod in removed_mods if mod)
-    updated_mods = sorted(mod for mod in updated_mods if mod)
 
     if config['check']['loader']:
         if old_info['loader'] != new_info['loader']:
@@ -34,5 +31,9 @@ def compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_con
     if config['check']['config'] and old_config_hash != new_config_hash:
         updated_mods.append("Mods config")
         logging.debug("Config changes detected")
+
+    added_mods = sorted(mod for mod in added_mods if mod)
+    removed_mods = sorted(mod for mod in removed_mods if mod)
+    updated_mods = sorted(mod for mod in updated_mods if mod)
 
     return added_mods, removed_mods, updated_mods
