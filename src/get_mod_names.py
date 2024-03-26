@@ -10,23 +10,17 @@ from constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
-        api_function = {
-            "modrinth": request_from_mr_api,
-            "curseforge": request_from_cf_api
-        }.get(constants.Modpacks_Format)
+        api_function = {"modrinth": request_from_mr_api, "curseforge": request_from_cf_api}.get(constants.Modpacks_Format)
 
-        added_names, removed_names, updated_names = await asyncio.gather(
-            api_function(session, added_ids),
-            api_function(session, removed_ids),
-            api_function(session, updated_ids)
-        )
+        added_names, removed_names, updated_names = await asyncio.gather(api_function(session, added_ids), api_function(session, removed_ids), api_function(session, updated_ids))
 
         return added_names, removed_names, updated_names
+
 
 async def request_from_mr_api(session, ids):
     if not ids:
         return []
- 
+
     names = []
     URL = f"{MR_API_URL}{json.dumps(list(ids))}"
 
@@ -34,27 +28,29 @@ async def request_from_mr_api(session, ids):
         async with session.get(URL, headers=MR_HEADERS) as response:
             response.raise_for_status()
             data = await response.json()
-            names = [project.get('title') for project in data]
+            names = [project.get("title") for project in data]
     except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
         handle_request_errors(e, URL)
 
     return names
 
+
 async def request_from_cf_api(session, ids):
     if not ids:
-        return [] 
+        return []
 
     names = []
     URL = f"{CF_API_URL}"
 
     try:
-        async with session.post(URL, headers=CF_HEADERS, json={'modIds': list(ids)}) as response:
+        async with session.post(URL, headers=CF_HEADERS, json={"modIds": list(ids)}) as response:
             response = await response.json()
-            names = [project['name'] for project in response['data']]
+            names = [project["name"] for project in response["data"]]
     except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
         handle_request_errors(e, URL)
 
     return names
+
 
 def handle_request_errors(e, URL):
     if isinstance(e, aiohttp.ClientConnectionError):
