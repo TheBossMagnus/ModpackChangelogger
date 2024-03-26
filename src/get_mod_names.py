@@ -1,9 +1,12 @@
 import asyncio
 import json
 import logging
+
 import aiohttp
-from constants import MR_API_URL, MR_HEADERS, CF_HEADERS, CF_API_URL
+
 import constants
+from constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
+
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:

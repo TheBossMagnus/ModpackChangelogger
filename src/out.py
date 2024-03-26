@@ -1,6 +1,7 @@
 import logging
 import sys
 
+
 def markdown_out(added, removed, updated, old_info, new_info, config, changelog_file):
     style = config['format']['style']
     available_styles = {

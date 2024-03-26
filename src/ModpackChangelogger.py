@@ -1,12 +1,14 @@
 import argparse
 import logging
 import sys
+
 import constants
 from compare_packs import compare_packs
-from config_handler import load_config, create_config
-from extract_pack_data import mr_get_pack_data, cf_get_pack_data
+from config_handler import create_config, load_config
+from extract_pack_data import cf_get_pack_data, mr_get_pack_data
 from get_json import get_json
 from out import markdown_out
+
 
 def setup_logging(debug):
     # High level logging to console

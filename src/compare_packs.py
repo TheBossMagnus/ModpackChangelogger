@@ -1,6 +1,8 @@
 import asyncio
 import logging
+
 from get_mod_names import get_mod_names
+
 
 def compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config):
     updated_ids = old_ids & new_ids

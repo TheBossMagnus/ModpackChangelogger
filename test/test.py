@@ -1,10 +1,12 @@
 import filecmp
-import subprocess
-import unittest
-import sys
 import os
+import subprocess
+import sys
+import unittest
+
 sys.path.append("./src")
 from ModpackChangelogger import main
+
 
 class TestModpackChangelogger(unittest.TestCase):
     def test_mr_packs(self):

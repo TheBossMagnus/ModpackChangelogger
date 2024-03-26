@@ -5,7 +5,9 @@ import os
 import shutil
 import sys
 from zipfile import ZipFile
+
 import constants
+
 
 def get_json(path):
     if not os.path.exists(path):
