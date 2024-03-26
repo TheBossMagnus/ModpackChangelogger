@@ -44,7 +44,7 @@ def parse_arguments():
     return parser.parse_args()
 
 
-def main(old_path, new_path, config_path, changelog_file, debug=False):
+def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=False):
     # Reset the modpack format
     # This is done so that the program can be called multiple times as an import in the same script
     constants.Modpacks_Format = None
@@ -98,4 +98,4 @@ if __name__ == "__main__":
     args = parse_arguments()
     if args.version:
         print(f"ModpackChangelogger {constants.VERSION}")
-    main(args.old, args.new, args.config, args.file, args.debug)
+    modpack_changelogger(args.old, args.new, args.config, args.file, args.debug)
