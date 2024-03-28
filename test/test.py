@@ -54,7 +54,7 @@ class TestModpackChangelogger(unittest.TestCase):
         new_pack = "test/packs/new1.mrpack"
         expected_output = "test/expected/t5.md"
 
-        result = subprocess.run(["python", script_path, "-o", old_pack, "-n", new_pack, "-f", "name.md", "-c", "new", "-d"], check=False)
+        result = subprocess.run([sys.executable, script_path, "-o", old_pack, "-n", new_pack, "-f", "name.md", "-c", "new", "-d"], check=False)
 
         self.assertEqual(result.returncode, 0)
         self.assertTrue(filecmp.cmp("name.md", expected_output, shallow=False))
