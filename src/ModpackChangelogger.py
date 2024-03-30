@@ -8,6 +8,7 @@ from config_handler import create_config, load_config
 from extract_pack_data import cf_get_pack_data, mr_get_pack_data
 from get_json import get_json
 from out import markdown_out
+from overrides_detection import add_overrides
 
 
 def setup_logging(debug):
@@ -77,8 +78,8 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
     config = load_config(config_path)
 
     # Parse the json files
-    old_json, old_config_hash = get_json(old_path)
-    new_json, new_config_hash = get_json(new_path)
+    old_json, old_config_hash, old_overrides = get_json(old_path)
+    new_json, new_config_hash, new_overrides = get_json(new_path)
 
     # Get pack data based on the modpack format
     if constants.Modpacks_Format == "modrinth":
@@ -88,6 +89,9 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
 
     # Compare the packs
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config)
+    if config["check"]["EXPERIMENTAL_overrides_mods"]:
+        added, removed, updated = add_overrides(old_overrides, new_overrides, added, removed, updated)
+
     logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 
     # Output the changelog

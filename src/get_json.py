@@ -42,12 +42,13 @@ def get_json(path):
 
         # Get config folder hash
         config_hash = hash_directory(os.path.join(temp_dir, "overrides", "config"))
+        overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
 
         # Parse the json file
         json_path = os.path.join(temp_dir, "modrinth.index.json" if constants.Modpacks_Format == "modrinth" else "manifest.json")
         with open(json_path, "r", encoding="utf-8") as json_file:
             logging.debug("Parsed %s", json_path)
-            return json.load(json_file), config_hash
+            return json.load(json_file), config_hash, overrides_name
     except FileNotFoundError:
         logging.error("ERROR: The file %s does not exist", json_path)
         sys.exit(1)
@@ -69,3 +70,12 @@ def hash_directory(directory):
             with open(os.path.join(dirpath, filename), "rb") as f:
                 hash_md5.update(f.read())
     return hash_md5.hexdigest()
+
+
+def get_overrides(directory):
+    overrides_name = []
+    for root, dirs, files in os.walk(directory):
+        for file in files:
+            if file.endswith(".jar"):
+                overrides_name.append(file)
+    return overrides_name
