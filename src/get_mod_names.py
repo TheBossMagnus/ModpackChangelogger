@@ -22,7 +22,7 @@ async def request_from_mr_api(session, ids):
         return []
 
     names = []
-    URL = f"{MR_API_URL}{json.dumps(list(ids))}"
+    URL = f"{MR_API_URL}projects?ids={json.dumps(list(ids))}"
 
     try:
         async with session.get(URL, headers=MR_HEADERS) as response:
@@ -40,7 +40,7 @@ async def request_from_cf_api(session, ids):
         return []
 
     names = []
-    URL = f"{CF_API_URL}"
+    URL = f"{CF_API_URL}v1/mods"
 
     try:
         async with session.post(URL, headers=CF_HEADERS, json={"modIds": list(ids)}) as response:
