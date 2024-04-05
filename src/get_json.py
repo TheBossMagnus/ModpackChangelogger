@@ -78,6 +78,7 @@ def calculate_hash(filename):
         hash = hashlib.sha256(bytes).hexdigest()
     return hash
 
+
 def get_overrides(directory):
     hash_dict = {}
     for root, dirs, files in os.walk(directory):
