@@ -72,10 +72,16 @@ def hash_directory(directory):
     return hash_md5.hexdigest()
 
 
+def calculate_hash(filename):
+    with open(filename, "rb") as f:
+        bytes = f.read()  # Read entire file
+        hash = hashlib.sha256(bytes).hexdigest()
+    return hash
+
 def get_overrides(directory):
-    overrides_name = []
+    hash_dict = {}
     for root, dirs, files in os.walk(directory):
         for file in files:
-            if file.endswith(".jar"):
-                overrides_name.append(file)
-    return overrides_name
+            filepath = os.path.join(root, file)
+            hash_dict[file] = calculate_hash(filepath)
+    return hash_dict
