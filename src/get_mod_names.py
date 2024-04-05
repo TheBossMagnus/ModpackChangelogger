@@ -22,7 +22,7 @@ async def request_from_mr_api(session, ids):
         return []
 
     names = []
-    URL = f"{MR_API_URL}projects?ids={json.dumps(list(ids))}"
+    URL = f"{MR_API_URL}/projects?ids={json.dumps(list(ids))}"
 
     try:
         async with session.get(URL, headers=MR_HEADERS) as response:

@@ -74,8 +74,8 @@ def hash_directory(directory):
 
 def calculate_hash(filename):
     with open(filename, "rb") as f:
-        bytes = f.read()  # Read entire file
-        hash = hashlib.sha256(bytes).hexdigest()
+        bytes = f.read()
+        hash = hashlib.sha1(bytes).hexdigest()
     return hash
 
 
