@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 import aiohttp
 
@@ -20,6 +21,7 @@ def add_overrides(old_overrides, new_overrides):
                             data = await response.json()
                             project_name = data["project_id"]
                             d[key] = project_name
+                            logging.debug(f'Found overrides from project id "{project_name}"')
                         else:
                             d[key] = None
 
