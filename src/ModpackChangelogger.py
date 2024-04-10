@@ -86,13 +86,15 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
         old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
     else:
         old_ids, new_ids, old_info, new_info = cf_get_pack_data(old_json, new_json)
-    if config["check"]["EXPERIMENTAL_overrides_mods"]:
-        old_overrides, new_overrides = add_overrides(old_overrides, new_overrides)
-        old_ids = old_ids.union(old_overrides)
-        new_ids = new_ids.union(new_overrides)
+    if config["check"]["identified_overrides_mods"] or config["check"]["unidentified_overrides_mods"]:
+        old_identified_overrides, new_identified_overrides, old_unidentified_overrides, new_unidentified_overrides = add_overrides(old_overrides, new_overrides, config)
+        old_ids = old_ids.union(old_identified_overrides)
+        new_ids = new_ids.union(new_identified_overrides)
 
     # Compare the packs
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config)
+    added = added + list(new_unidentified_overrides)
+    removed = removed + list(old_unidentified_overrides)
 
     logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 
