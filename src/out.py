@@ -49,14 +49,11 @@ def generate_header(old_info, new_info, config):
 def bullet_list(added, removed, updated, markdown_text):
 
     if added:
-        markdown_text.append("###  Added:")
-        markdown_text.extend([f"- {mod}" for mod in added])
+        markdown_text.extend(["###  Added:"] + [f"- {mod}" for mod in added])
     if removed:
-        markdown_text.append("###  Removed:")
-        markdown_text.extend([f"- {mod}" for mod in removed])
+        markdown_text.extend(["### Removed:"] + [f"- {mod}" for mod in removed])
     if updated:
-        markdown_text.append("### Updated:")
-        markdown_text.extend([f"- {mod}" for mod in updated])
+        markdown_text.extend(["### Updated:"] + [f"- {mod}" for mod in updated])
 
     return "\n".join(markdown_text)
 
@@ -64,11 +61,11 @@ def bullet_list(added, removed, updated, markdown_text):
 def comma_list(added, removed, updated, markdown_text):
 
     if added:
-        markdown_text.append(f"- **Added:** {', '.join(added)}")
+        markdown_text.append("- **Removed:** "+", ".join(f"{mod}" for mod in added))
     if removed:
-        markdown_text.append(f"- **Removed:** {', '.join(removed)}")
+        markdown_text.append("- **Removed:** "+", ".join(f"{mod}" for mod in removed))
     if updated:
-        markdown_text.append(f"- **Updated:** {', '.join(updated)}")
+        markdown_text.append("- **Updated:** "+", ".join(f"{mod}" for mod in updated))
 
     return "\n".join(markdown_text)
 
@@ -76,11 +73,11 @@ def comma_list(added, removed, updated, markdown_text):
 def ind_bullet_list(added, removed, updated, markdown_text):
 
     if added:
-        markdown_text.append("\n".join(f"* Added {mod}" for mod in added))
+        markdown_text.extend(f"- Added {mod}" for mod in added)
     if removed:
-        markdown_text.append("\n".join(f"* Removed {mod}" for mod in removed))
+        markdown_text.extend(f"- Removed {mod}" for mod in removed)
     if updated:
-        markdown_text.append("\n".join(f"* Updated {mod}" for mod in updated))
+        markdown_text.extend(f"- Updated {mod}" for mod in updated)
 
     return "\n".join(markdown_text)
 
