@@ -61,7 +61,9 @@ class TestModpackChangelogger(unittest.TestCase):
         self.assertTrue(os.path.exists("config.json"))
         self.assertTrue(os.path.exists("log.txt"))
 
-        os.remove("name.md")
+        for file in ["Changelog.md", "config.json", "log.txt", "name.md"]:
+            if os.path.exists(file):
+                os.remove(file)
 
 
 if __name__ == "__main__":
