@@ -93,8 +93,9 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
 
     # Compare the packs
     added, removed, updated = compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config)
-    added = added + list(new_unidentified_overrides)
-    removed = removed + list(old_unidentified_overrides)
+    if config["check"]["unidentified_overrides_mods"]:
+        added = added + list(new_unidentified_overrides)
+        removed = removed + list(old_unidentified_overrides)
 
     logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 

@@ -15,7 +15,7 @@ def add_overrides(old_overrides, new_overrides, config):
     async def get_names_from_hashes(dict1, dict2):
         async with aiohttp.ClientSession() as session:
             for d in [dict1, dict2]:
-                for hash, name in list(d.items()): 
+                for hash, name in list(d.items()):
                     async with session.get(f"{constants.MR_API_URL}/version_file/{d[hash]}", headers=constants.MR_HEADERS) as response:
                         if response.status == 200:
                             data = await response.json()

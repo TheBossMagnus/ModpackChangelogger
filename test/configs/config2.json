@@ -1,6 +1,7 @@
 {
     "check": {
-        "updated_mods": false
+        "updated_mods": false,
+        "unidentified_overrides_mods":true
     },
     "format": {
         "style": "ind_bullet",

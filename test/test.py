@@ -5,7 +5,7 @@ import sys
 import unittest
 
 sys.path.append("./src")
-from ModpackChangelogger import modpack_changelogger as mdpch
+from main import modpack_changelogger as mdpch
 
 
 class TestModpackChangelogger(unittest.TestCase):
@@ -49,10 +49,10 @@ class TestModpackChangelogger(unittest.TestCase):
             mdpch(old_pack, new_pack, config_path, None, False)
 
     def test_run_as_script(self):
-        script_path = "src/ModpackChangelogger.py"
+        script_path = "src/main.py"
         old_pack = "test/packs/old1.mrpack"
         new_pack = "test/packs/new1.mrpack"
-        expected_output = "test/expected/t5.md"
+        expected_output = "test/expected/t1.md"
 
         result = subprocess.run([sys.executable, script_path, "-o", old_pack, "-n", new_pack, "-f", "name.md", "-c", "new", "-d"], check=False)
 

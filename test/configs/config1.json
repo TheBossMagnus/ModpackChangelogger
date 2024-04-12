@@ -4,7 +4,8 @@
         "removed_mods": true,
         "updated_mods": true,
         "loader": false,
-        "mc_version": true
+        "mc_version": true,
+        "identified_overrides_mods":false
     },
     "format": {
         "style": "comma",
