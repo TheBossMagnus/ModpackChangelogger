@@ -52,7 +52,7 @@ class TestModpackChangelogger(unittest.TestCase):
         script_path = "src/main.py"
         old_pack = "test/packs/old1.mrpack"
         new_pack = "test/packs/new1.mrpack"
-        expected_output = "test/expected/t1.md"
+        expected_output = "test/expected/t5.md"
 
         result = subprocess.run([sys.executable, script_path, "-o", old_pack, "-n", new_pack, "-f", "name.md", "-c", "new", "-d"], check=False)
 

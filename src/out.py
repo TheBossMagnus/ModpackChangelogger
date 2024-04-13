@@ -49,7 +49,7 @@ def generate_header(old_info, new_info, config):
 def bullet_list(added, removed, updated, markdown_text):
 
     if added:
-        markdown_text.extend(["###  Added:"] + [f"- {mod}" for mod in added])
+        markdown_text.extend(["### Added:"] + [f"- {mod}" for mod in added])
     if removed:
         markdown_text.extend(["### Removed:"] + [f"- {mod}" for mod in removed])
     if updated:
