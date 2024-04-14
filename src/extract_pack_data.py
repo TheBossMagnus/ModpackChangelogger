@@ -2,7 +2,7 @@ import re
 
 
 def mr_get_pack_data(old_json, new_json):
-    PATTERN = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
+    pattern = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
     def get_dependency_info(json):
         loader = next((key for key in json["dependencies"].keys() if key != "minecraft"), "Unknown")
@@ -12,7 +12,7 @@ def mr_get_pack_data(old_json, new_json):
         return [download for url in json["files"] for download in url["downloads"]]
 
     def extract_mod_ids(url_list):
-        return [PATTERN.search(str(url)).group(0) for url in url_list]
+        return [pattern.search(str(url)).group(0) for url in url_list]
 
     old_info, new_info = get_dependency_info(old_json), get_dependency_info(new_json)
     new_urls, old_urls = set(get_mod_urls(new_json)), set(get_mod_urls(old_json))

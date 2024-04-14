@@ -22,15 +22,15 @@ async def request_from_mr_api(session, ids):
         return []
 
     names = []
-    URL = f"{MR_API_URL}/projects?ids={json.dumps(list(ids))}"
+    url = f"{MR_API_URL}/projects?ids={json.dumps(list(ids))}"
 
     try:
-        async with session.get(URL, headers=MR_HEADERS) as response:
+        async with session.get(url, headers=MR_HEADERS) as response:
             response.raise_for_status()
             data = await response.json()
             names = [project.get("title") for project in data]
     except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
-        handle_request_errors(e, URL)
+        handle_request_errors(e, url)
 
     return names
 
@@ -40,24 +40,24 @@ async def request_from_cf_api(session, ids):
         return []
 
     names = []
-    URL = f"{CF_API_URL}v1/mods"
+    url = f"{CF_API_URL}v1/mods"
 
     try:
-        async with session.post(URL, headers=CF_HEADERS, json={"modIds": list(ids)}) as response:
+        async with session.post(url, headers=CF_HEADERS, json={"modIds": list(ids)}) as response:
             response = await response.json()
             names = [project["name"] for project in response["data"]]
     except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
-        handle_request_errors(e, URL)
+        handle_request_errors(e, url)
 
     return names
 
 
-def handle_request_errors(e, URL):
+def handle_request_errors(e, url):
     if isinstance(e, aiohttp.ClientConnectionError):
-        logging.warning("Failed to connect to %s: %s", URL, e)
+        logging.warning("Failed to connect to %s: %s", url, e)
     elif isinstance(e, asyncio.TimeoutError):
-        logging.warning("The request %s timed out", URL)
+        logging.warning("The request %s timed out", url)
     elif isinstance(e, aiohttp.ClientResponseError):
-        logging.warning("Server responded with an error for %s: %s", URL, e)
+        logging.warning("Server responded with an error for %s: %s", url, e)
     else:
         logging.warning("An unexpected error occurred: %s", e)

@@ -74,14 +74,14 @@ def hash_directory(directory):
 
 def calculate_hash(filename):
     with open(filename, "rb") as f:
-        bytes = f.read()
-        hash = hashlib.sha1(bytes).hexdigest()
-    return hash
+        content = f.read()
+        file_hash = hashlib.sha1(content).hexdigest()
+    return file_hash
 
 
 def get_overrides(directory):
     hash_dict = {}
-    for root, dirs, files in os.walk(directory):
+    for root, _, files in os.walk(directory):
         for file in files:
             filepath = os.path.join(root, file)
             hash_dict[file] = calculate_hash(filepath)
