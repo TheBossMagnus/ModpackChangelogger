@@ -1,9 +1,10 @@
 import asyncio
 import logging
+import os
 
 import aiohttp
 
-import constants
+from constants import MR_API_URL, MR_HEADERS
 
 
 def add_overrides(old_overrides, new_overrides, config):
@@ -16,7 +17,7 @@ def add_overrides(old_overrides, new_overrides, config):
         async with aiohttp.ClientSession() as session:
             for d in [dict1, dict2]:
                 for file_hash in list(d.keys()):
-                    async with session.get(f"{constants.MR_API_URL}/version_file/{d[file_hash]}", headers=constants.MR_HEADERS) as response:
+                    async with session.get(f"{MR_API_URL}/version_file/{d[file_hash]}", headers=MR_HEADERS) as response:
                         if response.status == 200:
                             data = await response.json()
                             project_name = data["project_id"]
@@ -26,7 +27,7 @@ def add_overrides(old_overrides, new_overrides, config):
                         else:
                             d[file_hash] = False
 
-    if constants.Modpacks_Format == "modrinth":
+    if os.getenv("MODPACKS_FORMAT") == "modrinth":
         asyncio.run(get_names_from_hashes(old_overrides, new_overrides))
 
     old_identified_overrides = {name for name, key in old_overrides.items() if key is True}

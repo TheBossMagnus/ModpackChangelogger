@@ -1,8 +1,5 @@
 # This file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
-# Mod ecosistem used (modrinth or curseforge)
-# It gets automaticly detected
-Modpacks_Format = None
 # Version number
 VERSION = "0.3.2"
 

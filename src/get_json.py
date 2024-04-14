@@ -6,8 +6,6 @@ import shutil
 import sys
 from zipfile import ZipFile
 
-import constants
-
 
 def get_json(path):
     if not os.path.exists(path):
@@ -15,16 +13,16 @@ def get_json(path):
         sys.exit(1)
 
     if path.endswith(".mrpack"):
-        if constants.Modpacks_Format == "curseforge":
+        if os.getenv("MODPACKS_FORMAT") == "curseforge":
             logging.error("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
             sys.exit(1)
-        constants.Modpacks_Format = "modrinth"
+        os.environ["MODPACKS_FORMAT"] = "modrinth"
         logging.debug("Detected Modrinth modpack")
     elif path.endswith(".zip"):
-        if constants.Modpacks_Format == "modrinth":
+        if os.getenv("MODPACKS_FORMAT") == "modrinth":
             logging.error("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
             sys.exit(1)
-        constants.Modpacks_Format = "curseforge"
+        os.environ["MODPACKS_FORMAT"] = "curseforge"
         logging.debug("Detected CurseForge modpack")
     else:
         logging.error("ERROR: Given modpack is not in a supported format")
@@ -45,7 +43,7 @@ def get_json(path):
         overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
 
         # Parse the json file
-        json_path = os.path.join(temp_dir, "modrinth.index.json" if constants.Modpacks_Format == "modrinth" else "manifest.json")
+        json_path = os.path.join(temp_dir, "modrinth.index.json" if os.getenv("MODPACKS_FORMAT") == "modrinth" else "manifest.json")
         with open(json_path, "r", encoding="utf-8") as json_file:
             logging.debug("Parsed %s", json_path)
             return json.load(json_file), config_hash, overrides_name

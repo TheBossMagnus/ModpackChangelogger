@@ -1,10 +1,11 @@
 import argparse
 import logging
+import os
 import sys
 
-import constants
 from compare_packs import compare_packs
 from config_handler import create_config, load_config
+from constants import VERSION
 from extract_pack_data import cf_get_pack_data, mr_get_pack_data
 from get_json import get_json
 from out import markdown_out
@@ -31,7 +32,7 @@ def setup_logging(debug):
         logging.basicConfig(level=logging.INFO, handlers=[console_handler])
 
     logger = logging.getLogger(__name__)
-    logger.debug("Version: %s", constants.VERSION)
+    logger.debug("Version: %s", VERSION)
 
 
 def parse_arguments():
@@ -48,7 +49,7 @@ def parse_arguments():
 def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=False):
     # Reset the modpack format
     # This is done so that the program can be called multiple times as an import in the same script
-    constants.Modpacks_Format = None
+    os.environ["MODPACKS_FORMAT"] = ""
     # Setup logging
     setup_logging(debug)
     logger = logging.getLogger(__name__)
@@ -82,7 +83,7 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
     new_json, new_config_hash, new_overrides = get_json(new_path)
 
     # Get pack data based on the modpack format
-    if constants.Modpacks_Format == "modrinth":
+    if os.getenv("MODPACKS_FORMAT") == "modrinth":
         old_ids, new_ids, old_info, new_info = mr_get_pack_data(old_json, new_json)
     else:
         old_ids, new_ids, old_info, new_info = cf_get_pack_data(old_json, new_json)
@@ -106,5 +107,5 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
 if __name__ == "__main__":
     args = parse_arguments()
     if args.version:
-        print(f"ModpackChangelogger {constants.VERSION}")
+        print(f"ModpackChangelogger {VERSION}")
     modpack_changelogger(args.old, args.new, args.config, args.file, args.debug)
