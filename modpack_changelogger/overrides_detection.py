@@ -4,7 +4,7 @@ import os
 
 import aiohttp
 
-from constants import MR_API_URL, MR_HEADERS
+from .constants import MR_API_URL, MR_HEADERS
 
 
 def add_overrides(old_overrides, new_overrides, config):

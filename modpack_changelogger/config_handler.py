@@ -3,7 +3,7 @@ import logging
 import os
 import sys
 
-from constants import DEFAULT_CONFIG
+from .constants import DEFAULT_CONFIG
 
 
 def create_config():

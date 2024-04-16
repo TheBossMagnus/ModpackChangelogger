@@ -3,13 +3,13 @@ import logging
 import os
 import sys
 
-from compare_packs import compare_packs
-from config_handler import create_config, load_config
-from constants import VERSION
-from extract_pack_data import cf_get_pack_data, mr_get_pack_data
-from get_json import get_json
-from out import markdown_out
-from overrides_detection import add_overrides
+from .compare_packs import compare_packs
+from .config_handler import create_config, load_config
+from .constants import VERSION
+from .extract_pack_data import cf_get_pack_data, mr_get_pack_data
+from .get_json import get_json
+from .out import markdown_out
+from .overrides_detection import add_overrides
 
 
 def setup_logging(debug):

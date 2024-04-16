@@ -5,7 +5,7 @@ import os
 
 import aiohttp
 
-from constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
+from .constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
 
 
 async def get_mod_names(added_ids, removed_ids, updated_ids):
