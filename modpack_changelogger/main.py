@@ -103,9 +103,11 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
     # Output the changelog
     markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)
 
-
-if __name__ == "__main__":
+def main():
     args = parse_arguments()
     if args.version:
         print(f"ModpackChangelogger {VERSION}")
     modpack_changelogger(args.old, args.new, args.config, args.file, args.debug)
+
+if __name__ == "__main__":
+    main()

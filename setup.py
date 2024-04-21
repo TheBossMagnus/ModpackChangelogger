@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="modpack_changelogger",
-    version="0.4.0-dev1",
+    version="0.4.0-dev",
     packages=find_packages(),
     description="A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format.",
     author="TheBossMagnus",
@@ -24,4 +24,9 @@ setup(
     install_requires=[
         "aiohttp>=3.9.5",
     ],
+     entry_points={
+        'console_scripts': [
+            'modpack-changelogger=modpack_changelogger.main:main',
+        ],
+    },
 )
