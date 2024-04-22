@@ -24,9 +24,9 @@ setup(
     install_requires=[
         "aiohttp>=3.9.5",
     ],
-     entry_points={
-        'console_scripts': [
-            'modpack-changelogger=modpack_changelogger.main:main',
+    entry_points={
+        "console_scripts": [
+            "modpack-changelogger=modpack_changelogger:cli_wrapper.wrapper",
         ],
     },
 )

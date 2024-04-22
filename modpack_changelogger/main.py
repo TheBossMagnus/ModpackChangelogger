@@ -35,18 +35,7 @@ def setup_logging(debug):
     logger.debug("Version: %s", VERSION)
 
 
-def parse_arguments():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--old", help="First pack to compare")
-    parser.add_argument("-n", "--new", help="The pack to compare against")
-    parser.add_argument("-c", "--config", default=None, nargs="?", const="new", help="Use a config file; 'new' creates a new one")
-    parser.add_argument("-f", "--file", default="Changelog.md", help="Specify the output file for the changelog, 'console' prints to console")
-    parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
-    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
-    return parser.parse_args()
-
-
-def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=False):
+def generate_changelog(old_path, new_path, config_path, changelog_file, debug=False):
     # Reset the modpack format
     # This is done so that the program can be called multiple times as an import in the same script
     os.environ["MODPACKS_FORMAT"] = ""
@@ -102,12 +91,3 @@ def modpack_changelogger(old_path, new_path, config_path, changelog_file, debug=
 
     # Output the changelog
     markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)
-
-def main():
-    args = parse_arguments()
-    if args.version:
-        print(f"ModpackChangelogger {VERSION}")
-    modpack_changelogger(args.old, args.new, args.config, args.file, args.debug)
-
-if __name__ == "__main__":
-    main()
