@@ -4,7 +4,6 @@ import subprocess
 import sys
 import unittest
 
-sys.path.append(r"D:\ModpackChangelogger")
 from modpack_changelogger.main import generate_changelog
 
 
