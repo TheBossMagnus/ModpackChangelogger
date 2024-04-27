@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 setup(
     name="modpack_changelogger",
-    version="0.4.0-dev",
+    version="0.4.0.dev0",
     packages=find_packages(),
     description="A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format.",
     author="TheBossMagnus",

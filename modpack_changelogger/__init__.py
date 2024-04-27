@@ -1,1 +1,1 @@
-from .main import modpack_changelogger
+from .main import generate_changelog
