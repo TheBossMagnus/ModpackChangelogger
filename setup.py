@@ -1,11 +1,12 @@
 from setuptools import find_packages, setup
+from modpack_changelogger.constants import VERSION
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
     name="modpack_changelogger",
-    version="0.4.0.dev0",
+    version=VERSION, # Use the version number defined in constants.py
     packages=find_packages(),
     description="A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format.",
     author="TheBossMagnus",
