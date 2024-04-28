@@ -3,16 +3,25 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## Unreleased - TBD
 ### **BREAKING CHANGES**
+* Changed how the project is installed/used
 * Changed the name of many config values
 * Changed the package name
 ### Added
+* The program is now published to pypi
+     * It can be runned as a standalone cli or imported as a module
 * Added detection of mods added as .jar in the override folder (only for Modrinth)
 * Added detection of changes to config files of mods
+* Added the ability to return the changelog as a value in 2 ways
+     * Unformatted: 3 different variables (added, udated, removed)
+     * Formatted: 1 unified variable with the formatted changelog
 * The whole code is now linted via isort and black
+### Removed
+* Removed the already-deprecated linux compiled binaries
 ### Changed
-* Changed some text in the output changelog
+* Changed how the project has to be run from the source .py files
+* Changed some texts in the output changelog
 
 ## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-1
 ### Fixed
