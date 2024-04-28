@@ -90,14 +90,15 @@ def generate_changelog(old_path, new_path, config_path, changelog_file, debug=Fa
 
     if changelog_file is None:
         changelog_file = "Changelog.md"
-    elif changelog_file.lower() == "unformatted":
+
+    if changelog_file.lower() == "unformatted":
         logging.debug("Returned as unformatted changelog")
         return added, removed, updated
-    elif changelog_file.lower() == "formatted":
+    if changelog_file.lower() == "formatted":
         logging.debug("Returned as formatted changelog")
         return markdown_out(added, removed, updated, old_info, new_info, config, None)  # if changelog_file is None, it will return the markdown text
     if changelog_file.lower() == "console":
-        print(markdown_out(added, removed, updated, old_info, new_info, config, None))
         logging.debug("Printed changelog to console")
+        print(markdown_out(added, removed, updated, old_info, new_info, config, None))
     else:
         markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)
