@@ -20,7 +20,7 @@ jobs:
 
     - name: Get commit SHA
       id: commit_sha
-      run: echo "::set-output name=sha::$(echo ${GITHUB_SHA::7})"
+      run: echo "{sha}={$(echo ${GITHUB_SHA::7})}" >> $GITHUB_OUTPUT
 
     - name: Build with PyInstaller
       run: |
