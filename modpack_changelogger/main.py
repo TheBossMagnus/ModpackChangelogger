@@ -1,4 +1,3 @@
-import argparse
 import logging
 import os
 import sys
@@ -96,7 +95,7 @@ def generate_changelog(old_path, new_path, config_path, changelog_file, debug=Fa
         return added, removed, updated
     elif changelog_file.lower() == "formatted":
         logging.debug("Returned as formatted changelog")
-        return markdown_out(added, removed, updated, old_info, new_info, config, None) # if changelog_file is None, it will return the markdown text
+        return markdown_out(added, removed, updated, old_info, new_info, config, None)  # if changelog_file is None, it will return the markdown text
     if changelog_file.lower() == "console":
         print(markdown_out(added, removed, updated, old_info, new_info, config, None))
         logging.debug("Printed changelog to console")
