@@ -4,10 +4,7 @@ on:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest]
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -21,12 +18,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install pyinstaller aiohttp
 
+    - name: Get commit SHA
+      id: commit_sha
+      run: echo "::set-output name=sha::$(echo ${GITHUB_SHA::7})"
+
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --icon=NONE --name ModpackChangelogger-${{ github.sha }} modpack_changelogger.py
+        pyinstaller --onefile --icon=NONE --name ModpackChangelogger-${{ steps.commit_sha.outputs.sha }} modpack_changelogger.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.os }}
+        name: ModpackChangelogger-${{ steps.commit_sha.outputs.sha }}
         path: dist/ModpackChangelogger*
