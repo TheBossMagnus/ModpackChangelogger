@@ -23,7 +23,7 @@ def add_overrides(old_overrides, new_overrides, config):
                             project_name = data["project_id"]
                             d[project_name] = d.pop(file_hash)
                             d[project_name] = True
-                            logging.debug('Found overrides from project id "%d"', project_name)
+                            logging.debug('Found overrides from project id "%s"', project_name)
                         else:
                             d[file_hash] = False
 
