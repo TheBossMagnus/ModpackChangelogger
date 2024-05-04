@@ -2,9 +2,13 @@ import filecmp
 import os
 import subprocess
 import sys
+
 import pytest
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))  # noqa # pylint disable=wrong-import-position
+
 from modpack_changelogger.main import generate_changelog
+
 
 def test_mr_packs():
     old_pack = "test/packs/old.mrpack"
@@ -14,6 +18,7 @@ def test_mr_packs():
     generate_changelog(old_pack, new_pack, None, None)
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
+
 def test_cf_packs():
     old_pack = "test/packs/old.zip"
     new_pack = "test/packs/new.zip"
@@ -21,6 +26,7 @@ def test_cf_packs():
 
     generate_changelog(old_pack, new_pack, None, None)
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
 
 def test_config_parameters():
     old_pack = "test/packs/old.mrpack"
@@ -31,6 +37,7 @@ def test_config_parameters():
     generate_changelog(old_pack, new_pack, config_path, None)
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
+
 def test_config_parameters_2():
     old_pack = "test/packs/old.mrpack"
     new_pack = "test/packs/new.mrpack"
@@ -40,6 +47,7 @@ def test_config_parameters_2():
     generate_changelog(old_pack, new_pack, config_path, None)
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
+
 def test_config_parameters_3():
     old_pack = "test/packs/old.mrpack"
     new_pack = "test/packs/new.mrpack"
@@ -47,6 +55,7 @@ def test_config_parameters_3():
 
     with pytest.raises(SystemExit):
         generate_changelog(old_pack, new_pack, config_path, None, False)
+
 
 def test_run_as_script():
     script_path = r"modpack_changelogger.py"
