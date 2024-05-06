@@ -12,7 +12,7 @@ def create_config():
             json.dump(DEFAULT_CONFIG, f, indent=4)
         logging.info("Created a new config.json")
     except PermissionError:
-        logging.error("ERROR: Unable to create the config.json in %s. Try running as administrator", os.getcwd())
+        logging.error("ERROR: Unable to create the config.json file in %s. Try running as administrator", os.getcwd())
         sys.exit(1)
 
 

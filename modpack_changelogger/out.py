@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 
 
@@ -16,11 +17,14 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
 
 
 def write_to_file(filename, text):
+    if os.path.isdir(filename):
+        logging.error("ERROR: The path provided (%s) is a directory, not a file.", filename)
+        sys.exit(1)
     try:
         with open(filename, "w", encoding="utf-8") as f:
             f.write(text)
     except FileNotFoundError:
-        logging.error("ERROR: The folder selected for the changelog (%s) doesn't exist.", filename)
+        logging.error("ERROR: The folder selected for the changelog file (%s) doesn't exist.", filename)
         sys.exit(1)
     except PermissionError:
         logging.error("ERROR: You don't have access to the file selected for the changelog (%s). Try running as administrator", filename)
