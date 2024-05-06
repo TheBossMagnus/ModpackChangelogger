@@ -5,6 +5,7 @@ import os
 import shutil
 import sys
 from zipfile import ZipFile
+import tempfile
 
 
 def get_json(path):
@@ -28,40 +29,28 @@ def get_json(path):
         logging.error("ERROR: Given modpack is not in a supported format")
         sys.exit(1)
 
-    # Create a temporary directory
-    temp_dir = os.path.join(os.environ.get("TEMP") or os.environ.get("TMPDIR") or "/tmp", "ModpackChangelogger")
-    os.makedirs(temp_dir, exist_ok=True)
-
-    try:
-        # Unpack the modpack file into the temp directory
-        with ZipFile(path, "r") as zip_obj:
-            zip_obj.extractall(path=temp_dir)
-            logging.debug("Extracted %s to %s", path, temp_dir)
-
-        # Get config folder hash
-        config_hash = hash_directory(os.path.join(temp_dir, "overrides", "config"))
-        overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
-
-        # Parse the json file
-        json_path = os.path.join(temp_dir, "modrinth.index.json" if os.getenv("MODPACKS_FORMAT") == "modrinth" else "manifest.json")
-        with open(json_path, "r", encoding="utf-8") as json_file:
-            logging.debug("Parsed %s", json_path)
-            return json.load(json_file), config_hash, overrides_name
-    except FileNotFoundError:
-        logging.error("ERROR: The file %s does not exist", json_path)
-        sys.exit(1)
-    except ValueError:
-        logging.error("ERROR: The file %s is not formatted correctly", json_path)
-        sys.exit(1)
-    finally:
-        try:    
-            # Delete the extracted files
-            shutil.rmtree(temp_dir)
-            logging.debug("Deleted the temp files in %s", temp_dir)
+    # Create a temporary directory to extract the modpack into
+    with tempfile.TemporaryDirectory() as temp_dir:
+        try:
+            # Unpack the modpack file into the temp directory
+            with ZipFile(path, "r") as zip_obj:
+                zip_obj.extractall(path=temp_dir)
+                logging.debug("Extracted %s to %s", path, temp_dir)
+    
+            # Get config folder hash
+            config_hash = hash_directory(os.path.join(temp_dir, "overrides", "config"))
+            overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
+    
+            # Parse the json file
+            json_path = os.path.join(temp_dir, "modrinth.index.json" if os.getenv("MODPACKS_FORMAT") == "modrinth" else "manifest.json")
+            with open(json_path, "r", encoding="utf-8") as json_file:
+                logging.debug("Parsed %s", json_path)
+                return json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:
-            pass
-        except PermissionError:
-            logging.warning("WARNING: Could not delete the temporary files in %s, probably are bei ng used by another process", temp_dir)
+            logging.error("ERROR: The file %s does not exist", json_path)
+            sys.exit(1)
+        except ValueError:
+            logging.error("ERROR: The file %s is not formatted correctly", json_path)
             sys.exit(1)
 
 
