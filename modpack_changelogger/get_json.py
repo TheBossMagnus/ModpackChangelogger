@@ -54,9 +54,16 @@ def get_json(path):
         logging.error("ERROR: The file %s is not formatted correctly", json_path)
         sys.exit(1)
     finally:
-        # Delete the extracted files
-        shutil.rmtree(temp_dir)
-        logging.debug("Deleted the temp files in %s", temp_dir)
+        try:    
+            # Delete the extracted files
+            shutil.rmtree(temp_dir)
+            logging.debug("Deleted the temp files in %s", temp_dir)
+        except FileNotFoundError:
+            pass
+        except PermissionError:
+            logging.warning("WARNING: Could not delete the temporary files in %s, probably are bei ng used by another process", temp_dir)
+            sys.exit(1)
+
 
 
 def hash_directory(directory):
