@@ -2,7 +2,6 @@ import hashlib
 import json
 import logging
 import os
-import shutil
 import sys
 from zipfile import ZipFile
 import tempfile
@@ -36,11 +35,11 @@ def get_json(path):
             with ZipFile(path, "r") as zip_obj:
                 zip_obj.extractall(path=temp_dir)
                 logging.debug("Extracted %s to %s", path, temp_dir)
-    
+
             # Get config folder hash
             config_hash = hash_directory(os.path.join(temp_dir, "overrides", "config"))
             overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
-    
+
             # Parse the json file
             json_path = os.path.join(temp_dir, "modrinth.index.json" if os.getenv("MODPACKS_FORMAT") == "modrinth" else "manifest.json")
             with open(json_path, "r", encoding="utf-8") as json_file:
