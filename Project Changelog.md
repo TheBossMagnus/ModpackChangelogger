@@ -22,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * Changed how the project has to be run from the source .py files
 * Changed some texts in the output changelog
+* Improved the handling of the extraction temp dir
+* Imporved the error handling and the error messages
 
 ## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-1
 ### Fixed
