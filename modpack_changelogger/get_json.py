@@ -3,8 +3,8 @@ import json
 import logging
 import os
 import sys
-from zipfile import ZipFile
 import tempfile
+from zipfile import ZipFile
 
 
 def get_json(path):
@@ -51,7 +51,6 @@ def get_json(path):
         except ValueError:
             logging.error("ERROR: The file %s is not formatted correctly", json_path)
             sys.exit(1)
-
 
 
 def hash_directory(directory):

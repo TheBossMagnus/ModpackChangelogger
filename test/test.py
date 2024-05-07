@@ -28,6 +28,7 @@ def test_cf():
     generate_changelog(old_pack, new_pack, None, None)
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
+
 def test_broken_config():
     config_path = "test/configs/broken_config.json"
 
@@ -44,6 +45,5 @@ def test_run_as_script():
     assert result.returncode == 0
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
-    
     if os.path.exists("Changelog.md"):
         os.remove("Changelog.md")
