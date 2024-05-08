@@ -1,16 +1,15 @@
 import asyncio
 import json
 import logging
-import os
 
 import aiohttp
 
 from .constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
 
 
-async def get_mod_names(added_ids, removed_ids, updated_ids):
+async def get_mod_names(MODPACKS_FORMAT, added_ids, removed_ids, updated_ids):
     async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
-        api_function = {"modrinth": request_from_mr_api, "curseforge": request_from_cf_api}.get(os.getenv("MODPACKS_FORMAT"))
+        api_function = {"modrinth": request_from_mr_api, "curseforge": request_from_cf_api}.get(MODPACKS_FORMAT)
         added_names, removed_names, updated_names = await asyncio.gather(api_function(session, added_ids), api_function(session, removed_ids), api_function(session, updated_ids))
 
     return added_names, removed_names, updated_names

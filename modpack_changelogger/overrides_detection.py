@@ -1,13 +1,12 @@
 import asyncio
 import logging
-import os
 
 import aiohttp
 
 from .constants import MR_API_URL, MR_HEADERS
 
 
-def add_overrides(old_overrides, new_overrides, config):
+def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
 
     identical_entries = set(old_overrides.values()) & set(new_overrides.values())
     old_overrides = {file_hash: name for file_hash, name in old_overrides.items() if name not in identical_entries}
@@ -27,7 +26,7 @@ def add_overrides(old_overrides, new_overrides, config):
                         else:
                             d[file_hash] = False
 
-    if os.getenv("MODPACKS_FORMAT") == "modrinth":
+    if MODPACKS_FORMAT == "modrinth":
         asyncio.run(get_names_from_hashes(old_overrides, new_overrides))
 
     old_identified_overrides = {name for name, key in old_overrides.items() if key is True}

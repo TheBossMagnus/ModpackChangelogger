@@ -4,7 +4,7 @@ import logging
 from .get_mod_names import get_mod_names
 
 
-def compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config):
+def compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config):
     updated_ids = old_ids & new_ids
     added_ids = new_ids - old_ids
     removed_ids = old_ids - new_ids
@@ -14,7 +14,7 @@ def compare_packs(old_ids, new_ids, old_info, new_info, old_config_hash, new_con
     removed_ids = removed_ids if config["check"]["removed_mods"] else set()
     updated_ids = updated_ids if config["check"]["updated_mods"] else set()
 
-    added_mods, removed_mods, updated_mods = asyncio.run(get_mod_names(added_ids, removed_ids, updated_ids))
+    added_mods, removed_mods, updated_mods = asyncio.run(get_mod_names(MODPACKS_FORMAT, added_ids, removed_ids, updated_ids))
 
     added_mods = sorted(mod for mod in added_mods if mod)
     removed_mods = sorted(mod for mod in removed_mods if mod)
