@@ -28,12 +28,26 @@ def test_cf():
     generate_changelog(old_pack, new_pack, None, None)
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
+def test_formatted():
+    expected_output = "test/expected/formatted.md"
+    with open(expected_output, 'r') as file:
+        expected_output = file.read()
+
+
+    ret_changelog = generate_changelog(old_pack, new_pack, None, "formatted")
+    if ret_changelog == expected_output:
+        assert True
+    else:
+        assert False
+
+
+
 
 def test_broken_config():
     config_path = "test/configs/broken_config.json"
 
     with pytest.raises(SystemExit):
-        generate_changelog(old_pack, new_pack, config_path, None, False)
+        generate_changelog(old_pack, new_pack, config_path, None)
 
 
 def test_run_as_script():
