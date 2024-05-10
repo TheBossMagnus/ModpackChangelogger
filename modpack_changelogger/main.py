@@ -24,6 +24,7 @@ def setup_logging(debug):
 
     logger = logging.getLogger(__name__)
     logger.debug("Version: %s", VERSION)
+
     def log_all_exceptions(type, value, tb):
         logger.error("Uncaught exception: ", exc_info=(type, value, tb))
 

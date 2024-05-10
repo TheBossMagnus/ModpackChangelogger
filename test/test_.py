@@ -1,9 +1,9 @@
 import filecmp
 import io
 import os
+import re
 import subprocess
 import sys
-import re
 
 import pytest
 
@@ -72,13 +72,15 @@ def test_config_new():
     finally:
         os.remove("config.json")
 
+
 def test_version():
     script_name = "modpack_changelogger.py"
 
     result = subprocess.run([sys.executable, script_name, "-v"], check=False, capture_output=True, text=True)
-    assert re.fullmatch(r'ModpackChangelogger \d+\.\d+\.\d+(-\w+)?', result.stdout.strip()) is not None
+    assert re.fullmatch(r"ModpackChangelogger \d+\.\d+\.\d+(-\w+)?", result.stdout.strip()) is not None
 
     assert result.returncode == 0
+
 
 def test_broken_config():
     config_path = "test/configs/broken_config.json"
