@@ -82,6 +82,54 @@ def test_version():
     assert result.returncode == 0
 
 
+def test_debug():
+    generate_changelog(OLD_PACK, NEW_PACK, None, None, True)
+    try:
+        assert os.path.isfile("log.txt")
+    finally:
+        os.remove("log.txt")
+
+
+def test_check_options():
+    config_path = "test/configs/check_options.json"
+    expected_output = "test/expected/check_options.md"
+
+    generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
+    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
+
+def test_comma():
+    config_path = "test/configs/comma.json"
+    expected_output = "test/expected/comma.md"
+
+    generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
+    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
+
+def test_ind_bullet():
+    config_path = "test/configs/ind_bullet.json"
+    expected_output = "test/expected/ind_bullet.md"
+
+    generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
+    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
+
+def test_ind_comma():
+    config_path = "test/configs/ind_comma.json"
+    expected_output = "test/expected/ind_comma.md"
+
+    generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
+    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
+
+def test_header():
+    config_path = "test/configs/header.json"
+    expected_output = "test/expected/header.md"
+
+    generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
+    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
+
 def test_broken_config():
     config_path = "test/configs/broken_config.json"
 
