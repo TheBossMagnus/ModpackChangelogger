@@ -10,9 +10,9 @@ def create_config():
     try:
         with open("config.json", "w", encoding="utf-8") as f:
             json.dump(DEFAULT_CONFIG, f, indent=4)
-        logging.info("Created a new config.json")
+        print("Created a new config.json")
     except PermissionError:
-        logging.error("ERROR: Unable to create the config.json file in %s. Try running as administrator", os.getcwd())
+        print("ERROR: Unable to create the config.json file in %s. Try running as administrator", os.getcwd())
         sys.exit(1)
 
 
@@ -37,7 +37,7 @@ def load_config(config_file):
         return DEFAULT_CONFIG
 
     if not os.path.isfile(config_file):
-        logging.error("ERROR: The chosen config file (%s) does not exist", config_file)
+        print("ERROR: The chosen config file (%s) does not exist", config_file)
         sys.exit(1)
 
     try:
@@ -47,10 +47,10 @@ def load_config(config_file):
             config = validate_config(config, DEFAULT_CONFIG)
         logging.debug("CONFIG: %s", config)
     except json.JSONDecodeError:
-        logging.error("ERROR: %s is not a valid JSON file", config_file)
+        print("ERROR: %s is not a valid JSON file", config_file)
         sys.exit(1)
     except ValueError as e:
-        logging.error("ERROR: %s", e)
+        print("ERROR: %s", e)
         sys.exit(1)
 
     return config

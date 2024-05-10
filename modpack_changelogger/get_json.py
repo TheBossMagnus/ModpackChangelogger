@@ -9,23 +9,23 @@ from zipfile import ZipFile
 
 def get_json(MODPACKS_FORMAT, path):
     if not os.path.exists(path):
-        logging.error("ERROR: The file %s does not exist", path)
+        print("ERROR: The file %s does not exist", path)
         sys.exit(1)
 
     if path.endswith(".mrpack"):
         if MODPACKS_FORMAT == "curseforge":
-            logging.error("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
+            print("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
             sys.exit(1)
         MODPACKS_FORMAT = "modrinth"
         logging.debug("Detected Modrinth modpack")
     elif path.endswith(".zip"):
         if MODPACKS_FORMAT == "modrinth":
-            logging.error("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
+            print("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
             sys.exit(1)
         MODPACKS_FORMAT = "curseforge"
         logging.debug("Detected CurseForge modpack")
     else:
-        logging.error("ERROR: Given modpack is not in a supported format")
+        print("ERROR: Given modpack is not in a supported format")
         sys.exit(1)
 
     # Create a temporary directory to extract the modpack into
@@ -46,10 +46,10 @@ def get_json(MODPACKS_FORMAT, path):
                 logging.debug("Parsed %s", json_path)
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:
-            logging.error("ERROR: The file %s does not exist", json_path)
+            print("ERROR: The file %s does not exist", json_path)
             sys.exit(1)
         except ValueError:
-            logging.error("ERROR: The file %s is not formatted correctly", json_path)
+            print("ERROR: The file %s is not formatted correctly", json_path)
             sys.exit(1)
 
 

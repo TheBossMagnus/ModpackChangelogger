@@ -52,10 +52,10 @@ async def request_from_cf_api(session, ids):
 
 def handle_request_errors(e, url):
     if isinstance(e, aiohttp.ClientConnectionError):
-        logging.warning("Failed to connect to %s: %s", url, e)
+        print("Failed to connect to %s: %s", url, e)
     elif isinstance(e, asyncio.TimeoutError):
-        logging.warning("The request %s timed out", url)
+        print("The request %s timed out", url)
     elif isinstance(e, aiohttp.ClientResponseError):
-        logging.warning("Server responded with an error for %s: %s", url, e)
+        print("Server responded with an error for %s: %s", url, e)
     else:
-        logging.warning("An unexpected error occurred: %s", e)
+        print("An unexpected error occurred: %s", e)

@@ -11,35 +11,29 @@ from .overrides_detection import add_overrides
 
 
 def setup_logging(debug):
-    # High level logging to console
-    console_handler = logging.StreamHandler()
-    console_handler.setLevel(logging.INFO)
-    console_handler.setFormatter(logging.Formatter("%(message)s"))
-
-    # Debug logging to txt file
     if debug:
-        # Clear the log file
         with open("log.txt", "w", encoding="utf-8") as f:
             f.write("")
 
         file_handler = logging.FileHandler("log.txt", encoding="utf-8")
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s", datefmt="%H:%M"))
-        logging.basicConfig(level=logging.DEBUG, handlers=[console_handler, file_handler])
-    else:
-        logging.basicConfig(level=logging.INFO, handlers=[console_handler])
+
+        logging.basicConfig(level=logging.DEBUG, handlers=[file_handler])
+        print("Debug logging enabled")
 
     logger = logging.getLogger(__name__)
     logger.debug("Version: %s", VERSION)
+    def log_all_exceptions(type, value, tb):
+        logger.error("Uncaught exception: ", exc_info=(type, value, tb))
+
+    sys.excepthook = log_all_exceptions
 
 
 def generate_changelog(old_path, new_path, config_path, changelog_file, debug=False):
     # Setup logging
     setup_logging(debug)
     logger = logging.getLogger(__name__)
-
-    if debug:
-        logger.warning("Debug logging enabled")
 
     # Handle config creation
     if config_path is not None and config_path.lower() == "new":
