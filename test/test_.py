@@ -29,6 +29,15 @@ def test_cf():
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
 
+def test_custom_changelog_file():
+    expected_output = "test/expected/custom_changelog_file.md"
+
+    try:
+        generate_changelog(OLD_PACK,  NEW_PACK, None, "custom_name.md")
+        assert filecmp.cmp("custom_name.md", expected_output, shallow=False)
+    finally:
+        if os.path.exists("custom_name.md"):
+            os.remove("custom_name.md")
 def test_formatted():
     expected_output = "test/expected/formatted.md"
     with open(expected_output, "r", encoding="utf-8") as file:
@@ -137,14 +146,22 @@ def test_broken_config():
         generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
 
 
+def test_inavlid_config_path():
+    config_path = "invalid_config.json"
+
+    with pytest.raises(SystemExit):
+        generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
+
+
+
 def test_run_as_script():
     script_name = "modpack_changelogger.py"
     expected_output = "test/expected/run_as_script.md"
 
-    result = subprocess.run([sys.executable, script_name, "-o", OLD_PACK, "-n", NEW_PACK], check=False)
-
-    assert result.returncode == 0
-    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
-
-    if os.path.exists("Changelog.md"):
-        os.remove("Changelog.md")
+    try:
+        result = subprocess.run([sys.executable, script_name, "-o", OLD_PACK, "-n", NEW_PACK], check=False)
+        assert result.returncode == 0
+        assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+    finally:
+        if os.path.exists("Changelog.md"):
+            os.remove("Changelog.md")
