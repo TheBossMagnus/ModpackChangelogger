@@ -5,15 +5,12 @@ import sys
 
 from .constants import DEFAULT_CONFIG
 
-
 def create_config():
     try:
         with open("config.json", "w", encoding="utf-8") as f:
             json.dump(DEFAULT_CONFIG, f, indent=4)
-        print("Created a new config.json")
-    except PermissionError:
-        print("ERROR: Unable to create the config.json file in %s. Try running as administrator", os.getcwd())
-        sys.exit(1)
+    except PermissionError as e:
+        raise e
 
 
 def validate_config(config, default_config):

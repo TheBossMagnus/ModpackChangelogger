@@ -33,11 +33,13 @@ def test_custom_changelog_file():
     expected_output = "test/expected/custom_changelog_file.md"
 
     try:
-        generate_changelog(OLD_PACK,  NEW_PACK, None, "custom_name.md")
+        generate_changelog(OLD_PACK, NEW_PACK, None, "custom_name.md")
         assert filecmp.cmp("custom_name.md", expected_output, shallow=False)
     finally:
         if os.path.exists("custom_name.md"):
             os.remove("custom_name.md")
+
+
 def test_formatted():
     expected_output = "test/expected/formatted.md"
     with open(expected_output, "r", encoding="utf-8") as file:
@@ -151,7 +153,6 @@ def test_inavlid_config_path():
 
     with pytest.raises(SystemExit):
         generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
-
 
 
 def test_run_as_script():
