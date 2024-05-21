@@ -33,10 +33,8 @@ def setup_logging(debug):
 
 
 def generate_changelog(old_path, new_path, config_path, changelog_file, debug=False):
-    try:
-        create_config()
-    except Exception as e:
-        raise e
+    create_config()
+
     # Setup logging
     setup_logging(debug)
     logger = logging.getLogger(__name__)

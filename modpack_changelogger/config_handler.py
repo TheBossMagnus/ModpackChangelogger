@@ -6,18 +6,13 @@ import sys
 from .constants import DEFAULT_CONFIG
 
 def create_config():
-    try:
-        with open("config.json", "w", encoding="utf-8") as f:
-            json.dump(DEFAULT_CONFIG, f, indent=4)
-    except PermissionError as e:
-        raise e
+    with open("config.json", "w", encoding="utf-8") as f:
+        json.dump(DEFAULT_CONFIG, f, indent=4)
 
 
 def validate_config(config, default_config):
     """Check if all the fields are present and are of the correct type"""
 
-    if not isinstance(config, dict):
-        raise ValueError("Config must be a dictionary")
     for key, default_value in default_config.items():
         if key not in config:
             config[key] = default_value
