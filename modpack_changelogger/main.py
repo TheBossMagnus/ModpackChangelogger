@@ -10,8 +10,6 @@ from .out import markdown_out
 from .overrides_detection import add_overrides
 
 
-
-
 def generate_changelog(old_path, new_path, config_path, changelog_file):
     create_config()
 
@@ -55,7 +53,6 @@ def generate_changelog(old_path, new_path, config_path, changelog_file):
     if config["check"]["unidentified_overrides_mods"]:
         added = added + list(new_unidentified_overrides)
         removed = removed + list(old_unidentified_overrides)
-
 
     if changelog_file is None:
         changelog_file = "Changelog.md"

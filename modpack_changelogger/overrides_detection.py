@@ -1,6 +1,5 @@
 import asyncio
 
-
 import aiohttp
 
 from .constants import MR_API_URL, MR_HEADERS

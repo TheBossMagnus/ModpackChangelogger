@@ -4,6 +4,7 @@ import sys
 
 from .constants import DEFAULT_CONFIG
 
+
 def create_config():
     with open("config.json", "w", encoding="utf-8") as f:
         json.dump(DEFAULT_CONFIG, f, indent=4)

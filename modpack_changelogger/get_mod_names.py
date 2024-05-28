@@ -1,7 +1,6 @@
 import asyncio
 import json
 
-
 import aiohttp
 
 from .constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
