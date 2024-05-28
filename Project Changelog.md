@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Changed how the project is installed/used
 * Changed the name of many config values
 * Changed the package name
+* Changed how errors are handled
 ### Added
 * The program is now published to pypi
      * It can be runned as a standalone cli or imported as a module
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * The whole code is now linted via isort and black
 ### Removed
 * Removed the already-deprecated linux compiled binaries
+* Removed the advanced debug logging
 ### Changed
 * Changed how the project has to be run from the source .py files
 * Changed some texts in the output changelog

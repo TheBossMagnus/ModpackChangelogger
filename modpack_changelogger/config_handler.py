@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import sys
 
@@ -25,7 +24,6 @@ def validate_config(config, default_config):
 
 def load_config(config_file):
     if not config_file:
-        logging.debug("CONFIG: Default")
         return DEFAULT_CONFIG
 
     if not os.path.isfile(config_file):
@@ -33,11 +31,9 @@ def load_config(config_file):
         sys.exit(1)
 
     try:
-        logging.debug("CONFIG PATH: %s", config_file)
         with open(config_file, "r", encoding="utf-8") as f:
             config = json.load(f)
             config = validate_config(config, DEFAULT_CONFIG)
-        logging.debug("CONFIG: %s", config)
     except json.JSONDecodeError:
         print("ERROR: %s is not a valid JSON file", config_file)
         sys.exit(1)

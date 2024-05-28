@@ -1,5 +1,5 @@
 import asyncio
-import logging
+
 
 import aiohttp
 
@@ -22,7 +22,7 @@ def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
                             project_name = data["project_id"]
                             d[project_name] = d.pop(file_hash)
                             d[project_name] = True
-                            logging.debug('Found overrides from project id "%s"', project_name)
+
                         else:
                             d[file_hash] = False
 

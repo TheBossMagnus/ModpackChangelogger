@@ -14,7 +14,6 @@ def wrapper():
     parser.add_argument("-c", "--config", help="Use a config file")
     parser.add_argument("-f", "--file", help="Specify the output file for the changelog")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
-    parser.add_argument("-d", "--debug", action="store_true", help="Enable debug logging")
     args = parser.parse_args()
     if args.version:
         print(f"ModpackChangelogger {VERSION}")
@@ -22,7 +21,7 @@ def wrapper():
             return
 
     try:
-        generate_changelog(args.old, args.new, args.config, args.file, args.debug)
+        generate_changelog(args.old, args.new, args.config, args.file)
     except PermissionError as e:
         print(f"ERROR: Unable to create or access the file {e.filename}.")
         sys.exit(1)

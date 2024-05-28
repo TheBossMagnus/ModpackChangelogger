@@ -1,4 +1,3 @@
-import logging
 import sys
 import traceback
 
@@ -11,33 +10,10 @@ from .out import markdown_out
 from .overrides_detection import add_overrides
 
 
-def setup_logging(debug):
-    if debug:
-        with open("log.txt", "w", encoding="utf-8") as f:
-            f.write("")
-
-        file_handler = logging.FileHandler("log.txt", encoding="utf-8")
-        file_handler.setLevel(logging.DEBUG)
-        file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s", datefmt="%H:%M"))
-
-        logging.basicConfig(level=logging.DEBUG, handlers=[file_handler])
-        print("Debug logging enabled")
-
-    logger = logging.getLogger(__name__)
-    logger.debug("Version: %s", VERSION)
-
-    def log_all_exceptions(type, value, tb):
-        logger.error("Uncaught exception: ", exc_info=(type, value, tb))
-
-    sys.excepthook = log_all_exceptions
 
 
-def generate_changelog(old_path, new_path, config_path, changelog_file, debug=False):
+def generate_changelog(old_path, new_path, config_path, changelog_file):
     create_config()
-
-    # Setup logging
-    setup_logging(debug)
-    logger = logging.getLogger(__name__)
 
     # Handle config creation
     if config_path is not None and config_path.lower() == "new":
@@ -48,13 +24,13 @@ def generate_changelog(old_path, new_path, config_path, changelog_file, debug=Fa
 
     # Check for required arguments
     if not old_path and not new_path:
-        logger.error("ERROR: No packs specified")
+        print("ERROR: No packs specified")
         sys.exit(1)
     elif not old_path:
-        logger.error("ERROR: No old pack specified")
+        print("ERROR: No old pack specified")
         sys.exit(1)
     elif not new_path:
-        logger.error("ERROR: No new pack specified")
+        print("ERROR: No new pack specified")
         sys.exit(1)
 
     # Load config
@@ -80,19 +56,18 @@ def generate_changelog(old_path, new_path, config_path, changelog_file, debug=Fa
         added = added + list(new_unidentified_overrides)
         removed = removed + list(old_unidentified_overrides)
 
-    logger.debug("Added mods: %s\nRemoved mods:%s\nUpdated mods:%s", added, removed, updated)
 
     if changelog_file is None:
         changelog_file = "Changelog.md"
 
     if changelog_file.lower() == "unformatted":
-        logging.debug("Returned as unformatted changelog")
+
         return added, removed, updated
     if changelog_file.lower() == "formatted":
-        logging.debug("Returned as formatted changelog")
+
         return markdown_out(added, removed, updated, old_info, new_info, config, None)  # if changelog_file is None, it will return the markdown text
     if changelog_file.lower() == "console":
-        logging.debug("Printed changelog to console")
+
         print(markdown_out(added, removed, updated, old_info, new_info, config, None))
     else:
         markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)

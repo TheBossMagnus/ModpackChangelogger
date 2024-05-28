@@ -1,4 +1,3 @@
-import logging
 import os
 import sys
 
@@ -13,7 +12,6 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
     if changelog_file is None:
         return str(markdown_text)
     write_to_file(changelog_file, markdown_text)
-    logging.debug("Changelog wrote to: %s", changelog_file)
 
 
 def write_to_file(filename, text):

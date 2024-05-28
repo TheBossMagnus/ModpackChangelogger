@@ -1,5 +1,5 @@
 import asyncio
-import logging
+
 
 from .get_mod_names import get_mod_names
 
@@ -24,17 +24,14 @@ def compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_con
         if old_info["loader"] != new_info["loader"]:
             added_mods.append(f"{new_info['loader'].capitalize()} (mod loader)")
             removed_mods.append(f"{old_info['loader'].capitalize()} (mod loader)")
-            logging.debug("Loader change detected: %s, new loader: %s", old_info["loader"], new_info["loader"])
+
         elif old_info["loader_version"] != new_info["loader_version"]:
             updated_mods.append(f"{new_info['loader'].capitalize()} (mod loader)")
-            logging.debug("Loader update detected: %s, new version: %s", old_info["loader"], new_info["loader_version"])
 
     if config["check"]["mc_version"] and old_info["mc_version"] != new_info["mc_version"]:
         updated_mods.append(f"Minecraft version to {new_info['mc_version']}")
-        logging.debug("Minecraft version change detected: %s, new version: %s", old_info["mc_version"], new_info["mc_version"])
 
     if config["check"]["config"] and old_config_hash != new_config_hash:
         updated_mods.append("Mods config")
-        logging.debug("Config changes detected")
 
     return added_mods, removed_mods, updated_mods

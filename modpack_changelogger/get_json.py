@@ -1,6 +1,6 @@
 import hashlib
 import json
-import logging
+
 import os
 import sys
 import tempfile
@@ -17,13 +17,13 @@ def get_json(MODPACKS_FORMAT, path):
             print("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
             sys.exit(1)
         MODPACKS_FORMAT = "modrinth"
-        logging.debug("Detected Modrinth modpack")
+
     elif path.endswith(".zip"):
         if MODPACKS_FORMAT == "modrinth":
             print("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
             sys.exit(1)
         MODPACKS_FORMAT = "curseforge"
-        logging.debug("Detected CurseForge modpack")
+
     else:
         print("ERROR: Given modpack is not in a supported format")
         sys.exit(1)
@@ -34,7 +34,6 @@ def get_json(MODPACKS_FORMAT, path):
             # Unpack the modpack file into the temp directory
             with ZipFile(path, "r") as zip_obj:
                 zip_obj.extractall(path=temp_dir)
-                logging.debug("Extracted %s to %s", path, temp_dir)
 
             # Get config folder hash
             config_hash = hash_directory(os.path.join(temp_dir, "overrides", "config"))
@@ -43,7 +42,7 @@ def get_json(MODPACKS_FORMAT, path):
             # Parse the json file
             json_path = os.path.join(temp_dir, "modrinth.index.json" if MODPACKS_FORMAT == "modrinth" else "manifest.json")
             with open(json_path, "r", encoding="utf-8") as json_file:
-                logging.debug("Parsed %s", json_path)
+
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:
             print("ERROR: The file %s does not exist", json_path)

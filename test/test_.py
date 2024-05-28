@@ -93,14 +93,6 @@ def test_version():
     assert result.returncode == 0
 
 
-def test_debug():
-    generate_changelog(OLD_PACK, NEW_PACK, None, None, True)
-    try:
-        assert os.path.isfile("log.txt")
-    finally:
-        os.remove("log.txt")
-
-
 def test_check_options():
     config_path = "test/configs/check_options.json"
     expected_output = "test/expected/check_options.md"
