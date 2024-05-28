@@ -2,6 +2,7 @@
 # It's a kinda hacky way to make the script callable from the command line and add a cli entrypoint to the package
 import argparse
 import sys
+import json
 
 from .constants import VERSION
 from .main import generate_changelog
@@ -22,10 +23,17 @@ def wrapper():
 
     try:
         generate_changelog(args.old, args.new, args.config, args.file)
-    except PermissionError as e:
-        print(f"ERROR: Unable to create or access the file {e.filename}.")
+    except json.JSONDecodeError as e:
+        print(f"ERROR: The json file {e.doc} is not formatted correctly")
         sys.exit(1)
-
+    except PermissionError as e:
+        print(f"ERROR: Unable to create or access the file {e.filename}")
+        sys.exit(1)
+    except ValueError as e:
+        print(f"ERROR: {e}")
+        sys.exit(1)
+    except FileNotFoundError as e:
+        print(f"The file {e.filename} does not exist")
     except Exception as e:
         print(f"Unexpected error: {e}")
         print("Please report this issue on the GitHub repository")

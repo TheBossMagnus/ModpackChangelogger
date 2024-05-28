@@ -13,4 +13,4 @@ if not os.path.isfile(json_path):
     json_path = None
 md_path = os.path.join(r"D:\ModpackChangelogger\test\expected", f"{name}.md")
 
-generate_changelog(old_pack, new_pack, json_path, md_path)
+generate_changelog(old_pack, new_pack, "json_path", "console")

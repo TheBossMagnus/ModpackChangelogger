@@ -27,19 +27,8 @@ def load_config(config_file):
     if not config_file:
         return DEFAULT_CONFIG
 
-    if not os.path.isfile(config_file):
-        print("ERROR: The chosen config file (%s) does not exist", config_file)
-        sys.exit(1)
-
-    try:
-        with open(config_file, "r", encoding="utf-8") as f:
-            config = json.load(f)
-            config = validate_config(config, DEFAULT_CONFIG)
-    except json.JSONDecodeError:
-        print("ERROR: %s is not a valid JSON file", config_file)
-        sys.exit(1)
-    except ValueError as e:
-        print("ERROR: %s", e)
-        sys.exit(1)
+    with open(config_file, "r", encoding="utf-8") as f:
+        config = json.load(f)
+        config = validate_config(config, DEFAULT_CONFIG)
 
     return config
