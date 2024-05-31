@@ -3,7 +3,7 @@ import json
 
 import aiohttp
 
-from .constants import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
+from .utils import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS, handle_request_errors
 
 
 async def get_mod_names(MODPACKS_FORMAT, added_ids, removed_ids, updated_ids):
@@ -47,14 +47,3 @@ async def request_from_cf_api(session, ids):
         handle_request_errors(e, url)
 
     return names
-
-
-def handle_request_errors(e, url):
-    if isinstance(e, aiohttp.ClientConnectionError):
-        print("Failed to connect to %s: %s", url, e)
-    elif isinstance(e, asyncio.TimeoutError):
-        print("The request %s timed out", url)
-    elif isinstance(e, aiohttp.ClientResponseError):
-        print("Server responded with an error for %s: %s", url, e)
-    else:
-        print("An unexpected error occurred: %s", e)

@@ -1,13 +1,11 @@
 # This file is a cli wrapper for the modpack_changelogger function in main.py
 # It's a kinda hacky way to make the script callable from the command line and add a cli entrypoint to the package
 import argparse
-import sys
 import json
+import sys
 
-from .constants import VERSION
 from .main import generate_changelog
-from .get_json import UnsupportedModpackFormatError, DifferentModpackFormatError, NoModpackFormatError
-from .config_handler import create_config
+from .utils import VERSION, DifferentModpackFormatError, NoModpackFormatError, UnsupportedModpackFormatError, create_config
 
 
 def wrapper():

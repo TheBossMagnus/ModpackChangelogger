@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-from modpack_changelogger.constants import VERSION
+from modpack_changelogger.utils import VERSION
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()

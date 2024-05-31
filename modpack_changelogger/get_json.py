@@ -1,32 +1,11 @@
 import hashlib
 import json
 import os
-import sys
 import tempfile
 from zipfile import ZipFile
 
-class UnsupportedModpackFormatError(Exception):
-    """Exception raised for unsupported modpack formats."""
+from .utils import DifferentModpackFormatError, NoModpackFormatError, UnsupportedModpackFormatError
 
-    def __init__(self, path, format):
-        self.path = path
-        self.format = format
-        super().__init__(f"The modpack '{path}' is not in a supported format ({format})")
-
-class DifferentModpackFormatError(Exception):
-    """Exception raised for different modpack formats."""
-
-    def __init__(self, old_format, new_format):
-        self.old_format = old_format
-        self.new_format = new_format
-        super().__init(f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})")
-
-class NoModpackFormatError(Exception):
-    """Exception raised when the modpack is wrongly formatted."""    
-    def __init__(self, path, error):
-        self.path = path
-        self.error = error
-        super().__init(f"The modpack '{path}' is not packed correctly ({error})")
 
 def get_json(MODPACKS_FORMAT, path):
 
@@ -63,6 +42,7 @@ def get_json(MODPACKS_FORMAT, path):
             raise NoModpackFormatError(path, "missing manifest.json or modrinth.index.json")
         except ValueError:
             raise NoModpackFormatError(path, "invalid manifest.json or modrinth.index.json")
+
 
 def hash_directory(directory):
     if not os.path.exists(directory):

@@ -2,7 +2,7 @@ import asyncio
 
 import aiohttp
 
-from .constants import MR_API_URL, MR_HEADERS
+from .utils import MR_API_URL, MR_HEADERS, handle_request_errors
 
 
 def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
@@ -12,18 +12,21 @@ def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
     new_overrides = {file_hash: name for file_hash, name in new_overrides.items() if name not in identical_entries}
 
     async def get_names_from_hashes(dict1, dict2):
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
             for d in [dict1, dict2]:
                 for file_hash in list(d.keys()):
-                    async with session.get(f"{MR_API_URL}/version_file/{d[file_hash]}", headers=MR_HEADERS) as response:
-                        if response.status == 200:
-                            data = await response.json()
-                            project_name = data["project_id"]
-                            d[project_name] = d.pop(file_hash)
-                            d[project_name] = True
-
-                        else:
-                            d[file_hash] = False
+                    url = f"{MR_API_URL}/version_file/{d[file_hash]}"
+                    try:
+                        async with session.get(url, headers=MR_HEADERS) as response:
+                            if response.status == 200:
+                                data = await response.json()
+                                project_name = data["project_id"]
+                                d[project_name] = d.pop(file_hash)
+                                d[project_name] = True
+                            else:
+                                d[file_hash] = False
+                    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+                        handle_request_errors(e, url)
 
     if MODPACKS_FORMAT == "modrinth":
         asyncio.run(get_names_from_hashes(old_overrides, new_overrides))
