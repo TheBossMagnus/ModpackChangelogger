@@ -1,0 +1,10 @@
+{
+    "check": {
+        "updated_mods": false,
+        "loader": false,
+        "mc_version": true,
+        "config": true,
+        "identified_overrides_mods": false,
+        "unidentified_overrides_mods": true
+    }
+}

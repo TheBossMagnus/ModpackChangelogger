@@ -3,4 +3,6 @@ Changelog.md
 config.json
 log.txt
 program.prof
-*.exe
+dist/
+build/
+*.egg-info/

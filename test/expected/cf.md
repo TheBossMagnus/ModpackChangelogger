@@ -1,10 +1,10 @@
 ## Test1 1.0.0
 
-###  Added:
+### Added:
 - ImmediatelyFast
-###  Removed:
+### Removed:
 - Architectury API (Fabric/Forge/NeoForge)
 ### Updated:
 - Cloth Config API (Fabric/Forge/NeoForge)
 - Just Enough Items (JEI)
-- forge (mod loader)
+- Forge (mod loader)

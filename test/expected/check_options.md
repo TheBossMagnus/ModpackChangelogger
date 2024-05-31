@@ -1,6 +1,6 @@
 ## Thunder 1.4.6+quilt-1.19.4
 
-###  Added:
+### Added:
 - Cloth Config API
 - Dynamic FPS
 - Enhanced Block Entities
@@ -11,7 +11,8 @@
 - More Culling
 - Smooth Boot (Fabric)
 - Your Options Shall Be Respected (YOSBR)
-###  Removed:
+- nofade-1.18-2.0.1.jar
+### Removed:
 - Exordium
 - FastQuit
 - Fastload
@@ -21,8 +22,4 @@
 - Sodium Extra
 - Very Many Players (Fabric)
 ### Updated:
-- Concurrent Chunk Management Engine (Fabric)
-- ImmediatelyFast
-- Mod Menu
-- Quilted Fabric API (QFAPI) / Quilt Standard Libraries (QSL)
-- quilt-loader (mod loader)
+- Mods config

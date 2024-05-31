@@ -3,6 +3,30 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased - TBD
+### **BREAKING CHANGES**
+* Changed how the project is installed/used
+* Changed the name of many config values
+* Changed the package name
+* Changed how errors are handled
+### Added
+* The program is now published to pypi
+     * It can be runned as a standalone cli or imported as a module
+* Added detection of mods added as .jar in the override folder (only for Modrinth)
+* Added detection of changes to config files of mods
+* Added the ability to return the changelog as a value in 2 ways
+     * Unformatted: 3 different variables (added, udated, removed)
+     * Formatted: 1 unified variable with the formatted changelog
+* The whole code is now linted via isort and black
+### Removed
+* Removed the already-deprecated linux compiled binaries
+* Removed the advanced debug logging
+### Changed
+* Changed how the project has to be run from the source .py files
+* Changed some texts in the output changelog
+* Improved the handling of the extraction temp dir
+* Imporved the error handling and the error messages
+
 ## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-1
 ### Fixed
 * Fix -f being mandatory
@@ -14,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fix Removed and added mod being inverted on Modrinth packs
 
 ## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-1
+### **BREAKING CHANGES**
+* The compiled Linux executable is now deprecated
 ### Added
 * Added support for Curseforge modpacks format and API
      * Now, you can use two packs in the Curseforge format and expect changelogs just like with Modrinth packs
@@ -23,7 +49,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Improved the handling of incomplete or malformatted config with proper error messages
 * Made some improvements to the resulting changelog
 * Made some improvements to the error messages and logging
-* The compiled Linux executable is now deprecated
 
 ## [0.2.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.2.0) - 2024-01-30
 ### Added
