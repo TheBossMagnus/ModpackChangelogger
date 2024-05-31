@@ -29,5 +29,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ModpackChangelogger-${{ steps.commit_sha.outputs.sha }}
+        name: Modpack-Changelogger-${{ steps.commit_sha.outputs.sha }}
         path: dist/ModpackChangelogger*
