@@ -1,5 +1,4 @@
 import os
-import sys
 
 
 def markdown_out(added, removed, updated, old_info, new_info, config, changelog_file):

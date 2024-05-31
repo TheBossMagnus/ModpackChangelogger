@@ -1,6 +1,3 @@
-import sys
-import traceback
-
 from .compare_packs import compare_packs
 from .config_handler import load_config
 from .extract_pack_data import cf_get_pack_data, mr_get_pack_data
