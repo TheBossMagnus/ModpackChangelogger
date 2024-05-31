@@ -13,6 +13,7 @@ from modpack_changelogger.main import generate_changelog  # pylint:disable=C0413
 
 OLD_PACK = "test/packs/old.mrpack"
 NEW_PACK = "test/packs/new.mrpack"
+SCRIPT_NAME = "modpack_changelogger.py"
 
 
 def test_mr():
@@ -77,9 +78,11 @@ def test_console():
 
 
 def test_config_new():
-    generate_changelog(None, None, "new", None)
     try:
+        result = subprocess.run([sys.executable, SCRIPT_NAME, "-c", "new"], check=False, stdout=subprocess.PIPE)
+        assert result.returncode == 0
         assert os.path.isfile("config.json")
+        assert result.stdout.decode("utf-8") == "Config file created\r\n"
     finally:
         os.remove("config.json")
 
@@ -136,23 +139,23 @@ def test_header():
 def test_broken_config():
     config_path = "test/configs/broken_config.json"
 
-    with pytest.raises(SystemExit):
+    with pytest.raises(ValueError):
         generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
 
 
 def test_inavlid_config_path():
     config_path = "invalid_config.json"
 
-    with pytest.raises(SystemExit):
+    with pytest.raises(FileNotFoundError):
         generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
 
 
 def test_run_as_script():
-    script_name = "modpack_changelogger.py"
+
     expected_output = "test/expected/run_as_script.md"
 
     try:
-        result = subprocess.run([sys.executable, script_name, "-o", OLD_PACK, "-n", NEW_PACK], check=False)
+        result = subprocess.run([sys.executable, SCRIPT_NAME, "-o", OLD_PACK, "-n", NEW_PACK], check=False)
         assert result.returncode == 0
         assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
     finally:

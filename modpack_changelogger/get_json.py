@@ -5,27 +5,43 @@ import sys
 import tempfile
 from zipfile import ZipFile
 
+class UnsupportedModpackFormatError(Exception):
+    """Exception raised for unsupported modpack formats."""
+
+    def __init__(self, path, format):
+        self.path = path
+        self.format = format
+        super().__init__(f"The modpack '{path}' is not in a supported format ({format})")
+
+class DifferentModpackFormatError(Exception):
+    """Exception raised for different modpack formats."""
+
+    def __init__(self, old_format, new_format):
+        self.old_format = old_format
+        self.new_format = new_format
+        super().__init(f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})")
+
+class NoModpackFormatError(Exception):
+    """Exception raised when the modpack is wrongly formatted."""    
+    def __init__(self, path, error):
+        self.path = path
+        self.error = error
+        super().__init(f"The modpack '{path}' is not packed correctly ({error})")
 
 def get_json(MODPACKS_FORMAT, path):
-    if not os.path.exists(path):
-        print("ERROR: The file %s does not exist", path)
-        sys.exit(1)
 
     if path.endswith(".mrpack"):
         if MODPACKS_FORMAT == "curseforge":
-            print("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
-            sys.exit(1)
+            raise DifferentModpackFormatError("curseforge", "modrinth")
         MODPACKS_FORMAT = "modrinth"
 
     elif path.endswith(".zip"):
         if MODPACKS_FORMAT == "modrinth":
-            print("ERROR: Using Modrinth and a Curseforge modpack together is not supported")
-            sys.exit(1)
+            raise DifferentModpackFormatError("modrinth", "curseforge")
         MODPACKS_FORMAT = "curseforge"
 
     else:
-        print("ERROR: Given modpack is not in a supported format")
-        sys.exit(1)
+        raise UnsupportedModpackFormatError(path, MODPACKS_FORMAT)
 
     # Create a temporary directory to extract the modpack into
     with tempfile.TemporaryDirectory() as temp_dir:
@@ -44,12 +60,9 @@ def get_json(MODPACKS_FORMAT, path):
 
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:
-            print("ERROR: The file %s does not exist", json_path)
-            sys.exit(1)
+            raise NoModpackFormatError(path, "missing manifest.json or modrinth.index.json")
         except ValueError:
-            print("ERROR: The file %s is not formatted correctly", json_path)
-            sys.exit(1)
-
+            raise NoModpackFormatError(path, "invalid manifest.json or modrinth.index.json")
 
 def hash_directory(directory):
     if not os.path.exists(directory):

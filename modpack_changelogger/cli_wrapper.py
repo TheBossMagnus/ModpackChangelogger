@@ -6,6 +6,8 @@ import json
 
 from .constants import VERSION
 from .main import generate_changelog
+from .get_json import UnsupportedModpackFormatError, DifferentModpackFormatError, NoModpackFormatError
+from .config_handler import create_config
 
 
 def wrapper():
@@ -16,12 +18,19 @@ def wrapper():
     parser.add_argument("-f", "--file", help="Specify the output file for the changelog")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
     args = parser.parse_args()
+
     if args.version:
         print(f"Modpack-Changelogger {VERSION}")
         if not (args.old or args.new or args.config or args.file):  # If the user only wants the version number
             return
 
     try:
+        if args.config == "new":
+            create_config()
+            args.config = None
+            print("Config file created")
+            if not (args.old or args.new or args.file):
+                return
         generate_changelog(args.old, args.new, args.config, args.file)
     except json.JSONDecodeError as e:
         print(f"ERROR: The json file {e.doc} is not formatted correctly")
@@ -33,8 +42,17 @@ def wrapper():
         print(f"ERROR: {e}")
         sys.exit(1)
     except FileNotFoundError as e:
-        print(f"The file {e.filename} does not exist")
+        print(f"ERROR: The file {e.filename} does not exist")
+    except UnsupportedModpackFormatError as e:
+        print(f"ERROR:{e}")
+        sys.exit(1)
+    except DifferentModpackFormatError as e:
+        print(f"ERROR:{e}")
+        sys.exit(1)
+    except NoModpackFormatError as e:
+        print(f"ERROR:{e}")
+        sys.exit(1)
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print(f"UNHANDLED ERROR: {e}")
         print("Please report this issue on the GitHub repository")
         sys.exit(1)

@@ -2,8 +2,7 @@ import sys
 import traceback
 
 from .compare_packs import compare_packs
-from .config_handler import create_config, load_config
-from .constants import VERSION
+from .config_handler import load_config
 from .extract_pack_data import cf_get_pack_data, mr_get_pack_data
 from .get_json import get_json
 from .out import markdown_out
@@ -11,25 +10,6 @@ from .overrides_detection import add_overrides
 
 
 def generate_changelog(old_path, new_path, config_path, changelog_file):
-    create_config()
-
-    # Handle config creation
-    if config_path is not None and config_path.lower() == "new":
-        create_config()
-        config_path = None
-        if not old_path and not new_path:  # If the user only wants to create a new config file
-            return
-
-    # Check for required arguments
-    if not old_path and not new_path:
-        print("ERROR: No packs specified")
-        sys.exit(1)
-    elif not old_path:
-        print("ERROR: No old pack specified")
-        sys.exit(1)
-    elif not new_path:
-        print("ERROR: No new pack specified")
-        sys.exit(1)
 
     # Load config
     config = load_config(config_path)
