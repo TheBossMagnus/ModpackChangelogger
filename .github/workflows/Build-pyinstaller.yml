@@ -20,7 +20,8 @@ jobs:
 
     - name: Get commit SHA
       id: commit_sha
-      run: echo "{sha}=$($env:GITHUB_SHA.Substring(0,7))" >> $env:GITHUB_OUTPUT
+      run: echo "sha=${GITHUB_SHA::7}" >> $GITHUB_ENV
+      shell: bash
 
     - name: Build with PyInstaller
       run: |
