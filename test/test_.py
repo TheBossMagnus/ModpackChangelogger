@@ -82,7 +82,7 @@ def test_config_new():
         result = subprocess.run([sys.executable, SCRIPT_NAME, "-c", "new"], check=False, stdout=subprocess.PIPE)
         assert result.returncode == 0
         assert os.path.isfile("config.json")
-        assert result.stdout.decode("utf-8") == "Config file created\r\n"
+        assert result.stdout.decode("utf-8") == f"Config file created{os.linesep}"
     finally:
         os.remove("config.json")
 
