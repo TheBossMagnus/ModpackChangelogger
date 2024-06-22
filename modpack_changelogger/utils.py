@@ -1,7 +1,7 @@
 # This section of the file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
 # Version number
-VERSION = "1.0.0-rc1"
+VERSION = "1.0.0"
 
 DEFAULT_CONFIG = {
     "check": {"added_mods": True, "removed_mods": True, "updated_mods": True, "loader": True, "mc_version": False, "config": False, "identified_overrides_mods": True, "unidentified_overrides_mods": False},
