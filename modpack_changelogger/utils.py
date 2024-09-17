@@ -1,14 +1,34 @@
 # This section of the file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
 # Version number
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 DEFAULT_CONFIG = {
-    "check": {"added_mods": True, "removed_mods": True, "updated_mods": True, "loader": True, "mc_version": False, "config": False, "identified_overrides_mods": True, "unidentified_overrides_mods": False},
-    "format": {"style": "bullet", "header": {"show_header": True, "size": 2, "title": "auto", "show_old_version_number": False, "show_new_version_number": True}},
+    "check": {
+        "added_mods": True,
+        "removed_mods": True,
+        "updated_mods": True,
+        "loader": True,
+        "mc_version": False,
+        "config": False,
+        "identified_overrides_mods": True,
+        "unidentified_overrides_mods": False,
+    },
+    "format": {
+        "style": "bullet",
+        "header": {
+            "show_header": True,
+            "size": 2,
+            "title": "auto",
+            "show_old_version_number": False,
+            "show_new_version_number": True,
+        },
+    },
 }
 
-MR_HEADERS = {"User-Agent": f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
+MR_HEADERS = {
+    "User-Agent": f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"
+}
 MR_API_URL = "https://api.modrinth.com/v2"
 
 # DO NOT USE THIS KEY FOR YOUR OWN PROJECT/FORKS
@@ -58,7 +78,9 @@ class DifferentModpackFormatError(Exception):
     def __init__(self, old_format, new_format):
         self.old_format = old_format
         self.new_format = new_format
-        super().__init(f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})")
+        super().__init(
+            f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})"
+        )
 
 
 class NoModpackFormatError(Exception):

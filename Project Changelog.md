@@ -3,7 +3,14 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - TBD
+## [1.0.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.1) - 2024-09-17
+### Changed
+* Pypi builds are now made on Github Actions
+* Migrated from setup.py to pyproject.toml
+### Fixed
+* Fixed an erroneus error message when running without any arguments. Now it correctly displays the help message.
+
+## [1.0.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.0) - 2024-06-22
 ### **BREAKING CHANGES**
 * Changed how the project is installed/used
 * Changed the name of many config values
@@ -27,17 +34,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Improved the handling of the extraction temp dir
 * Improved the error handling and the error messages
 
-## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-1
+## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-01
 ### Fixed
 * Fix -f being mandatory
 * Fix script not working on some Linux envirornments
 * Fix warnings being printed if there weren't added, updated or removed mods
 
-## [0.3.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.1) - 2024-03-1
+## [0.3.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.1) - 2024-03-01
 ### Fixed
 * Fix Removed and added mod being inverted on Modrinth packs
 
-## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-1
+## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-01
 ### **BREAKING CHANGES**
 * The compiled Linux executable is now deprecated
 ### Added

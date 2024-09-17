@@ -6,7 +6,13 @@ def mr_get_pack_data(old_json, new_json):
 
     def get_dependency_info(json):
         loader = next((key for key in json["dependencies"].keys() if key != "minecraft"), "Unknown")
-        return {"modpack_name": json["name"], "modpack_version": json["versionId"], "mc_version": json["dependencies"]["minecraft"], "loader": loader, "loader_version": json["dependencies"][loader]}
+        return {
+            "modpack_name": json["name"],
+            "modpack_version": json["versionId"],
+            "mc_version": json["dependencies"]["minecraft"],
+            "loader": loader,
+            "loader_version": json["dependencies"][loader],
+        }
 
     def get_mod_urls(json):
         return [download for url in json["files"] for download in url["downloads"]]
@@ -28,7 +34,13 @@ def mr_get_pack_data(old_json, new_json):
 def cf_get_pack_data(old_json, new_json):
     def get_dependency_info(json):
         loader_string = json["minecraft"]["modLoaders"][0]["id"]
-        return {"modpack_name": json["name"], "modpack_version": json["version"], "mc_version": json["minecraft"]["version"], "loader": loader_string.split("-")[0], "loader_version": loader_string.split("-")[1]}
+        return {
+            "modpack_name": json["name"],
+            "modpack_version": json["version"],
+            "mc_version": json["minecraft"]["version"],
+            "loader": loader_string.split("-")[0],
+            "loader_version": loader_string.split("-")[1],
+        }
 
     def get_mod_ids(json):
         # Extracts the file and project IDs from the JSON
