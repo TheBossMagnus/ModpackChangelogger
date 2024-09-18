@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.1) - 2024-09-17
+## [1.0.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.1) - 2024-09-18
 ### Changed
 * Pypi builds are now made on Github Actions
 * Migrated from setup.py to pyproject.toml

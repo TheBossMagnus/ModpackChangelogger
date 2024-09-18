@@ -1,0 +1,71 @@
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller aiohttp setuptools wheel build twine
+
+    - name: Get release tag
+      id: get_tag
+      run: echo "RELEASE_TAG=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
+      shell: bash
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --icon=NONE --name ModpackChangelogger-${{ env.RELEASE_TAG }} modpack_changelogger.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Modpack-Changelogger-${{ env.RELEASE_TAG }}
+        path: dist/ModpackChangelogger*
+
+    - name: Upload to release
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: dist/ModpackChangelogger-${{ env.RELEASE_TAG }}.exe
+        asset_name: ModpackChangelogger-${{ env.RELEASE_TAG }}.exe
+        asset_content_type: application/octet-stream
+    
+    
+
+  upload_and_publish:
+    name: Publish release to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: "https://pypi.org/p/modpack-changelogger"
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel
+      - name: Build package
+        run: |
+          python setup.py sdist bdist_wheel
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

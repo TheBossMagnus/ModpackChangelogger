@@ -3,8 +3,8 @@ requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "modpack_changelogger"
-version = "0.1.1"
+name = "modpack-changelogger"
+version = "1.0.1"
 description = "A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -22,7 +22,6 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 
-[project.dependencies]
 dependencies = ["aiohttp>=3.9.5"]
 
 [project.scripts]
@@ -36,6 +35,6 @@ package-dir = {"" = "src"}
 
 [tool.ruff]
 line-length = 100
-lint.select = ["E", "F", "W", "C90"]
-lint.ignore = ["E501"]
-lint.exclude = ["tests/*"]
+select = ["E", "F", "W", "C90"]
+ignore = ["E501"]
+exclude = ["tests/*"]
