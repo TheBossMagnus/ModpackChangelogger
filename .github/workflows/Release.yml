@@ -35,25 +35,19 @@ jobs:
         name: Modpack-Changelogger-${{ env.RELEASE_TAG }}
         path: dist/ModpackChangelogger*
 
-
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        upload_url: ${{ steps.get_tag.outputs.upload_url }}
+        upload_url: ${{ github.event.release.upload_url }}
         asset_path: dist/ModpackChangelogger-${{ env.RELEASE_TAG }}.exe
         asset_name: ModpackChangelogger-${{ env.RELEASE_TAG }}.exe
         asset_content_type: application/octet-stream
-    
 
   upload_and_publish:
     name: Publish release to PyPI
-    needs: build
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: "https://pypi.org/p/modpack-changelogger"
     permissions:
       id-token: write
     steps:
