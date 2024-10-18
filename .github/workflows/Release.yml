@@ -41,10 +41,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: path/to/your/file
-        asset_name: your_file_name
-        asset_content_type: application/zip
+        upload_url: ${{ steps.get_tag.outputs.upload_url }}
+        asset_path: dist/ModpackChangelogger-${{ env.RELEASE_TAG }}.exe
+        asset_name: ModpackChangelogger-${{ env.RELEASE_TAG }}.exe
+        asset_content_type: application/octet-stream
     
 
   upload_and_publish:
