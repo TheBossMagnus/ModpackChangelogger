@@ -28,7 +28,7 @@ dependencies = ["aiohttp>=3.9.5"]
 modpack-changelogger = "modpack_changelogger:cli_wrapper.wrapper"
 
 [tool.setuptools.packages.find]
-where = ["src"]
+where = ["modpack_changelogger"]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
