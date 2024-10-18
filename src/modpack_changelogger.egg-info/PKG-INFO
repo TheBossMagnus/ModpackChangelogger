@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: modpack-changelogger
+Version: 1.0.1
+Summary: A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format.
+Author-email: TheBossMagnus <thebossmagnus@proton.me>
+License: MIT
+Project-URL: Homepage, https://github.com/TheBossMagnus/ModpackChangelogger
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp>=3.9.5
+
+# ModpackChangelogger
+ModpackChangelogger is a Python tool that compares two Minecraft Modpacks (in modrinth.mrpack or curseforge.zip format) and generates a markdown changelog to show the difference between them.
+
+
+## Features
+- **Precise Comparison**: Easily spot added, removed, and modified items, changes to the Minecraft version, and updates to modloaders.
+- **Markdown Output**: View the differences in a markdown document with various [styles](https://github.com/TheBossMagnus/ModpackChangelogger/wiki/Configuration#format-section) options.
+- **Configurability**: You can customize output through a [config file](https://github.com/TheBossMagnus/ModpackChangelogger/wiki/Configuration).
+- **Multi-Platform**: Run it on Windows or Linux, Python installation not mandatory.
+
+## Installation
+Install the pip package
+```bash
+pip install modpack-changelogger
+```
+Or use the compiled windows `.exe`.
+More information [on the wiki](https://github.com/TheBossMagnus/ModpackChangelogger/wiki/Install-and-run).
+## Basic Usage
+- `-o`, `--old`: Specify the first pack to compare.
+- `-n`, `--new`: Specify the pack to compare  against.
+
+E.g:Compare `old_pack` to `new_pack` using the settings in `config.json`, and write the output to `output.md`.
+```bash
+python ModpackChangelogger -o old_pack -n new_pack -c config.json -f output.md
+```
+More information [on the wiki](https://github.com/TheBossMagnus/ModpackChangelogger/wiki/Commands).

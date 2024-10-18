@@ -62,6 +62,6 @@ jobs:
           pip install setuptools wheel build
       - name: Build package
         run: |
-          python -m build
+          python3 -m build
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1

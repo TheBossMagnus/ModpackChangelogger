@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/modpack_changelogger.egg-info/PKG-INFO
+src/modpack_changelogger.egg-info/SOURCES.txt
+src/modpack_changelogger.egg-info/dependency_links.txt
+src/modpack_changelogger.egg-info/entry_points.txt
+src/modpack_changelogger.egg-info/requires.txt
+src/modpack_changelogger.egg-info/top_level.txt
+test/test_.py
