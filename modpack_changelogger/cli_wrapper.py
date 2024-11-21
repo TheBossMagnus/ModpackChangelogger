@@ -17,6 +17,10 @@ def wrapper():
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
     args = parser.parse_args()
 
+    if not any(vars(args).values()):
+        parser.print_help()
+        return
+
     if args.version:
         print(f"Modpack-Changelogger {VERSION}")
         if not (args.old or args.new or args.config or args.file):  # If the user only wants the version number
