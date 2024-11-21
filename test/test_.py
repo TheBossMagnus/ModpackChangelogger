@@ -79,9 +79,7 @@ def test_console():
 
 def test_config_new():
     try:
-        result = subprocess.run(
-            [sys.executable, SCRIPT_NAME, "-c", "new"], check=False, stdout=subprocess.PIPE
-        )
+        result = subprocess.run([sys.executable, SCRIPT_NAME, "-c", "new"], check=False, stdout=subprocess.PIPE)
         assert result.returncode == 0
         assert os.path.isfile("config.json")
         assert result.stdout.decode("utf-8") == f"Config file created{os.linesep}"
@@ -92,13 +90,8 @@ def test_config_new():
 def test_version():
     script_name = "modpack_changelogger.py"
 
-    result = subprocess.run(
-        [sys.executable, script_name, "-v"], check=False, capture_output=True, text=True
-    )
-    assert (
-        re.fullmatch(r"Modpack-Changelogger \d+\.\d+\.\d+(-\w+)?", result.stdout.strip())
-        is not None
-    )
+    result = subprocess.run([sys.executable, script_name, "-v"], check=False, capture_output=True, text=True)
+    assert re.fullmatch(r"Modpack-Changelogger \d+\.\d+\.\d+(-\w+)?", result.stdout.strip()) is not None
 
     assert result.returncode == 0
 
@@ -158,12 +151,11 @@ def test_inavlid_config_path():
 
 
 def test_run_as_script():
+
     expected_output = "test/expected/run_as_script.md"
 
     try:
-        result = subprocess.run(
-            [sys.executable, SCRIPT_NAME, "-o", OLD_PACK, "-n", NEW_PACK], check=False
-        )
+        result = subprocess.run([sys.executable, SCRIPT_NAME, "-o", OLD_PACK, "-n", NEW_PACK], check=False)
         assert result.returncode == 0
         assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
     finally:

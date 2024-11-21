@@ -8,6 +8,7 @@ from .utils import DifferentModpackFormatError, NoModpackFormatError, Unsupporte
 
 
 def get_json(MODPACKS_FORMAT, path):
+
     if path.endswith(".mrpack"):
         if MODPACKS_FORMAT == "curseforge":
             raise DifferentModpackFormatError("curseforge", "modrinth")
@@ -33,11 +34,9 @@ def get_json(MODPACKS_FORMAT, path):
             overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
 
             # Parse the json file
-            json_path = os.path.join(
-                temp_dir,
-                "modrinth.index.json" if MODPACKS_FORMAT == "modrinth" else "manifest.json",
-            )
+            json_path = os.path.join(temp_dir, "modrinth.index.json" if MODPACKS_FORMAT == "modrinth" else "manifest.json")
             with open(json_path, "r", encoding="utf-8") as json_file:
+
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:
             raise NoModpackFormatError(path, "missing manifest.json or modrinth.index.json")
