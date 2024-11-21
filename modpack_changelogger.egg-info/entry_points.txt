@@ -1,2 +1,0 @@
-[console_scripts]
-modpack-changelogger = modpack_changelogger:cli_wrapper.wrapper
