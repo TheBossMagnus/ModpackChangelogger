@@ -18,11 +18,13 @@ def main():
     parser.add_argument("-c", "--config", help="Use a config file")
     parser.add_argument("-f", "--file", help="Specify the output file for the changelog")
     parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
-    args = parser.parse_args()
 
-    if not any(vars(args).values()):
+    # If no arguments provided, show help menu and exit
+    if len(sys.argv) == 1:
         parser.print_help()
         return
+
+    args = parser.parse_args()
 
     if args.version:
         print(f"Modpack-Changelogger {__version__}")
