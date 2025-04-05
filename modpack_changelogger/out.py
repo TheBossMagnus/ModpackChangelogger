@@ -50,7 +50,7 @@ def bullet_list(added, removed, updated, markdown_text):
 def comma_list(added, removed, updated, markdown_text):
 
     if added:
-        markdown_text.append("- Removed: " + ", ".join(f"{mod}" for mod in added))
+        markdown_text.append("- Added: " + ", ".join(f"{mod}" for mod in added))
     if removed:
         markdown_text.append("- Removed: " + ", ".join(f"{mod}" for mod in removed))
     if updated:
