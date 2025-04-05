@@ -1,0 +1,48 @@
+name: Build and Publish Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pyinstaller
+
+    - name: Get version
+      id: get_version
+      run: |
+        if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+          echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        fi
+      shell: bash
+
+    - name: Build with PyInstaller
+      run: |
+        pyinstaller --onefile --icon=NONE --name "ModpackChangelogger-${{ env.version }}" modpack_changelogger.py
+
+    - name: Upload artifact to workflow
+      uses: actions/upload-artifact@v4
+      with:
+        name: ModpackChangelogger-${{ env.version }}
+        path: dist/ModpackChangelogger-${{ env.version }}.exe
+
+    - name: Upload to Release
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/ModpackChangelogger-${{ env.version }}.exe
+        token: ${{ secrets.GITHUB_TOKEN }}
