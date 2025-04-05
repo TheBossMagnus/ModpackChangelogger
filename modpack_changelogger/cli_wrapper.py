@@ -1,15 +1,18 @@
+#!/usr/bin/env python3
 # This file is a cli wrapper for the modpack_changelogger function in main.py
-# It's a kinda hacky way to make the script callable from the command line and add a cli entrypoint to the package
+# It provides a CLI interface for the package
 import argparse
 import json
 import sys
 
 from .main import generate_changelog
-from .utils import VERSION, DifferentModpackFormatError, NoModpackFormatError, UnsupportedModpackFormatError, create_config
+from .version import __version__
+from .utils import DifferentModpackFormatError, NoModpackFormatError, UnsupportedModpackFormatError, create_config
 
 
-def wrapper():
-    parser = argparse.ArgumentParser()
+def main():
+    """Main CLI entry point for ModpackChangelogger."""
+    parser = argparse.ArgumentParser(description="Generate a changelog between two Minecraft modpacks")
     parser.add_argument("-o", "--old", help="First pack to compare")
     parser.add_argument("-n", "--new", help="The pack to compare against")
     parser.add_argument("-c", "--config", help="Use a config file")
@@ -22,7 +25,7 @@ def wrapper():
         return
 
     if args.version:
-        print(f"Modpack-Changelogger {VERSION}")
+        print(f"Modpack-Changelogger {__version__}")
         if not (args.old or args.new or args.config or args.file):  # If the user only wants the version number
             return
 
@@ -45,16 +48,21 @@ def wrapper():
         sys.exit(1)
     except FileNotFoundError as e:
         print(f"ERROR: The file {e.filename} does not exist")
+        sys.exit(1)
     except UnsupportedModpackFormatError as e:
-        print(f"ERROR:{e}")
+        print(f"ERROR: {e}")
         sys.exit(1)
     except DifferentModpackFormatError as e:
-        print(f"ERROR:{e}")
+        print(f"ERROR: {e}")
         sys.exit(1)
     except NoModpackFormatError as e:
-        print(f"ERROR:{e}")
+        print(f"ERROR: {e}")
         sys.exit(1)
     except Exception as e:
         print(f"UNHANDLED ERROR: {e}")
         print("Please report this issue on the GitHub repository")
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

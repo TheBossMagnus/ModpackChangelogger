@@ -1,7 +1,7 @@
 # This section of the file contains some hardcoded values, do not edit it directly if you don't know what you are doing.
 
-# Version number
-VERSION = "1.0.0"
+# Import version number from version.py
+from .version import __version__ as VERSION
 
 DEFAULT_CONFIG = {
     "check": {"added_mods": True, "removed_mods": True, "updated_mods": True, "loader": True, "mc_version": False, "config": False, "identified_overrides_mods": True, "unidentified_overrides_mods": False},
@@ -58,7 +58,7 @@ class DifferentModpackFormatError(Exception):
     def __init__(self, old_format, new_format):
         self.old_format = old_format
         self.new_format = new_format
-        super().__init(f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})")
+        super().__init__(f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})")
 
 
 class NoModpackFormatError(Exception):
@@ -67,4 +67,4 @@ class NoModpackFormatError(Exception):
     def __init__(self, path, error):
         self.path = path
         self.error = error
-        super().__init(f"The modpack '{path}' is not packed correctly ({error})")
+        super().__init__(f"The modpack '{path}' is not packed correctly ({error})")
