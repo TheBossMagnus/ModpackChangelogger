@@ -3,7 +3,19 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased - TBD
+## [1.0.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.1) - 2025-04-5
+
+### Changed
+* Bump to Python 3.13
+* Re-wrote CI/CD
+* Restructured project to follow best practices
+
+### Fixed
+* Some changes being mislabeled on some formats
+* If runned from cli withouth any args the help meu is now displayed instead of an exception
+* If an unknown arg is given avoid trowing an exception
+
+## [1.0.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.0) - 2024-06-22
 ### **BREAKING CHANGES**
 * Changed how the project is installed/used
 * Changed the name of many config values
