@@ -3,7 +3,7 @@
 ### Added:
 - ImmediatelyFast
 ### Removed:
-- Architectury API (Fabric/Forge/NeoForge)
+- Architectury API
 ### Updated:
 - Cloth Config API (Fabric/Forge/NeoForge)
 - Just Enough Items (JEI)

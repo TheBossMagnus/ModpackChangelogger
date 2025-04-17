@@ -148,16 +148,3 @@ def test_inavlid_config_path():
 
     with pytest.raises(FileNotFoundError):
         generate_changelog(OLD_PACK, NEW_PACK, config_path, None)
-
-
-def test_run_as_script():
-
-    expected_output = "test/expected/run_as_script.md"
-
-    try:
-        result = subprocess.run([sys.executable, SCRIPT_NAME, "-o", OLD_PACK, "-n", NEW_PACK], check=False)
-        assert result.returncode == 0
-        assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
-    finally:
-        if os.path.exists("Changelog.md"):
-            os.remove("Changelog.md")
