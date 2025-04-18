@@ -1,4 +1,4 @@
-# ModpackChangelogger
+# Modpack Changelogger
 ModpackChangelogger is a Python tool that compares two Minecraft Modpacks (in modrinth.mrpack or curseforge.zip format) and generates a markdown changelog to show the difference between them.
 
 
@@ -21,6 +21,6 @@ More information [on the wiki](https://github.com/TheBossMagnus/modpack-changelo
 
 E.g:Compare `old_pack` to `new_pack` using the settings in `config.json`, and write the output to `output.md`.
 ```bash
-python ModpackChangelogger -o old_pack -n new_pack -c config.json -f output.md
+modpack-changelogger -o old_pack -n new_pack -c config.json -f output.md
 ```
 More information [on the wiki](https://github.com/TheBossMagnus/modpack-changelogger/wiki/Commands).

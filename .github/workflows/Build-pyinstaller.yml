@@ -31,10 +31,10 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller --onefile --icon=NONE --name ModpackChangelogger-${{ env.sha }} modpack_changelogger.py
+        pyinstaller --onefile --icon=NONE --name modpack-changelogger-${{ env.sha }} modpack_changelogger.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Modpack Changelogger-${{ env.sha }}
-        path: dist/ModpackChangelogger*
+        path: dist/modpack-changelogger*
