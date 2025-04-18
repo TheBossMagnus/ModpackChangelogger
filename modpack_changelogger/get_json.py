@@ -8,6 +8,8 @@ from .utils import DifferentModpackFormatError, ModpackFormatError, UnsupportedM
 
 
 def get_json(MODPACKS_FORMAT, path):
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"The file '{path}' does not exist.")
 
     if path.endswith(".mrpack"):
         if MODPACKS_FORMAT == "curseforge":

@@ -1,4 +1,5 @@
 import json
+import os
 
 from .utils import DEFAULT_CONFIG, ConfigValidationError
 
@@ -19,6 +20,8 @@ def validate_config(config, default_config):
 def load_config(config_file):
     if not config_file:
         return DEFAULT_CONFIG
+    if not os.path.exists(config_file):
+        raise FileNotFoundError(f"The file '{config_file}' does not exist.")
 
     with open(config_file, "r", encoding="utf-8") as f:
         config = json.load(f)

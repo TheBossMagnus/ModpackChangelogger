@@ -26,6 +26,9 @@ def cli(version, old, new, config, file):
         try:
             generate_changelog(old, new, config, file)
             click.echo(f"Changelog successfully generated in '{file}'!")
+        except FileNotFoundError as e:
+            click.echo(f"ERROR: {e}", err=True)
+            raise click.Abort()
         except PermissionError as e:
             click.echo(f"ERROR: Unable to create or access the file '{e.filename}'. Please check file permissions.", err=True)
             raise click.Abort()
