@@ -36,5 +36,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: Modpack-Changelogger-${{ env.sha }}
+        name: Modpack Changelogger-${{ env.sha }}
         path: dist/ModpackChangelogger*
