@@ -9,11 +9,10 @@ import pytest
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from modpack_changelogger.main import generate_changelog  # pylint:disable=C0413
+from modpack_changelogger import generate_changelog  # pylint:disable=C0413
 
 OLD_PACK = "test/packs/old.mrpack"
 NEW_PACK = "test/packs/new.mrpack"
-SCRIPT_NAME = "modpack_changelogger.py"
 
 
 def test_mr():
@@ -27,6 +26,16 @@ def test_cf():
     expected_output = "test/expected/cf.md"
 
     generate_changelog("test/packs/old.zip", "test/packs/new.zip", None, None)
+    assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
+
+def test_cli():
+    expected_output = "test/expected/cli.md"
+
+    result = subprocess.run(
+        ["modpack-changelogger", "-o", OLD_PACK, "-n", NEW_PACK, "-f", "Changelog.md"],
+        check=False,
+    )
+    assert result.returncode == 0
     assert filecmp.cmp("Changelog.md", expected_output, shallow=False)
 
 
@@ -79,19 +88,18 @@ def test_console():
 
 def test_config_new():
     try:
-        result = subprocess.run([sys.executable, SCRIPT_NAME, "-c", "new"], check=False, stdout=subprocess.PIPE)
+        result = subprocess.run(["modpack-changelogger", "newconfig"], check=False, stdout=subprocess.PIPE)
         assert result.returncode == 0
         assert os.path.isfile("config.json")
-        assert result.stdout.decode("utf-8") == f"Config file created{os.linesep}"
+        assert result.stdout.decode("utf-8") == f"A new configuration file has been created successfully{os.linesep}"
     finally:
         os.remove("config.json")
 
 
 def test_version():
-    script_name = "modpack_changelogger.py"
 
-    result = subprocess.run([sys.executable, script_name, "-v"], check=False, capture_output=True, text=True)
-    assert re.fullmatch(r"Modpack-Changelogger \d+\.\d+\.\d+(-\w+)?", result.stdout.strip()) is not None
+    result = subprocess.run(["modpack-changelogger", "-v"], check=False, capture_output=True, text=True)
+    assert re.match(r"Modpack Changelogger \d+\.\d+\.\d+(-\w+)?", result.stdout.strip()) is not None
 
     assert result.returncode == 0
 

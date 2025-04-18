@@ -33,7 +33,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "modpack-changelogger=modpack_changelogger.cli_wrapper:main",
+            "modpack-changelogger=modpack_changelogger.cli_wrapper:cli",
         ],
     },
 )

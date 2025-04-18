@@ -61,10 +61,17 @@ class DifferentModpackFormatError(Exception):
         super().__init__(f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})")
 
 
-class NoModpackFormatError(Exception):
+class ModpackFormatError(Exception):
     """Exception raised when the modpack is wrongly formatted."""
 
     def __init__(self, path, error):
         self.path = path
         self.error = error
         super().__init__(f"The modpack '{path}' is not packed correctly ({error})")
+
+
+class ConfigValidationError(ValueError):
+    """Exception raised for invalid config values."""
+
+    def __init__(self, message):
+        super().__init__(message)

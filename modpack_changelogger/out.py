@@ -14,8 +14,6 @@ def markdown_out(added, removed, updated, old_info, new_info, config, changelog_
 
 
 def write_to_file(filename, text):
-    if os.path.isdir(filename):
-        raise ValueError(f"The file '{filename}' selected for the changelog is a directory")
     with open(filename, "w", encoding="utf-8") as f:
         f.write(text)
 

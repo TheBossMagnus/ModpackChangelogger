@@ -4,7 +4,7 @@ import os
 import tempfile
 from zipfile import ZipFile
 
-from .utils import DifferentModpackFormatError, NoModpackFormatError, UnsupportedModpackFormatError
+from .utils import DifferentModpackFormatError, ModpackFormatError, UnsupportedModpackFormatError
 
 
 def get_json(MODPACKS_FORMAT, path):
@@ -39,9 +39,9 @@ def get_json(MODPACKS_FORMAT, path):
 
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:
-            raise NoModpackFormatError(path, "missing manifest.json or modrinth.index.json")
+            raise ModpackFormatError(path, "missing manifest.json or modrinth.index.json")
         except ValueError:
-            raise NoModpackFormatError(path, "invalid manifest.json or modrinth.index.json")
+            raise ModpackFormatError(path, "invalid manifest.json or modrinth.index.json")
 
 
 def hash_directory(directory):

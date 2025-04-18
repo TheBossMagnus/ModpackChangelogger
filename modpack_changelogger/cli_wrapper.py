@@ -1,70 +1,68 @@
-#!/usr/bin/env python3
-# This file is a cli wrapper for the modpack_changelogger function in main.py
+# This file is a CLI wrapper for the modpack_changelogger function in main.py
 # It provides a CLI interface for the package
-import argparse
-import json
+import click
 import sys
 
 from .main import generate_changelog
 from .version import __version__
-from .utils import DifferentModpackFormatError, NoModpackFormatError, UnsupportedModpackFormatError, create_config
+from .utils import ConfigValidationError, DifferentModpackFormatError, ModpackFormatError, UnsupportedModpackFormatError, create_config
 
 
-def main():
-    """Main CLI entry point for ModpackChangelogger."""
-    parser = argparse.ArgumentParser(description="Generate a changelog between two Minecraft modpacks")
-    parser.add_argument("-o", "--old", help="First pack to compare")
-    parser.add_argument("-n", "--new", help="The pack to compare against")
-    parser.add_argument("-c", "--config", help="Use a config file")
-    parser.add_argument("-f", "--file", help="Specify the output file for the changelog")
-    parser.add_argument("-v", "--version", action="store_true", help="Print the version number")
+CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help", "-?"])
 
-    # If no arguments provided, show help menu and exit
-    if len(sys.argv) == 1:
-        parser.print_help()
-        return
 
-    args = parser.parse_args()
+@click.group(invoke_without_command=True, context_settings=CONTEXT_SETTINGS)
+@click.option("-v", "--version", is_flag=True, help="Show the version and exit")
+@click.option("-o", "--old", help="First pack to compare")
+@click.option("-n", "--new", help="The pack to compare against")
+@click.option("-c", "--config", help="Use a config file")
+@click.option("-f", "--file", help="Specify the output file for the changelog")
+def cli(version, old, new, config, file):
+    """CLI wrapper for Modpack Changelogger."""
+    if version:
+        click.echo(f"Modpack Changelogger {__version__}")
+    if old and new:
+        # Generate changelog directly from top-level command
+        try:
+            generate_changelog(old, new, config, file)
+            click.echo(f"Changelog successfully generated in '{file}'!")
+        except PermissionError as e:
+            click.echo(f"ERROR: Unable to create or access the file '{e.filename}'. Please check file permissions.", err=True)
+            raise click.Abort()
+        except UnsupportedModpackFormatError as e:
+            click.echo(f"ERROR: {e}", err=True)
+            raise click.Abort()
+        except DifferentModpackFormatError as e:
+            click.echo(f"ERROR: {e}", err=True)
+            raise click.Abort()
+        except ModpackFormatError as e:
+            click.echo(f"ERROR: {e}", err=True)
+            raise click.Abort()
+        except ConfigValidationError as e:
+            click.echo(f"ERROR: The configuration file is worngly formatted: {e}", err=True)
+            raise click.Abort()
+        except Exception as e:
+            click.echo(f"UNHANDLED ERROR: {e}", err=True)
+            raise click.Abort()
+    elif not sys.argv[1:]:
+        click.echo(cli.get_help(click.get_current_context()))
+        sys.exit(0)
+    elif old or new:
+        # If only one of old or new is provided
+        click.echo("ERROR: Both --old and --new options are required for changelog generation", err=True)
+        sys.exit(1)
 
-    if args.version:
-        print(f"Modpack-Changelogger {__version__}")
-        if not (args.old or args.new or args.config or args.file):  # If the user only wants the version number
-            return
 
+@cli.command(context_settings=CONTEXT_SETTINGS)
+def newconfig():
+    """Create a new configuration file."""
     try:
-        if args.config == "new":
-            create_config()
-            args.config = None
-            print("Config file created")
-            if not (args.old or args.new or args.file):
-                return
-        generate_changelog(args.old, args.new, args.config, args.file)
-    except json.JSONDecodeError as e:
-        print(f"ERROR: The json file {e.doc} is not formatted correctly")
-        sys.exit(1)
-    except PermissionError as e:
-        print(f"ERROR: Unable to create or access the file {e.filename}")
-        sys.exit(1)
-    except ValueError as e:
-        print(f"ERROR: {e}")
-        sys.exit(1)
-    except FileNotFoundError as e:
-        print(f"ERROR: The file {e.filename} does not exist")
-        sys.exit(1)
-    except UnsupportedModpackFormatError as e:
-        print(f"ERROR: {e}")
-        sys.exit(1)
-    except DifferentModpackFormatError as e:
-        print(f"ERROR: {e}")
-        sys.exit(1)
-    except NoModpackFormatError as e:
-        print(f"ERROR: {e}")
-        sys.exit(1)
+        create_config()
+        click.echo("A new configuration file has been created successfully")
     except Exception as e:
-        print(f"UNHANDLED ERROR: {e}")
-        print("Please report this issue on the GitHub repository")
-        sys.exit(1)
+        click.echo(f"ERROR: Unable to create a new configuration file: {e}", err=True)
+        raise click.Abort()
 
 
 if __name__ == "__main__":
-    main()
+    cli()
