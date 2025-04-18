@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Entry point script for ModpackChangelogger.
+Entry point script for Modpack Changelogger.
 This is the main executable script for direct execution or for PyInstaller.
 """
 

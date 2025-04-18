@@ -17,7 +17,7 @@ setup(
     description="A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format.",
     author="TheBossMagnus",
     author_email="thebossmagnus@proton.me",
-    url="https://github.com/TheBossMagnus/ModpackChangelogger",
+    url="https://github.com/TheBossMagnus/modpack-changelogger",
     long_description=long_description,
     long_description_content_type="text/markdown",
     classifiers=[

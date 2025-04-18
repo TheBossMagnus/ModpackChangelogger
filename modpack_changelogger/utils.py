@@ -8,7 +8,7 @@ DEFAULT_CONFIG = {
     "format": {"style": "bullet", "header": {"show_header": True, "size": 2, "title": "auto", "show_old_version_number": False, "show_new_version_number": True}},
 }
 
-MR_HEADERS = {"User-Agent": f"TheBossMagnus/ModpackChangelogger/{VERSION} (thebossmagnus@proton.me)"}
+MR_HEADERS = {"User-Agent": f"TheBossMagnus/modpack-changelogger/{VERSION} (thebossmagnus@proton.me)"}
 MR_API_URL = "https://api.modrinth.com/v2"
 
 # DO NOT USE THIS KEY FOR YOUR OWN PROJECT/FORKS

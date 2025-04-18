@@ -3,10 +3,10 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.1) - 2025-04-5
+## [1.0.1](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.1) - 2025-04-5
 republish of 1.0.2
 
-## [1.0.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.1) - 2025-04-5
+## [1.0.1](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.1) - 2025-04-5
 
 ### Changed
 * Bump to Python 3.13
@@ -18,7 +18,7 @@ republish of 1.0.2
 * If runned from cli withouth any args the help meu is now displayed instead of an exception
 * If an unknown arg is given avoid trowing an exception
 
-## [1.0.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/1.0.0) - 2024-06-22
+## [1.0.0](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.0) - 2024-06-22
 ### **BREAKING CHANGES**
 * Changed how the project is installed/used
 * Changed the name of many config values
@@ -42,17 +42,17 @@ republish of 1.0.2
 * Improved the handling of the extraction temp dir
 * Improved the error handling and the error messages
 
-## [0.3.2](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.2) - 2024-03-1
+## [0.3.2](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/0.3.2) - 2024-03-1
 ### Fixed
 * Fix -f being mandatory
 * Fix script not working on some Linux envirornments
 * Fix warnings being printed if there weren't added, updated or removed mods
 
-## [0.3.1](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.1) - 2024-03-1
+## [0.3.1](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/0.3.1) - 2024-03-1
 ### Fixed
 * Fix Removed and added mod being inverted on Modrinth packs
 
-## [0.3.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.3.0) - 2024-03-1
+## [0.3.0](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/0.3.0) - 2024-03-1
 ### **BREAKING CHANGES**
 * The compiled Linux executable is now deprecated
 ### Added
@@ -65,7 +65,7 @@ republish of 1.0.2
 * Made some improvements to the resulting changelog
 * Made some improvements to the error messages and logging
 
-## [0.2.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.2.0) - 2024-01-30
+## [0.2.0](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/0.2.0) - 2024-01-30
 ### Added
 * Adde the option to print changelog to console (just do -f console)
 ### Fixed
@@ -74,5 +74,5 @@ republish of 1.0.2
 * Improve reliability and performance of web requests
 * Various refactorings and improvements
 
-## [0.1.0](https://github.com/TheBossMagnus/ModpackChangelogger/releases/tag/0.1.0) - 2023-12-24
+## [0.1.0](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/0.1.0) - 2023-12-24
 First Release
