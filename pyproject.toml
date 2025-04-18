@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modpack_changelogger"
+dynamic = ["version"] # Version is read from modpack_changelogger/version.py
+description = "A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format."
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT License"}
+authors = [
+  {name = "TheBossMagnus", email = "thebossmagnus@proton.me"},
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "aiohttp",
+    "click",
+]
+
+[project.urls]
+Homepage = "https://github.com/TheBossMagnus/modpack-changelogger"
+Repository = "https://github.com/TheBossMagnus/modpack-changelogger"
+
+[project.scripts]
+modpack-changelogger = "modpack_changelogger.cli_wrapper:cli"
+
+[tool.setuptools.dynamic]
+version = {attr = "modpack_changelogger.version.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."] # searches in the current directory
