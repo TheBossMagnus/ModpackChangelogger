@@ -39,3 +39,24 @@ version = {attr = "modpack_changelogger.version.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["."] # searches in the current directory
+
+[tool.ruff]
+lint.select = [
+    "E",  # pycodestyle errors
+    "F",  # Pyflakes
+    "W",  # pycodestyle warnings
+    "C90", # mccabe complexity
+    "B",  # flake8-bugbear
+    "I",  # isort
+    "UP", # pyupgrade
+    "A",  # flake8-builtins
+    "SIM", # flake8-simplify
+]
+target-version = "py313"
+lint.ignore = ["E501"] # Ignore line length errors
+fix = true
+exclude = [
+    "test/",
+    ".venv/",
+    "__pycache__/",
+]
