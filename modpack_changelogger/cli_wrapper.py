@@ -32,27 +32,21 @@ def cli(version, old, new, config, file):
         try:
             generate_changelog(old, new, config, file)
             click.echo(f"Changelog successfully generated in '{file}'!")
-        except FileNotFoundError as e:
-            click.echo(f"ERROR: {e}", err=True)
-            raise click.Abort()
-        except PermissionError as e:
-            click.echo(f"ERROR: Unable to create or access the file '{e.filename}'. Please check file permissions.", err=True)
-            raise click.Abort()
-        except UnsupportedModpackFormatError as e:
-            click.echo(f"ERROR: {e}", err=True)
-            raise click.Abort()
-        except DifferentModpackFormatError as e:
-            click.echo(f"ERROR: {e}", err=True)
-            raise click.Abort()
-        except ModpackFormatError as e:
-            click.echo(f"ERROR: {e}", err=True)
-            raise click.Abort()
-        except ConfigValidationError as e:
-            click.echo(f"ERROR: The configuration file is worngly formatted: {e}", err=True)
-            raise click.Abort()
-        except Exception as e:
-            click.echo(f"UNHANDLED ERROR: {e}", err=True)
-            raise click.Abort()
+        except FileNotFoundError  as error:
+            click.echo(f"ERROR: {error}", err=True)
+            raise click.Abort() from error
+        except PermissionError as error:
+            click.echo(f"ERROR: Unable to create or access the file '{error.filename}'. Please check file permissions.", err=True)
+            raise click.Abort() from error
+        except (UnsupportedModpackFormatError, DifferentModpackFormatError, ModpackFormatError) as error:
+            click.echo(f"ERROR: {error}", err=True)
+            raise click.Abort() from error
+        except ConfigValidationError as error:
+            click.echo(f"ERROR: The configuration file is worngly formatted: {error}", err=True)
+            raise click.Abort() from error
+        except Exception as error:
+            click.echo(f"UNHANDLED ERROR: {error}", err=True)
+            raise click.Abort() from error
     elif not sys.argv[1:]:
         click.echo(cli.get_help(click.get_current_context()))
         sys.exit(0)
@@ -70,7 +64,7 @@ def newconfig():
         click.echo("A new configuration file has been created successfully")
     except Exception as e:
         click.echo(f"ERROR: Unable to create a new configuration file: {e}", err=True)
-        raise click.Abort()
+        raise click.Abort() from e
 
 
 if __name__ == "__main__":

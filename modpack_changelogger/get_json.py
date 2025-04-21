@@ -44,10 +44,10 @@ def get_json(MODPACKS_FORMAT, path):
             with open(json_path, encoding="utf-8") as json_file:
 
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
-        except FileNotFoundError:
-            raise ModpackFormatError(path, "missing manifest.json or modrinth.index.json")
-        except ValueError:
-            raise ModpackFormatError(path, "invalid manifest.json or modrinth.index.json")
+        except FileNotFoundError as error:
+            raise ModpackFormatError(path, "missing manifest.json or modrinth.index.json") from error
+        except ValueError as error:
+            raise ModpackFormatError(path, "invalid manifest.json or modrinth.index.json") from error
 
 
 def hash_directory(directory):

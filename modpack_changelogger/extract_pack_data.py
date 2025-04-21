@@ -5,7 +5,7 @@ def mr_get_pack_data(old_json, new_json):
     pattern = re.compile(r"(?<=data\/)[a-zA-Z0-9]{8}")
 
     def get_dependency_info(json):
-        loader = next((key for key in json.get("dependencies", {}).keys() if key != "minecraft"), "Unknown")
+        loader = next((key for key in json.get("dependencies", {}) if key != "minecraft"), "Unknown")
         return {"modpack_name": json.get("name", "Unknown"), "modpack_version": json.get("versionId", "Unknown"), "mc_version": json.get("dependencies", {}).get("minecraft", "Unknown"), "loader": loader, "loader_version": json.get("dependencies", {}).get(loader, "Unknown")}
 
     def get_mod_urls(json):

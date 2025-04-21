@@ -46,10 +46,10 @@ def handle_request_errors(e, url):
 class UnsupportedModpackFormatError(Exception):
     """Exception raised for unsupported modpack formats."""
 
-    def __init__(self, path, format):
+    def __init__(self, path, modpack_format):
         self.path = path
-        self.format = format
-        super().__init__(f"The modpack '{path}' is not in a supported format ({format})")
+        self.format = modpack_format
+        super().__init__(f"The modpack '{path}' is not in a supported format ({modpack_format})")
 
 
 class DifferentModpackFormatError(Exception):
