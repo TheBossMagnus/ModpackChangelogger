@@ -26,7 +26,7 @@ async def request_from_mr_api(session, ids):
             response.raise_for_status()
             data = await response.json()
             names = [project.get("title") for project in data]
-    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+    except (TimeoutError, aiohttp.ClientConnectionError, aiohttp.ClientResponseError) as e:
         handle_request_errors(e, url)
 
     return names
@@ -43,7 +43,7 @@ async def request_from_cf_api(session, ids):
         async with session.post(url, headers=CF_HEADERS, json={"modIds": list(ids)}) as response:
             response = await response.json()
             names = [project["name"] for project in response["data"]]
-    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+    except (TimeoutError, aiohttp.ClientConnectionError, aiohttp.ClientResponseError) as e:
         handle_request_errors(e, url)
 
     return names

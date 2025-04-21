@@ -1,12 +1,18 @@
 # This file is a CLI wrapper for the modpack_changelogger function in main.py
 # It provides a CLI interface for the package
-import click
 import sys
 
-from .main import generate_changelog
-from .version import __version__
-from .utils import ConfigValidationError, DifferentModpackFormatError, ModpackFormatError, UnsupportedModpackFormatError, create_config
+import click
 
+from .main import generate_changelog
+from .utils import (
+    ConfigValidationError,
+    DifferentModpackFormatError,
+    ModpackFormatError,
+    UnsupportedModpackFormatError,
+    create_config,
+)
+from .version import __version__
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help", "-?"])
 

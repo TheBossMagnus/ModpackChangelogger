@@ -25,7 +25,7 @@ def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
                                 d[project_name] = True
                             else:
                                 d[file_hash] = False
-                    except (aiohttp.ClientConnectionError, asyncio.TimeoutError, aiohttp.ClientResponseError) as e:
+                    except (TimeoutError, aiohttp.ClientConnectionError, aiohttp.ClientResponseError) as e:
                         handle_request_errors(e, url)
 
     if MODPACKS_FORMAT == "modrinth":

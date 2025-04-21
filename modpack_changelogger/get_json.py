@@ -4,7 +4,11 @@ import os
 import tempfile
 from zipfile import ZipFile
 
-from .utils import DifferentModpackFormatError, ModpackFormatError, UnsupportedModpackFormatError
+from .utils import (
+    DifferentModpackFormatError,
+    ModpackFormatError,
+    UnsupportedModpackFormatError,
+)
 
 
 def get_json(MODPACKS_FORMAT, path):
@@ -37,7 +41,7 @@ def get_json(MODPACKS_FORMAT, path):
 
             # Parse the json file
             json_path = os.path.join(temp_dir, "modrinth.index.json" if MODPACKS_FORMAT == "modrinth" else "manifest.json")
-            with open(json_path, "r", encoding="utf-8") as json_file:
+            with open(json_path, encoding="utf-8") as json_file:
 
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError:

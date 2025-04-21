@@ -23,7 +23,7 @@ def load_config(config_file):
     if not os.path.exists(config_file):
         raise FileNotFoundError(f"The file '{config_file}' does not exist.")
 
-    with open(config_file, "r", encoding="utf-8") as f:
+    with open(config_file, encoding="utf-8") as f:
         config = json.load(f)
         config = validate_config(config, DEFAULT_CONFIG)
 
