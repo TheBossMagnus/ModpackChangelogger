@@ -2,7 +2,7 @@ import hashlib
 import json
 import os
 import tempfile
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 
 from .utils import (
     DifferentModpackFormatError,
@@ -42,36 +42,54 @@ def get_json(MODPACKS_FORMAT, path):
             # Parse the json file
             json_path = os.path.join(temp_dir, "modrinth.index.json" if MODPACKS_FORMAT == "modrinth" else "manifest.json")
             with open(json_path, encoding="utf-8") as json_file:
-
                 return MODPACKS_FORMAT, json.load(json_file), config_hash, overrides_name
         except FileNotFoundError as error:
             raise ModpackFormatError(path, "missing manifest.json or modrinth.index.json") from error
-        except ValueError as error:
+        except json.JSONDecodeError as error:
             raise ModpackFormatError(path, "invalid manifest.json or modrinth.index.json") from error
+        except BadZipFile as error:
+            raise ModpackFormatError(path, "corrupted or invalid compression of the mrpack file") from error
 
 
 def hash_directory(directory):
     if not os.path.exists(directory):
         return None
-    hash_md5 = hashlib.md5()
+    md5 = hashlib.md5()
+    chunk_size = 4096  # Read files in 4KB chunks
     for dirpath, _, filenames in os.walk(directory):
-        for filename in sorted(filenames):
-            with open(os.path.join(dirpath, filename), "rb") as f:
-                hash_md5.update(f.read())
-    return hash_md5.hexdigest()
+        for filename in sorted(filenames):  # Sort filenames for consistent hashing
+            filepath = os.path.join(dirpath, filename)
+            try:
+                with open(filepath, "rb") as f:
+                    while True:
+                        chunk = f.read(chunk_size)
+                        if not chunk:
+                            break
+                        md5.update(chunk)
+            except OSError:
+                continue
+    return md5.hexdigest()
 
 
 def calculate_hash(filename):
+    hash_sha512 = hashlib.sha512()
+    chunk_size = 4096  # Read files in 4KB chunks
     with open(filename, "rb") as f:
-        content = f.read()
-        file_hash = hashlib.sha1(content).hexdigest()
-    return file_hash
+        while True:
+            chunk = f.read(chunk_size)
+            if not chunk:
+                break
+            hash_sha512.update(chunk)
+    return hash_sha512.hexdigest()
 
 
 def get_overrides(directory):
     hash_dict = {}
+    if not os.path.exists(directory):
+        return hash_dict  # Return empty dict if directory doesn't exist
     for root, _, files in os.walk(directory):
         for file in files:
             filepath = os.path.join(root, file)
-            hash_dict[file] = calculate_hash(filepath)
+            file_hash = calculate_hash(filepath)
+            hash_dict[file] = file_hash
     return hash_dict
