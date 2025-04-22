@@ -3,7 +3,7 @@ import asyncio
 from .get_mod_names import get_mod_names
 
 
-def compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config):
+def compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, old_config_script, new_config_script, config):
     updated_ids = old_ids & new_ids
     added_ids = new_ids - old_ids
     removed_ids = old_ids - new_ids
@@ -31,6 +31,9 @@ def compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_con
         updated_mods.append(f"Minecraft version to {new_info['mc_version']}")
 
     if config["check"]["config"] and old_config_hash != new_config_hash:
-        updated_mods.append("Mods config")
+        updated_mods.append("Mods configs")
+
+    if config["check"]["script"] and old_config_script != new_config_script:
+        updated_mods.append("CraftTweaker scripts")
 
     return added_mods, removed_mods, updated_mods

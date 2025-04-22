@@ -8,10 +8,8 @@ dynamic = ["version"] # Version is read from modpack_changelogger/version.py
 description = "A powerful and customizable Python tool to generate a changelog between two Minecraft modpacks in modrinth.mrpack or curseforge.zip format."
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "MIT License"}
-authors = [
-  {name = "TheBossMagnus", email = "thebossmagnus@proton.me"},
-]
+license = { text = "MIT License" }
+authors = [{ name = "TheBossMagnus", email = "thebossmagnus@proton.me" }]
 classifiers = [
     "License :: OSI Approved :: MIT License",
 
@@ -22,10 +20,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
-dependencies = [
-    "aiohttp",
-    "click",
-]
+dependencies = ["aiohttp", "click"]
 
 [project.urls]
 Homepage = "https://github.com/TheBossMagnus/modpack-changelogger"
@@ -35,28 +30,24 @@ Repository = "https://github.com/TheBossMagnus/modpack-changelogger"
 modpack-changelogger = "modpack_changelogger.cli_wrapper:cli"
 
 [tool.setuptools.dynamic]
-version = {attr = "modpack_changelogger.version.__version__"}
+version = { attr = "modpack_changelogger.version.__version__" }
 
 [tool.setuptools.packages.find]
 where = ["."] # searches in the current directory
 
 [tool.ruff]
 lint.select = [
-    "E",  # pycodestyle errors
-    "F",  # Pyflakes
-    "W",  # pycodestyle warnings
+    "E",   # pycodestyle errors
+    "F",   # Pyflakes
+    "W",   # pycodestyle warnings
     "C90", # mccabe complexity
-    "B",  # flake8-bugbear
-    "I",  # isort
-    "UP", # pyupgrade
-    "A",  # flake8-builtins
+    "B",   # flake8-bugbear
+    "I",   # isort
+    "UP",  # pyupgrade
+    "A",   # flake8-builtins
     "SIM", # flake8-simplify
 ]
 target-version = "py313"
 lint.ignore = ["E501"] # Ignore line length errors
 fix = true
-exclude = [
-    "test/",
-    ".venv/",
-    "__pycache__/",
-]
+exclude = ["test/", ".venv/", "__pycache__/"]

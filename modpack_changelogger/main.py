@@ -12,8 +12,8 @@ def generate_changelog(old_path, new_path, config_path, changelog_file):
     config = load_config(config_path)
 
     # Parse the json files
-    MODPACKS_FORMAT, old_json, old_config_hash, old_overrides = get_json(None, old_path)  # None means that the format is not yet known, so it will be whatever detected by the function
-    MODPACKS_FORMAT, new_json, new_config_hash, new_overrides = get_json(MODPACKS_FORMAT, new_path)  # The format is now known, so the function checks it is the same as the old one
+    MODPACKS_FORMAT, old_json, old_config_hash, old_script_hash, old_overrides = get_json(None, old_path)  # None because that the format is not yet known, it will be whatever detected by the function
+    MODPACKS_FORMAT, new_json, new_config_hash, new_script_hash,  new_overrides = get_json(MODPACKS_FORMAT, new_path)  # The format of the first pack is now known, so the function checks it is the same as the second one
 
     # Get pack data based on the modpack format
     if MODPACKS_FORMAT == "modrinth":
@@ -26,22 +26,21 @@ def generate_changelog(old_path, new_path, config_path, changelog_file):
         new_ids = new_ids.union(new_identified_overrides)
 
     # Compare the packs
-    added, removed, updated = compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, config)
+    added, removed, updated = compare_packs(MODPACKS_FORMAT, old_ids, new_ids, old_info, new_info, old_config_hash, new_config_hash, old_script_hash, new_script_hash, config)
     if config["check"]["unidentified_overrides_mods"]:
-        added = added + list(new_unidentified_overrides)
-        removed = removed + list(old_unidentified_overrides)
+        added.extend(new_unidentified_overrides)
+        removed.extend(old_unidentified_overrides)
 
     if changelog_file is None:
         changelog_file = "Changelog.md"
 
     if changelog_file.lower() == "unformatted":
-
         return added, removed, updated
+
     if changelog_file.lower() == "formatted":
-
         return markdown_out(added, removed, updated, old_info, new_info, config, None)  # if changelog_file is None, it will return the markdown text
-    if changelog_file.lower() == "console":
 
+    if changelog_file.lower() == "console":
         print(markdown_out(added, removed, updated, old_info, new_info, config, None))
     else:
         markdown_out(added, removed, updated, old_info, new_info, config, changelog_file)
