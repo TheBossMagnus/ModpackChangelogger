@@ -13,7 +13,9 @@ def validate_config(config, default_config):
         elif isinstance(default_value, dict):  # Recursively validate nested keys
             config[key] = validate_config(config.get(key, {}), default_value)
         elif not isinstance(config[key], type(default_value)):
-            raise ConfigValidationError(f'Config field "{key}" must be of type {type(default_value).__name__}')
+            raise ConfigValidationError(
+                f'Config field "{key}" must be of type {type(default_value).__name__}'
+            )
     return config
 
 

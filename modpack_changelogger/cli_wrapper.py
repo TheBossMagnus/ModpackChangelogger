@@ -32,17 +32,26 @@ def cli(version, old, new, config, file):
         try:
             generate_changelog(old, new, config, file)
             click.echo(f"Changelog successfully generated in '{file}'!")
-        except FileNotFoundError  as error:
+        except FileNotFoundError as error:
             click.echo(f"ERROR: {error}", err=True)
             raise click.Abort() from error
         except PermissionError as error:
-            click.echo(f"ERROR: Unable to create or access the file '{error.filename}'. Please check file permissions.", err=True)
+            click.echo(
+                f"ERROR: Unable to create or access the file '{error.filename}'. Please check file permissions.",
+                err=True,
+            )
             raise click.Abort() from error
-        except (UnsupportedModpackFormatError, DifferentModpackFormatError, ModpackFormatError) as error:
+        except (
+            UnsupportedModpackFormatError,
+            DifferentModpackFormatError,
+            ModpackFormatError,
+        ) as error:
             click.echo(f"ERROR: {error}", err=True)
             raise click.Abort() from error
         except ConfigValidationError as error:
-            click.echo(f"ERROR: The configuration file is worngly formatted: {error}", err=True)
+            click.echo(
+                f"ERROR: The configuration file is worngly formatted: {error}", err=True
+            )
             raise click.Abort() from error
         except Exception as error:
             click.echo(f"UNHANDLED ERROR: {error}", err=True)
@@ -52,7 +61,10 @@ def cli(version, old, new, config, file):
         sys.exit(0)
     elif old or new:
         # If only one of old or new is provided
-        click.echo("ERROR: Both --old and --new options are required for changelog generation", err=True)
+        click.echo(
+            "ERROR: Both --old and --new options are required for changelog generation",
+            err=True,
+        )
         sys.exit(1)
 
 

@@ -6,13 +6,22 @@ from .utils import MR_API_URL, MR_HEADERS, handle_request_errors
 
 
 def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
-
     identical_entries = set(old_overrides.values()) & set(new_overrides.values())
-    old_overrides = {file_hash: name for file_hash, name in old_overrides.items() if name not in identical_entries}
-    new_overrides = {file_hash: name for file_hash, name in new_overrides.items() if name not in identical_entries}
+    old_overrides = {
+        file_hash: name
+        for file_hash, name in old_overrides.items()
+        if name not in identical_entries
+    }
+    new_overrides = {
+        file_hash: name
+        for file_hash, name in new_overrides.items()
+        if name not in identical_entries
+    }
 
     async def get_names_from_hashes(dict1, dict2):
-        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=15)) as session:
+        async with aiohttp.ClientSession(
+            timeout=aiohttp.ClientTimeout(total=15)
+        ) as session:
             for d in [dict1, dict2]:
                 for file_hash in list(d.keys()):
                     url = f"{MR_API_URL}/version_file/{d[file_hash]}"
@@ -25,20 +34,43 @@ def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
                                 d[project_name] = True
                             else:
                                 d[file_hash] = False
-                    except (TimeoutError, aiohttp.ClientConnectionError, aiohttp.ClientResponseError) as e:
+                    except (
+                        TimeoutError,
+                        aiohttp.ClientConnectionError,
+                        aiohttp.ClientResponseError,
+                    ) as e:
                         handle_request_errors(e, url)
 
     if MODPACKS_FORMAT == "modrinth":
         asyncio.run(get_names_from_hashes(old_overrides, new_overrides))
 
-    old_identified_overrides = {name for name, key in old_overrides.items() if key is True}
-    old_unidentified_overrides = {name for name, key in old_overrides.items() if key is False}
-    new_identified_overrides = {name for name, key in new_overrides.items() if key is True}
-    new_unidentified_overrides = {name for name, key in new_overrides.items() if key is False}
+    old_identified_overrides = {
+        name for name, key in old_overrides.items() if key is True
+    }
+    old_unidentified_overrides = {
+        name for name, key in old_overrides.items() if key is False
+    }
+    new_identified_overrides = {
+        name for name, key in new_overrides.items() if key is True
+    }
+    new_unidentified_overrides = {
+        name for name, key in new_overrides.items() if key is False
+    }
 
-    if config["check"]["identified_overrides_mods"] and not config["check"]["unidentified_overrides_mods"]:
+    if (
+        config["check"]["identified_overrides_mods"]
+        and not config["check"]["unidentified_overrides_mods"]
+    ):
         return old_identified_overrides, new_identified_overrides, {}, {}
-    if not config["check"]["identified_overrides_mods"] and config["check"]["unidentified_overrides_mods"]:
+    if (
+        not config["check"]["identified_overrides_mods"]
+        and config["check"]["unidentified_overrides_mods"]
+    ):
         return {}, {}, old_unidentified_overrides, new_unidentified_overrides
 
-    return old_identified_overrides, new_identified_overrides, old_unidentified_overrides, new_unidentified_overrides
+    return (
+        old_identified_overrides,
+        new_identified_overrides,
+        old_unidentified_overrides,
+        new_unidentified_overrides,
+    )

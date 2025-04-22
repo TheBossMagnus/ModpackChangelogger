@@ -42,15 +42,32 @@ def get_json(MODPACKS_FORMAT, path):
             overrides_name = get_overrides(os.path.join(temp_dir, "overrides", "mods"))
 
             # Parse the json file
-            json_path = os.path.join(temp_dir, "modrinth.index.json" if MODPACKS_FORMAT == "modrinth" else "manifest.json")
+            json_path = os.path.join(
+                temp_dir,
+                "modrinth.index.json"
+                if MODPACKS_FORMAT == "modrinth"
+                else "manifest.json",
+            )
             with open(json_path, encoding="utf-8") as json_file:
-                return MODPACKS_FORMAT, json.load(json_file), config_hash, script_hash, overrides_name
+                return (
+                    MODPACKS_FORMAT,
+                    json.load(json_file),
+                    config_hash,
+                    script_hash,
+                    overrides_name,
+                )
         except FileNotFoundError as error:
-            raise ModpackFormatError(path, "missing manifest.json or modrinth.index.json") from error
+            raise ModpackFormatError(
+                path, "missing manifest.json or modrinth.index.json"
+            ) from error
         except json.JSONDecodeError as error:
-            raise ModpackFormatError(path, "invalid manifest.json or modrinth.index.json") from error
+            raise ModpackFormatError(
+                path, "invalid manifest.json or modrinth.index.json"
+            ) from error
         except BadZipFile as error:
-            raise ModpackFormatError(path, "corrupted or invalid compression of the mrpack file") from error
+            raise ModpackFormatError(
+                path, "corrupted or invalid compression of the mrpack file"
+            ) from error
 
 
 def hash_directory(directory):
