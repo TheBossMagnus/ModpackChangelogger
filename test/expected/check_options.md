@@ -22,4 +22,4 @@
 - Sodium Extra
 - Very Many Players (Fabric)
 ### Updated:
-- Mods config
+- Mods configs
