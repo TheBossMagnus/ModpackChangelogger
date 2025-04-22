@@ -2,7 +2,8 @@ import hashlib
 import json
 import os
 import tempfile
-from zipfile import ZipFile, BadZipFile
+import zlib
+from zipfile import BadZipFile, ZipFile
 
 from .utils import (
     DifferentModpackFormatError,
@@ -52,9 +53,7 @@ def get_json(MODPACKS_FORMAT, path):
 
 
 def hash_directory(directory):
-    if not os.path.exists(directory):
-        return None
-    md5 = hashlib.md5()
+    crc = 0
     chunk_size = 4096  # Read files in 4KB chunks
     for dirpath, _, filenames in os.walk(directory):
         for filename in sorted(filenames):  # Sort filenames for consistent hashing
@@ -65,10 +64,10 @@ def hash_directory(directory):
                         chunk = f.read(chunk_size)
                         if not chunk:
                             break
-                        md5.update(chunk)
+                        crc = zlib.crc32(chunk, crc)
             except OSError:
                 continue
-    return md5.hexdigest()
+    return f"{crc & 0xFFFFFFFF:08x}"  # Return CRC32 as an 8-character hex string
 
 
 def calculate_hash(filename):
