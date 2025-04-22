@@ -3,7 +3,22 @@ All notable changes to this project will be documented in this file. Betas won't
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.1) - 2025-04-5
+
+## To be released
+### **BREAKING CHANGES**
+* Changed how to generate a blank config (`modpack-changelogger newconfig`, instead of `modpack-changelogger -c new`)
+### Added
+### Changed
+* Improved the cli interface, now using click
+* Improved help messages
+* Improved the project structure
+### Fixed
+* Fixed the handling of packs that don't follow the respective format specs
+* Handle some errors better
+* Fixed many naming inconsistencies arround the project
+
+
+## [1.0.2](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.2) - 2025-04-5
 republish of 1.0.2
 
 ## [1.0.1](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.1) - 2025-04-5
