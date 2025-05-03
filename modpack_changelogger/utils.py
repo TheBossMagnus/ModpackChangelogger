@@ -53,20 +53,6 @@ def create_config():
         json.dump(DEFAULT_CONFIG, f, indent=4)
 
 
-def handle_request_errors(e, url):
-    import asyncio
-
-    import aiohttp
-
-    if isinstance(e, aiohttp.ClientConnectionError):
-        print("Failed to connect to %s: %s", url, e)
-    elif isinstance(e, asyncio.TimeoutError):
-        print("The request %s timed out", url)
-    elif isinstance(e, aiohttp.ClientResponseError):
-        print("Server responded with an error for %s: %s", url, e)
-    else:
-        print("An unexpected error occurred: %s", e)
-
 
 class UnsupportedModpackFormatError(Exception):
     """Exception raised for unsupported modpack formats."""

@@ -3,6 +3,8 @@
 import sys
 
 import click
+import aiohttp
+import asyncio
 
 from .main import generate_changelog
 from .utils import (
@@ -38,6 +40,16 @@ def cli(version, old, new, config, file):
         except PermissionError as error:
             click.echo(
                 f"ERROR: Unable to create or access the file '{error.filename}'. Please check file permissions.",
+                err=True,
+            )
+            raise click.Abort() from error
+        except (
+            aiohttp.ClientConnectionError,
+            asyncio.TimeoutError,
+            aiohttp.ClientResponseError,
+        ) as error:
+            click.echo(
+                f"ERROR: Unable to connect to the API. Please check your internet connection and try again: {error}",
                 err=True,
             )
             raise click.Abort() from error

@@ -3,7 +3,7 @@ import json
 
 import aiohttp
 
-from .utils import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS, handle_request_errors
+from .utils import CF_API_URL, CF_HEADERS, MR_API_URL, MR_HEADERS
 
 
 async def get_mod_names(MODPACKS_FORMAT, added_ids, removed_ids, updated_ids):
@@ -30,18 +30,10 @@ async def request_from_mr_api(session, ids):
     names = []
     url = f"{MR_API_URL}/projects?ids={json.dumps(list(ids))}"
 
-    try:
-        async with session.get(url, headers=MR_HEADERS) as response:
-            response.raise_for_status()
-            data = await response.json()
-            names = [project.get("title") for project in data]
-    except (
-        TimeoutError,
-        aiohttp.ClientConnectionError,
-        aiohttp.ClientResponseError,
-    ) as e:
-        handle_request_errors(e, url)
-
+    async with session.get(url, headers=MR_HEADERS) as response:
+        response.raise_for_status()
+        data = await response.json()
+        names = [project.get("title") for project in data]
     return names
 
 
@@ -52,17 +44,9 @@ async def request_from_cf_api(session, ids):
     names = []
     url = f"{CF_API_URL}v1/mods"
 
-    try:
-        async with session.post(
-            url, headers=CF_HEADERS, json={"modIds": list(ids)}
-        ) as response:
-            response = await response.json()
-            names = [project["name"] for project in response["data"]]
-    except (
-        TimeoutError,
-        aiohttp.ClientConnectionError,
-        aiohttp.ClientResponseError,
-    ) as e:
-        handle_request_errors(e, url)
-
+    async with session.post(
+        url, headers=CF_HEADERS, json={"modIds": list(ids)}
+    ) as response:
+        response = await response.json()
+        names = [project["name"] for project in response["data"]]
     return names

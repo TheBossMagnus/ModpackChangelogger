@@ -2,7 +2,7 @@ import asyncio
 
 import aiohttp
 
-from .utils import MR_API_URL, MR_HEADERS, handle_request_errors
+from .utils import MR_API_URL, MR_HEADERS
 
 
 def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
@@ -25,21 +25,15 @@ def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
             for d in [dict1, dict2]:
                 for file_hash in list(d.keys()):
                     url = f"{MR_API_URL}/version_file/{d[file_hash]}"
-                    try:
-                        async with session.get(url, headers=MR_HEADERS) as response:
-                            if response.status == 200:
-                                data = await response.json()
-                                project_name = data["project_id"]
-                                d[project_name] = d.pop(file_hash)
-                                d[project_name] = True
-                            else:
-                                d[file_hash] = False
-                    except (
-                        TimeoutError,
-                        aiohttp.ClientConnectionError,
-                        aiohttp.ClientResponseError,
-                    ) as e:
-                        handle_request_errors(e, url)
+                    
+                    async with session.get(url, headers=MR_HEADERS) as response:
+                        if response.status == 200:
+                            data = await response.json()
+                            project_name = data["project_id"]
+                            d[project_name] = d.pop(file_hash)
+                            d[project_name] = True
+                        else:
+                            d[file_hash] = False
 
     if MODPACKS_FORMAT == "modrinth":
         asyncio.run(get_names_from_hashes(old_overrides, new_overrides))
