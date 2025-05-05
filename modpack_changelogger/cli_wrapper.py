@@ -20,10 +20,10 @@ CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help", "-?"])
 def handle_error(error, message=None):
     """Centralized error handler for CLI errors."""
     if message:
-        click.echo(f"Error: {message}", err=True)
-        click.echo(f"Details: {error}", err=True)
+        click.secho(f"Error: {message}", err=True, fg="bright_red")
+        click.secho(f"Details: {error}", err=True, fg="red")
     else:
-        click.echo(f"Error: {error}", err=True)
+        click.secho(f"Error: {error}", err=True, fg="bright_red")
 
 
 @click.group(invoke_without_command=True, context_settings=CONTEXT_SETTINGS)
@@ -48,7 +48,7 @@ def cli(version, old, new, config, file):
 
     try:
         generate_changelog(old, new, config, file)
-        click.echo(f"Changelog successfully generated in '{file}'.")
+        click.secho(f"Changelog successfully generated in '{file}'.", fg="green")
     except FileNotFoundError as error:
         handle_error(error)
     except PermissionError as error:
@@ -78,7 +78,9 @@ def newconfig():
     """Create a new configuration file."""
     try:
         create_config()
-        click.echo("A new configuration file has been created successfully.")
+        click.secho(
+            "A new configuration file has been created successfully.", fg="green"
+        )
     except Exception as error:
         handle_error(error, "Unable to create a new configuration file.")
 

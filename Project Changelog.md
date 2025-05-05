@@ -8,10 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### **BREAKING CHANGES**
 * Changed how to generate a blank config (`modpack-changelogger newconfig`, instead of `modpack-changelogger -c new`)
 ### Added
+* Added colorized output (requires a terminal that supports it)
 * Added support for comparing CraftTweaker scripts (disabled by default)
 ### Changed
 * Improved the cli interface, now using click
 * Improved help messages
+* Improved the error handling
 * Improved the project structure
 ### Fixed
 * Fixed the handling of packs that don't follow the respective format specs
