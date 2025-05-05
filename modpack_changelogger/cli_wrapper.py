@@ -35,7 +35,9 @@ def handle_error(error, message=None):
 @click.pass_context
 def cli(ctx, version, old, new, config, file):
     """CLI wrapper for Modpack Changelogger."""
-    if ctx.invoked_subcommand is not None: #If a subcommand is invoked, skip the main args
+    if (
+        ctx.invoked_subcommand is not None
+    ):  # If a subcommand is invoked, skip the main args
         return
 
     if version:
