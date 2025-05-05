@@ -91,7 +91,7 @@ def test_config_new():
         result = subprocess.run(["modpack-changelogger", "newconfig"], check=False, stdout=subprocess.PIPE)
         assert result.returncode == 0
         assert os.path.isfile("config.json")
-        assert result.stdout.decode("utf-8") == f"A new configuration file has been created successfully{os.linesep}"
+        assert result.stdout.decode("utf-8") == f"A new configuration file has been created successfully.{os.linesep}"
     finally:
         os.remove("config.json")
 
