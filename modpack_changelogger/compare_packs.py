@@ -11,8 +11,8 @@ def compare_packs(
     new_info,
     old_config_hash,
     new_config_hash,
-    old_config_script,
-    new_config_script,
+    old_script_hash,
+    new_script_hash,
     config,
 ):
     updated_ids = old_ids & new_ids
@@ -49,7 +49,7 @@ def compare_packs(
     if config["check"]["config"] and old_config_hash != new_config_hash:
         updated_mods.append("Mods configs")
 
-    if config["check"]["script"] and old_config_script != new_config_script:
+    if config["check"]["script"] and old_script_hash != new_script_hash:
         updated_mods.append("CraftTweaker scripts")
 
     return added_mods, removed_mods, updated_mods

@@ -32,8 +32,12 @@ def handle_error(error, message=None):
 @click.option("-n", "--new", help="The pack to compare against")
 @click.option("-c", "--config", help="Use a config file")
 @click.option("-f", "--file", help="Specify the output file for the changelog")
-def cli(version, old, new, config, file):
+@click.pass_context
+def cli(ctx, version, old, new, config, file):
     """CLI wrapper for Modpack Changelogger."""
+    if ctx.invoked_subcommand is not None: #If a subcommand is invoked, skip the main args
+        return
+
     if version:
         click.echo(f"Modpack Changelogger {__version__}")
         return
