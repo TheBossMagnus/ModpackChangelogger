@@ -25,7 +25,7 @@ def add_overrides(MODPACKS_FORMAT, old_overrides, new_overrides, config):
             for d in [dict1, dict2]:
                 for file_hash in list(d.keys()):
                     url = f"{MR_API_URL}/version_file/{d[file_hash]}"
-                    
+
                     async with session.get(url, headers=MR_HEADERS) as response:
                         if response.status == 200:
                             data = await response.json()

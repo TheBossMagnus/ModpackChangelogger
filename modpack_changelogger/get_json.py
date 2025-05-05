@@ -27,7 +27,7 @@ def get_json(MODPACKS_FORMAT, path):
         MODPACKS_FORMAT = "curseforge"
 
     else:
-        raise UnsupportedModpackFormatError(path, MODPACKS_FORMAT)
+        raise UnsupportedModpackFormatError(path)
 
     # Create a temporary directory to extract the modpack into
     with tempfile.TemporaryDirectory() as temp_dir:

@@ -53,15 +53,13 @@ def create_config():
         json.dump(DEFAULT_CONFIG, f, indent=4)
 
 
-
 class UnsupportedModpackFormatError(Exception):
     """Exception raised for unsupported modpack formats."""
 
-    def __init__(self, path, modpack_format):
+    def __init__(self, path):
         self.path = path
-        self.format = modpack_format
         super().__init__(
-            f"The modpack '{path}' is not in a supported format ({modpack_format})"
+            f"The modpack '{path}' is not in a supported format (mrpack or zip). "
         )
 
 
@@ -72,7 +70,7 @@ class DifferentModpackFormatError(Exception):
         self.old_format = old_format
         self.new_format = new_format
         super().__init__(
-            f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})"
+            f"Both modpacks must be in the same format (old: {old_format}, new: {new_format})."
         )
 
 
@@ -82,7 +80,7 @@ class ModpackFormatError(Exception):
     def __init__(self, path, error):
         self.path = path
         self.error = error
-        super().__init__(f"The modpack '{path}' is not packed correctly ({error})")
+        super().__init__(f"The modpack '{path}' is not packed correctly ({error}).")
 
 
 class ConfigValidationError(ValueError):
