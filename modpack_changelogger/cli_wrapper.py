@@ -4,15 +4,15 @@
 import aiohttp
 import click
 
-from .main import generate_changelog
-from .utils import (
+from modpack_changelogger.main import generate_changelog
+from modpack_changelogger.utils import (
     ConfigValidationError,
     DifferentModpackFormatError,
     ModpackFormatError,
     UnsupportedModpackFormatError,
     create_config,
 )
-from .version import __version__
+from modpack_changelogger.version import __version__
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help", "-?"])
 
@@ -35,9 +35,12 @@ def handle_error(error, message=None):
 @click.pass_context
 def cli(ctx, version, old, new, config, file):
     """CLI wrapper for Modpack Changelogger."""
-    if (
-        ctx.invoked_subcommand is not None
-    ):  # If a subcommand is invoked, skip the main args
+    # Show help and exit if no arguments are provided
+    if ctx.invoked_subcommand is None and not any([version, old, new, config, file]):
+        click.echo(ctx.get_help())
+        ctx.exit()
+
+    if ctx.invoked_subcommand is not None:
         return
 
     if version:
