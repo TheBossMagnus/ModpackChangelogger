@@ -6,3 +6,4 @@ program.prof
 dist/
 build/
 *.egg-info/
+*.spec
