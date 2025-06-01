@@ -1,4 +1,4 @@
-name: Build with PyInstaller on Commit
+name: Build and Publish Modpack Changelogger Executable on Release
 
 on:
   release:
