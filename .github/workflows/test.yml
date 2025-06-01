@@ -9,19 +9,22 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Install uv (official Astral action)
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: 3.13
+          enable-cache: true
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install all dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Install pytest
+        run: uv pip install pytest
 
       - name: Run tests
-        run: pytest ./test/test_.py
+        run: uv pip run pytest ./test/test_.py
