@@ -69,7 +69,7 @@ def cli(ctx, version, old, new, config, file):
     ) as error:
         handle_error(
             error,
-            "Unable to connect to the API. Please check your internet connection and try again.",
+            "Unable to connect to the API. This could be due to internet connection issues, API downtime, or incorrect URLs. Please verify and try again.",
         )
     except (
         UnsupportedModpackFormatError,
@@ -77,9 +77,9 @@ def cli(ctx, version, old, new, config, file):
         ModpackFormatError,
         ConfigValidationError,
     ) as error:
-        handle_error(error, getattr(error, "message", None))
+        handle_error(error, str(error))
     except Exception as error:
-        handle_error(error, "Unhandled error.")
+        handle_error(error, f"Unhandled error: {error!r}")
 
 
 @cli.command(context_settings=CONTEXT_SETTINGS)

@@ -47,6 +47,6 @@ async def request_from_cf_api(session, ids):
     async with session.post(
         url, headers=CF_HEADERS, json={"modIds": list(ids)}
     ) as response:
-        response = await response.json()
-        names = [project["name"] for project in response["data"]]
+        data = await response.json()
+        names = [project["name"] for project in data["data"]]
     return names

@@ -5,4 +5,4 @@ Modpack Changelogger - A powerful and customizable Python tool to generate a cha
 from .main import generate_changelog
 from .version import __version__
 
-__all__ = ["generate_changelog", "__version__"]
+__all__ = ["__version__", "generate_changelog"]

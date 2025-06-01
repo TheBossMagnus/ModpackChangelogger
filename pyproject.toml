@@ -36,18 +36,42 @@ version = { attr = "modpack_changelogger.version.__version__" }
 where = ["."] # searches in the current directory
 
 [tool.ruff]
-lint.select = [
-    "E",   # pycodestyle errors
-    "F",   # Pyflakes
-    "W",   # pycodestyle warnings
-    "C90", # mccabe complexity
-    "B",   # flake8-bugbear
-    "I",   # isort
-    "UP",  # pyupgrade
-    "A",   # flake8-builtins
-    "SIM", # flake8-simplify
-]
 target-version = "py313"
-lint.ignore = ["E501"] # Ignore line length errors
-fix = true
 exclude = ["test/", ".venv/", "__pycache__/"]
+lint.select = [
+    "ASYNC",  # flake8-async
+    "B",      # flake8-bugbear
+    "C90",    # mccabe
+    "COM",    # flake8-commas
+    "DTZ",    # flake8-datetimez
+    "E",      # pycodestyle errors
+    "EXE",    # flake8-executable
+    "F",      # Pyflakes
+    "FA",     # flake8-future-annotations
+    "FLY",    # flynt
+    "G",      # flake8-logging-format
+    "I",      # isort
+    "ICN",    # flake8-import-conventions
+    "ISC",    # flake8-implicit-str-concat
+    "LOG",    # flake8-logging
+    "PGH",    # pygrep-hooks
+    "PIE",    # flake8-pie
+    "PLC",    # Pylint conventions
+    "PLE",    # Pylint errors
+    "PLW",    # Pylint warnings
+    "PYI",    # flake8-pyi
+    "RSE",    # flake8-raise
+    "RUF",    # Ruff-specific rules
+    "SLOT",   # flake8-slot
+    "T10",    # flake8-debugger
+    "UP",     # pyupgrade
+    "W",      # pycodestyle warnings
+    "YTT",    # flake8-2020
+]
+lint.ignore = [
+    "E501",  # line too long
+    "COM812",   # missing-trailing-comma
+]
+fix = true
+
+
