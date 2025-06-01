@@ -4,12 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## To be released
+## [1.1.0](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.1.0) - 2025-05-1
 ### **BREAKING CHANGES**
 * Changed how to generate a blank config (`modpack-changelogger newconfig`, instead of `modpack-changelogger -c new`)
 ### Added
 * Added colorized output (requires a terminal that supports it)
-* Added support for comparing CraftTweaker scripts (disabled by default)
+* Added support for comparing [CraftTweaker scripts](https://docs.blamejared.com/1.12/en/Getting_Started/) (disabled by default)
 ### Changed
 * Improved the cli interface, now using click
 * Improved help messages
@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed the handling of packs that don't follow the respective format specs
 * Handle some errors better and more gracefully
 * Fixed many naming inconsistencies arround the project
+* Fixed some console messages with unsual arguments
 
 
 ## [1.0.2](https://github.com/TheBossMagnus/modpack-changelogger/releases/tag/1.0.2) - 2025-04-5
