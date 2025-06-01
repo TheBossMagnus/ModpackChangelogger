@@ -13,6 +13,7 @@ on:
     types: [published]
 
 permissions:
+  id-token: write # Mandatory for OIDC.
   contents: read
 
 jobs:
@@ -20,23 +21,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v6
-
-      - uses: actions/setup-python@v5
+      - name: Install uv (official Astral action)
+        uses: astral-sh/setup-uv@v5
         with:
-          python-version-file: "pyproject.toml"
+          enable-cache: true
 
-      - name: Install build dependencies
-        run: |
-          uv pip install build
+      - name: Set up Python
+        run: uv python install
 
-      - name: Build release distributions
-        run: |
-          uv build --wheel
+      - name: Install all dependencies
+        run: uv sync --all-extras --dev
 
-      - name: Upload to pyPI
-        run: |
-          name: uv publish --trusted-publishing always
+      - name: Run tests
+        run: uv run pytest
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish to PyPI (using uv)
+        uses: pypa/gh-action-pypi-publish@release/v1
