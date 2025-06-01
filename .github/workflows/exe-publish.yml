@@ -1,11 +1,8 @@
 name: Build with PyInstaller on Commit
 
 on:
-  push:
-    branches: [main, master]
-  pull_request:
-    branches: [main, master]
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -13,6 +10,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -31,10 +29,17 @@ jobs:
 
       - name: Build with PyInstaller
         run: |
-          pyinstaller --onefile --icon=NONE --name modpack-changelogger-${{ env.sha }} modpack_changelogger/__main__.py
+          pyinstaller --onefile --icon=NONE --name modpack-changelogger-${{github.event.release.tag_name}} modpack_changelogger/__main__.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Modpack Changelogger-${{ env.sha }}
+          name: Modpack Changelogger-${{github.event.release.tag_name}}
           path: dist/modpack-changelogger*
+
+      - name: Upload asset to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/my-artifact.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
