@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * Added colorized output (requires a terminal that supports it)
 * Added support for comparing [CraftTweaker scripts](https://docs.blamejared.com/1.12/en/Getting_Started/) (disabled by default)
+* Publisihing to pypi and GitHub releases is now done via GitHub Actions
 ### Changed
 * Improved the cli interface, now using click
 * Improved help messages
