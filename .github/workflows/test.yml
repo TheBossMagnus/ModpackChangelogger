@@ -27,4 +27,4 @@ jobs:
         run: uv pip install pytest
 
       - name: Run tests
-        run: uv pip run pytest ./test/test_.py
+        run: uv run pytest
